@@ -33,6 +33,9 @@ const VEHICLE_IMAGES = {
     perspective: 'https://customer-assets.emergentagent.com/job_viya-unreal-portal/artifacts/c6pu2sjr_LCM%20Truck%20-%20Perspective%20View.png',
     front: 'https://customer-assets.emergentagent.com/job_viya-unreal-portal/artifacts/osg1fgv4_LCM%20Truck%20-%20Front%20View.png',
     side: 'https://customer-assets.emergentagent.com/job_viya-unreal-portal/artifacts/bn2btzqc_LCM%20Pickup%20Truck%20-%20Minimalist%20Clean%20%281%29.png',
+  },
+  sections: {
+    hud: 'https://customer-assets.emergentagent.com/job_viya-unreal-portal/artifacts/mr0a38qo_HUD.png',
   }
 };
 
