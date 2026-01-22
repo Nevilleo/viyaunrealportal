@@ -78,13 +78,15 @@ const AlertItem = ({ alert, onAcknowledge }) => {
 };
 
 export default function DashboardOverview() {
+  const cesiumContainerRef = useRef(null);
+  const viewerRef = useRef(null);
   const [analytics, setAnalytics] = useState(null);
   const [alerts, setAlerts] = useState([]);
   const [assets, setAssets] = useState([]);
   const [allAssets, setAllAssets] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [mapLoading, setMapLoading] = useState(true);
   const [selectedAsset, setSelectedAsset] = useState(null);
-  const [flyTo, setFlyTo] = useState(null);
   const navigate = useNavigate();
 
   const fetchData = async () => {
@@ -110,6 +112,99 @@ export default function DashboardOverview() {
     const interval = setInterval(fetchData, 30000);
     return () => clearInterval(interval);
   }, []);
+
+  // Initialize Cesium for embedded map
+  useEffect(() => {
+    if (loading || allAssets.length === 0 || !cesiumContainerRef.current) return;
+
+    let isMounted = true;
+
+    const initCesium = async () => {
+      try {
+        const Cesium = await import('cesium');
+        
+        const token = process.env.REACT_APP_CESIUM_ION_TOKEN;
+        if (token) {
+          Cesium.Ion.defaultAccessToken = token;
+        }
+
+        if (!isMounted || !cesiumContainerRef.current) return;
+
+        const viewer = new Cesium.Viewer(cesiumContainerRef.current, {
+          animation: false,
+          baseLayerPicker: false,
+          fullscreenButton: false,
+          vrButton: false,
+          geocoder: false,
+          homeButton: false,
+          infoBox: false,
+          sceneModePicker: false,
+          selectionIndicator: false,
+          timeline: false,
+          navigationHelpButton: false,
+          scene3DOnly: true,
+          skyBox: false,
+        });
+
+        viewer.scene.backgroundColor = Cesium.Color.fromCssColorString('#0f172a');
+        viewer.scene.globe.baseColor = Cesium.Color.fromCssColorString('#1e293b');
+        
+        viewer.camera.setView({
+          destination: Cesium.Cartesian3.fromDegrees(5.5, 52.2, 400000),
+          orientation: {
+            heading: 0,
+            pitch: Cesium.Math.toRadians(-50),
+            roll: 0,
+          },
+        });
+
+        // Add markers
+        allAssets.forEach((asset) => {
+          const color = asset.status === 'critical' ? '#ef4444' :
+                       asset.status === 'warning' ? '#f59e0b' :
+                       asset.status === 'maintenance' ? '#a855f7' : '#22c55e';
+          
+          viewer.entities.add({
+            id: asset.asset_id,
+            position: Cesium.Cartesian3.fromDegrees(asset.longitude, asset.latitude, 0),
+            point: {
+              pixelSize: 14,
+              color: Cesium.Color.fromCssColorString(color),
+              outlineColor: Cesium.Color.WHITE,
+              outlineWidth: 2,
+              disableDepthTestDistance: Number.POSITIVE_INFINITY,
+            },
+          });
+        });
+
+        // Click handler
+        viewer.screenSpaceEventHandler.setInputAction((click) => {
+          const picked = viewer.scene.pick(click.position);
+          if (Cesium.defined(picked) && picked.id) {
+            const asset = allAssets.find(a => a.asset_id === picked.id.id);
+            if (asset) setSelectedAsset(asset);
+          }
+        }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
+        viewerRef.current = viewer;
+        setMapLoading(false);
+
+      } catch (err) {
+        console.error('Cesium init error:', err);
+        setMapLoading(false);
+      }
+    };
+
+    initCesium();
+
+    return () => {
+      isMounted = false;
+      if (viewerRef.current) {
+        viewerRef.current.destroy();
+        viewerRef.current = null;
+      }
+    };
+  }, [loading, allAssets]);
 
   const handleAcknowledge = async (alertId) => {
     try {
