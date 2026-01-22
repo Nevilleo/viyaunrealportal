@@ -328,12 +328,12 @@ export default function DashboardOverview() {
 
         {/* Center - Map Canvas */}
         <div className="lg:col-span-6 order-1 lg:order-2">
-          <div className="glass rounded-sm overflow-hidden" data-testid="map-canvas">
+          <div className="bg-slate-900 border border-slate-800 rounded-lg overflow-hidden" data-testid="map-canvas">
             {/* Map Header */}
-            <div className="p-3 border-b border-white/10 flex items-center justify-between bg-slate-950/80 relative z-30">
+            <div className="p-3 border-b border-slate-800 flex items-center justify-between bg-slate-900">
               <div className="flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-primary" />
-                <h2 className="font-heading font-bold text-sm uppercase tracking-tight">
+                <MapPin className="w-4 h-4 text-cyan-500" />
+                <h2 className="font-heading font-bold text-sm uppercase tracking-tight text-white">
                   Infrastructuur Kaart
                 </h2>
               </div>
@@ -341,7 +341,7 @@ export default function DashboardOverview() {
                 variant="ghost"
                 size="sm"
                 onClick={() => navigate('/dashboard/monitoring')}
-                className="text-xs font-mono h-7 px-2"
+                className="text-xs font-mono h-7 px-2 text-slate-400 hover:text-white"
                 data-testid="expand-map"
               >
                 <Maximize2 className="w-3 h-3 mr-1" />
@@ -349,25 +349,64 @@ export default function DashboardOverview() {
               </Button>
             </div>
             
-            {/* Map Container - Fixed height with relative positioning */}
-            <div className="relative w-full" style={{ height: '450px' }}>
-              <div className="absolute inset-0 w-full h-full">
-                <CesiumGlobe 
-                  markers={allAssets} 
-                  onMarkerClick={handleMarkerClick}
-                  flyTo={flyTo}
-                />
-              </div>
+            {/* Map Container */}
+            <div className="relative w-full" style={{ height: '420px', background: '#0f172a' }}>
+              {/* Cesium Container */}
+              <div 
+                ref={cesiumContainerRef}
+                className="absolute inset-0 w-full h-full"
+                data-testid="cesium-container"
+              />
+              
+              {/* Map Loading */}
+              {mapLoading && (
+                <div className="absolute inset-0 bg-slate-950/90 flex items-center justify-center z-20">
+                  <div className="text-center">
+                    <Loader2 className="w-8 h-8 text-cyan-500 animate-spin mx-auto mb-2" />
+                    <p className="text-slate-400 font-mono text-xs">Loading map...</p>
+                  </div>
+                </div>
+              )}
               
               {/* Selected Asset Overlay */}
               {selectedAsset && (
-                <div className="absolute bottom-4 left-4 right-4 glass p-3 rounded-sm z-30" data-testid="selected-asset-info">
+                <div className="absolute bottom-3 left-3 right-3 bg-slate-900/95 backdrop-blur-sm border border-slate-700 p-3 rounded-lg z-30" data-testid="selected-asset-info">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div className={`w-3 h-3 rounded-full ${statusColors[selectedAsset.status]}`} />
                       <div>
-                        <p className="font-medium text-sm">{selectedAsset.name}</p>
-                        <p className="text-xs text-muted-foreground font-mono">{selectedAsset.type} • {selectedAsset.location}</p>
+                        <p className="font-medium text-sm text-white">{selectedAsset.name}</p>
+                        <p className="text-xs text-slate-400 font-mono">{selectedAsset.type} • {selectedAsset.location}</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-lg font-heading font-bold text-cyan-400">{selectedAsset.health_score}%</p>
+                      <p className="text-xs text-slate-400 capitalize">{selectedAsset.status}</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Legend */}
+              <div className="absolute top-3 right-3 bg-slate-900/95 backdrop-blur-sm border border-slate-700 p-2 rounded-lg z-30">
+                <div className="flex flex-col gap-1 text-xs font-mono">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-emerald-500" />
+                    <span className="text-slate-400">Normaal</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-amber-500" />
+                    <span className="text-slate-400">Waarschuwing</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-purple-500" />
+                    <span className="text-slate-400">Onderhoud</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
                       </div>
                     </div>
                     <div className="text-right">
