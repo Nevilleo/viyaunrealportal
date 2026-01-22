@@ -12,7 +12,8 @@ import {
   LogOut,
   Globe2,
   ChevronLeft,
-  Menu
+  Menu,
+  Car
 } from 'lucide-react';
 import { Button } from '../components/ui/button';
 
@@ -29,7 +30,8 @@ const DashboardLayout = () => {
 
   const navItems = [
     { to: '/dashboard', icon: LayoutDashboard, label: 'Overzicht', end: true },
-    { to: '/dashboard/monitoring', icon: Map, label: 'Monitoring' },
+    { to: '/dashboard/monitoring', icon: Map, label: 'Kaart' },
+    { to: '/dashboard/vehicle', icon: Car, label: 'LCM Voertuig' },
     { to: '/dashboard/assets', icon: Box, label: 'Assets' },
     { to: '/dashboard/alerts', icon: Bell, label: 'Alerts' },
     { to: '/dashboard/reports', icon: BarChart3, label: 'Rapportages' },
