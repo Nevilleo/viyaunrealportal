@@ -130,6 +130,9 @@ export default function DashboardOverview() {
 
         if (!isMounted || !cesiumContainerRef.current) return;
 
+        // Suppress Cesium errors in console
+        Cesium.TileProviderError.reportError = function() {};
+
         const viewer = new Cesium.Viewer(cesiumContainerRef.current, {
           animation: false,
           baseLayerPicker: false,
@@ -144,10 +147,17 @@ export default function DashboardOverview() {
           navigationHelpButton: false,
           scene3DOnly: true,
           skyBox: false,
+          skyAtmosphere: false,
+          requestRenderMode: true,
+          maximumRenderTimeChange: Infinity,
         });
+
+        // Hide credits
+        viewer.cesiumWidget.creditContainer.style.display = 'none';
 
         viewer.scene.backgroundColor = Cesium.Color.fromCssColorString('#0f172a');
         viewer.scene.globe.baseColor = Cesium.Color.fromCssColorString('#1e293b');
+        viewer.scene.globe.showGroundAtmosphere = false;
         
         viewer.camera.setView({
           destination: Cesium.Cartesian3.fromDegrees(5.5, 52.2, 400000),
