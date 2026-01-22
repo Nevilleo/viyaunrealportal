@@ -12,6 +12,8 @@ class DigitalDeltaAPITester:
         self.tests_run = 0
         self.tests_passed = 0
         self.test_results = []
+        self.session_token = None
+        self.test_user_id = None
 
     def log_test(self, name, success, details=""):
         """Log test result"""
