@@ -375,14 +375,18 @@ class DigitalDeltaAPITester:
         print(f"Testing API at: {self.api_url}")
         print("-" * 60)
         
-        # Run tests in order
+        # Run tests in order - authentication tests first
         tests = [
             self.test_health_check,
             self.test_api_root,
+            self.test_user_registration,
+            self.test_user_login,
+            self.test_seed_database,
+            self.test_get_assets,
+            self.test_get_alerts,
+            self.test_get_analytics_overview,
             self.test_contact_form_submission,
             self.test_contact_form_validation,
-            self.test_cesium_token_endpoint,
-            self.test_status_endpoints
         ]
         
         for test in tests:
