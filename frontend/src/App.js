@@ -198,6 +198,7 @@ const AppRouter = () => {
       >
         <Route index element={<DashboardOverview />} />
         <Route path="monitoring" element={<MonitoringPage />} />
+        <Route path="vehicle" element={<VehiclePage />} />
         <Route path="assets" element={<AssetsPage />} />
         <Route path="alerts" element={<AlertsPage />} />
         <Route path="reports" element={<ReportsPage />} />
