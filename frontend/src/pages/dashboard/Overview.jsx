@@ -407,49 +407,19 @@ export default function DashboardOverview() {
             </div>
           </div>
         </div>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-lg font-heading font-bold text-primary">{selectedAsset.health_score}%</p>
-                      <p className="text-xs text-muted-foreground capitalize">{selectedAsset.status}</p>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Legend */}
-              <div className="absolute top-4 right-4 glass p-2 rounded-sm z-30">
-                <div className="flex flex-col gap-1 text-xs font-mono">
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-emerald-500" />
-                    <span className="text-muted-foreground">Operationeel</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-yellow-500" />
-                    <span className="text-muted-foreground">Waarschuwing</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-purple-500" />
-                    <span className="text-muted-foreground">Onderhoud</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
 
         {/* Right Sidebar - Asset List */}
         <div className="lg:col-span-3 order-3">
-          <div className="glass p-4 rounded-sm h-full">
+          <div className="bg-slate-900 border border-slate-800 rounded-lg p-4 h-full">
             <div className="flex items-center justify-between mb-3">
-              <h2 className="font-heading font-bold text-sm uppercase tracking-tight">
+              <h2 className="font-heading font-bold text-sm uppercase tracking-tight text-white">
                 Assets
               </h2>
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => navigate('/dashboard/assets')}
-                className="text-xs font-mono h-7 px-2"
+                className="text-xs font-mono h-7 px-2 text-slate-400 hover:text-white"
                 data-testid="view-all-assets"
               >
                 Alle
@@ -459,23 +429,23 @@ export default function DashboardOverview() {
               {allAssets.map((asset) => (
                 <div 
                   key={asset.asset_id} 
-                  className={`flex items-center justify-between p-2 rounded-sm cursor-pointer transition-all ${
+                  className={`flex items-center justify-between p-2 rounded-lg cursor-pointer transition-all ${
                     selectedAsset?.asset_id === asset.asset_id 
-                      ? 'bg-primary/20 border border-primary/30' 
-                      : 'bg-slate-900/30 hover:bg-slate-900/50'
+                      ? 'bg-cyan-500/20 border border-cyan-500/30' 
+                      : 'bg-slate-800/50 hover:bg-slate-800'
                   }`}
-                  onClick={() => handleAssetHover(asset)}
+                  onClick={() => handleAssetClick(asset)}
                   data-testid={`asset-${asset.asset_id}`}
                 >
                   <div className="flex items-center gap-2">
                     <div className={`w-2 h-2 rounded-full ${statusColors[asset.status]}`} />
                     <div>
-                      <p className="text-xs font-medium text-foreground truncate max-w-[120px]">{asset.name}</p>
-                      <p className="text-[10px] text-muted-foreground font-mono">{asset.type}</p>
+                      <p className="text-xs font-medium text-white truncate max-w-[120px]">{asset.name}</p>
+                      <p className="text-[10px] text-slate-500 font-mono">{asset.type}</p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-xs font-mono text-foreground">{asset.health_score}%</p>
+                    <p className="text-xs font-mono text-cyan-400">{asset.health_score}%</p>
                   </div>
                 </div>
               ))}
@@ -485,16 +455,16 @@ export default function DashboardOverview() {
       </div>
 
       {/* Bottom - Status Distribution */}
-      <div className="glass p-4 rounded-sm mt-4">
-        <h2 className="font-heading font-bold text-sm uppercase tracking-tight mb-3">
+      <div className="bg-slate-900 border border-slate-800 rounded-lg p-4 mt-4">
+        <h2 className="font-heading font-bold text-sm uppercase tracking-tight mb-3 text-white">
           Status Verdeling
         </h2>
         <div className="grid grid-cols-4 gap-3">
           {analytics?.status_distribution && Object.entries(analytics.status_distribution).map(([status, count]) => (
-            <div key={status} className="text-center p-3 bg-slate-900/30 rounded-sm">
+            <div key={status} className="text-center p-3 bg-slate-800/50 rounded-lg">
               {statusIcons[status]}
-              <p className="text-xl font-heading font-bold mt-1">{count}</p>
-              <p className="text-[10px] font-mono text-muted-foreground uppercase">{status}</p>
+              <p className="text-xl font-heading font-bold mt-1 text-white">{count}</p>
+              <p className="text-[10px] font-mono text-slate-400 uppercase">{status}</p>
             </div>
           ))}
         </div>
