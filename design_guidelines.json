@@ -1,190 +1,157 @@
 {
-  "design_system": {
-    "identity": {
-      "name": "The Digital Delta",
-      "description": "A fusion of Dutch water management authority with high-tech digital twin capabilities. The aesthetic is 'Control Room Chic'—dark, data-rich, and precise, but grounded in the organic reality of water and infrastructure.",
-      "archetype": "The Performance Pro (Archetype 2) mixed with Swiss & High-Contrast (Archetype 4)",
-      "emotional_tone": "Authoritative, Innovative, Precise, Protective"
+  "typography": {
+    "font_family": {
+      "heading": "Barlow Condensed, sans-serif",
+      "body": "Public Sans, sans-serif",
+      "mono": "JetBrains Mono, monospace"
     },
-    "typography": {
-      "font_family": {
-        "heading": "Barlow Condensed, sans-serif",
-        "body": "Public Sans, sans-serif",
-        "mono": "JetBrains Mono, monospace"
-      },
-      "weights": {
-        "heading": "700, 800",
-        "body": "400, 500",
-        "mono": "400"
-      },
-      "scale": {
-        "h1": "text-6xl md:text-8xl tracking-tighter uppercase font-bold",
-        "h2": "text-4xl md:text-5xl tracking-tight font-bold",
-        "h3": "text-2xl md:text-3xl font-semibold",
-        "body": "text-base md:text-lg leading-relaxed",
-        "caption": "text-xs md:text-sm tracking-widest uppercase font-mono text-muted-foreground"
-      },
-      "imports": [
-        "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Public+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+    "weights": {
+      "light": 300,
+      "regular": 400,
+      "medium": 500,
+      "bold": 700,
+      "black": 900
+    },
+    "usage_rules": {
+      "headings": "Uppercase, tracking-tight, Barlow Condensed. Use font-black for major stats.",
+      "body": "Public Sans. High legibility. Use relaxed line-height.",
+      "data_values": "JetBrains Mono. Use for IDs, coordinates, sensor values, and timestamps.",
+      "labels": "Uppercase, tracking-widest, text-xs, font-mono."
+    }
+  },
+  "colors": {
+    "palette": {
+      "background": "#020617",
+      "surface": "#0f172a",
+      "surface_highlight": "#1e293b",
+      "primary": "#0ea5e9",
+      "secondary": "#eab308",
+      "accent": "#22c55e",
+      "danger": "#ef4444",
+      "text_main": "#f8fafc",
+      "text_muted": "#94a3b8"
+    },
+    "semantic_roles": {
+      "dashboard_bg": "bg-slate-950",
+      "card_bg": "bg-slate-900/50 backdrop-blur-xl (Glass)",
+      "border_subtle": "border-white/10",
+      "border_active": "border-primary/50",
+      "status_nominal": "text-emerald-500",
+      "status_warning": "text-yellow-500",
+      "status_critical": "text-red-500",
+      "data_visualization": [
+        "#0ea5e9",
+        "#eab308",
+        "#22c55e",
+        "#a855f7",
+        "#f43f5e"
       ]
-    },
-    "colors": {
-      "palette": {
-        "background": "#020617", 
-        "foreground": "#f8fafc",
-        "primary": "#0ea5e9", 
-        "primary_foreground": "#0f172a",
-        "secondary": "#eab308", 
-        "secondary_foreground": "#020617",
-        "accent": "#22c55e", 
-        "accent_foreground": "#020617",
-        "muted": "#1e293b",
-        "muted_foreground": "#94a3b8",
-        "border": "#1e293b",
-        "input": "#1e293b",
-        "ring": "#0ea5e9"
-      },
-      "usage": {
-        "background": "Deep Obsidian (Slate 950) - The canvas for the digital twin.",
-        "primary": "Electric Sky (Sky 500) - Represents water, data, and the Rijkswaterstaat blue modernized.",
-        "secondary": "Signal Yellow (Yellow 500) - Used for 'Alerts', 'Highlights', and 'Call to Actions'. A nod to RWS yellow.",
-        "accent": "Eco Green (Green 500) - Used for 'Sustainability', 'Growth', and 'Success' states.",
-        "surface": "Glassmorphism with Slate 900/80 opacity and blur."
-      },
-      "gradients": {
-        "hero_glow": "radial-gradient(circle at center, rgba(14, 165, 233, 0.15) 0%, rgba(2, 6, 23, 0) 70%)",
-        "beam": "linear-gradient(to right, transparent, #0ea5e9, transparent)"
-      }
-    },
-    "layout": {
-      "spacing": {
-        "container_padding": "px-6 md:px-12 lg:px-24",
-        "section_gap": "py-24 md:py-32",
-        "element_gap": "gap-6 md:gap-12"
-      },
-      "grid_system": "Bento Grid (Mode A) for features, High Density Grid (Mode B) for data visualization sections.",
-      "container_width": "max-w-7xl mx-auto"
-    },
-    "components": {
-      "buttons": {
-        "primary": "bg-primary text-primary-foreground hover:bg-primary/90 h-12 px-8 rounded-none uppercase tracking-widest font-bold text-sm border-l-4 border-white/20 transition-all hover:pl-10",
-        "secondary": "bg-transparent border border-primary/30 text-primary hover:bg-primary/10 h-12 px-8 rounded-none uppercase tracking-widest font-bold text-sm backdrop-blur-sm"
-      },
-      "cards": {
-        "style": "bg-slate-900/50 border border-white/10 backdrop-blur-md rounded-sm hover:border-primary/50 transition-colors duration-300 group relative overflow-hidden",
-        "hover_effect": "The 'Tracing Beam' effect on borders."
-      },
-      "inputs": {
-        "style": "bg-slate-950/50 border-white/10 focus:border-primary/50 rounded-none h-12 font-mono text-sm"
-      }
-    },
-    "visual_enhancers": {
-      "textures": "Subtle noise overlay (opacity 0.03) on the entire background to reduce digital flatness.",
-      "decorations": [
-        "Grid lines (1px dashed white/5) in the background.",
-        "Corner brackets (SVG) on cards to emphasize the 'Technical/HUD' feel.",
-        "Glowing dots (divs with box-shadow) at grid intersections."
-      ],
-      "motion": {
-        "scroll": "Lenis smooth scrolling (mandatory).",
-        "reveal": "Staggered fade-in + slide-up for text. Scale-in for images.",
-        "hero": "Slow rotation of the 3D globe."
-      }
     }
   },
-  "assets": {
-    "images": {
-      "hero_bg": {
-        "url": "https://images.unsplash.com/photo-1727478432629-848130807583?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDF8MHwxfHNlYXJjaHw0fHxmdXR1cmlzdGljJTIwZGlnaXRhbCUyMHR3aW4lMjBjaXR5JTIwaW5mcmFzdHJ1Y3R1cmUlMjB3aXJlZnJhbWV8ZW58MHx8fHwxNzY5MDc3OTkyfDA&ixlib=rb-4.1.0&q=85",
-        "alt": "Digital Twin City Infrastructure",
-        "usage": "Hero background overlay (low opacity) behind the Cesium globe."
-      },
-      "feature_sas": {
-        "url": "https://images.unsplash.com/photo-1756701781600-12a63ab571fb?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDF8MHwxfHNlYXJjaHwyfHxmdXR1cmlzdGljJTIwZGlnaXRhbCUyMHR3aW4lMjBjaXR5JTIwaW5mcmFzdHJ1Y3R1cmUlMjB3aXJlZnJhbWV8ZW58MHx8fHwxNzY5MDc3OTkyfDA&ixlib=rb-4.1.0&q=85",
-        "alt": "Data Analytics Visualization",
-        "usage": "Represents SAS Viya analytics capabilities."
-      },
-      "feature_unreal": {
-        "url": "https://images.unsplash.com/photo-1599334391341-3b277fe7829b?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDF8MHwxfHNlYXJjaHwzfHxmdXR1cmlzdGljJTIwZGlnaXRhbCUyMHR3aW4lMjBjaXR5JTIwaW5mcmFzdHJ1Y3R1cmUlMjB3aXJlZnJhbWV8ZW58MHx8fHwxNzY5MDc3OTkyfDA&ixlib=rb-4.1.0&q=85",
-        "alt": "High Fidelity Rendering",
-        "usage": "Represents Unreal Engine visual fidelity."
-      },
-      "use_case_water": {
-        "url": "https://images.unsplash.com/photo-1500946692445-667e3f05df77?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA0MTJ8MHwxfHNlYXJjaHwxfHxkdXRjaCUyMHdhdGVyJTIwaW5mcmFzdHJ1Y3R1cmUlMjBtYWVzbGFudGtlcmluZyUyMGFlcmlhbHxlbnwwfHx8fDE3NjkwNzc5OTV8MA&ixlib=rb-4.1.0&q=85",
-        "alt": "Dutch Water Infrastructure",
-        "usage": "Use case card for 'Infrastructure Monitoring'."
-      },
-      "use_case_asset": {
-        "url": "https://images.pexels.com/photos/12200805/pexels-photo-12200805.jpeg",
-        "alt": "Asset Management",
-        "usage": "Use case card for 'Asset Lifecycle'."
-      }
+  "visual_enhancers": {
+    "glassmorphism": {
+      "default": "bg-slate-900/60 backdrop-blur-md border border-white/10 shadow-xl",
+      "strong": "bg-slate-950/80 backdrop-blur-xl border border-white/10",
+      "hover": "hover:bg-slate-800/60 hover:border-primary/30 transition-all duration-300"
     },
-    "icons": {
-      "library": "lucide-react",
-      "style": "Stroke width 1.5px, size 24px."
+    "decorations": {
+      "corner_brackets": "Use existing .corner-brackets class for key data containers.",
+      "tracing_beam": "Use existing .tracing-beam for interactive cards.",
+      "scan_line": "Use .animate-scan-line for live feed containers.",
+      "grid_bg": "Use .grid-bg for dashboard backgrounds to give spatial context."
+    },
+    "shadows": {
+      "glow_primary": "shadow-[0_0_20px_rgba(14,165,233,0.15)]",
+      "glow_accent": "shadow-[0_0_20px_rgba(34,197,94,0.15)]"
     }
   },
-  "implementation_plan": {
-    "phases": [
-      {
-        "name": "Setup & Global Styles",
-        "tasks": [
-          "Install fonts (Barlow Condensed, Public Sans, JetBrains Mono).",
-          "Configure Tailwind colors and font families.",
-          "Add global CSS for 'noise' texture and 'lenis' smooth scroll."
-        ]
-      },
-      {
-        "name": "Hero Section (The Digital Globe)",
-        "tasks": [
-          "Implement CesiumJS viewer (mocked if token missing, but structure ready).",
-          "Overlay HUD elements (coordinates, status indicators) using absolute positioning.",
-          "Create 'Mission Control' style header with glassmorphism."
-        ]
-      },
-      {
-        "name": "Features Section (The Tech Stack)",
-        "tasks": [
-          "Build a Bento Grid layout.",
-          "Card 1 (SAS Viya): Focus on 'Analytics' with data viz abstract image.",
-          "Card 2 (Unreal Engine): Focus on 'Fidelity' with 3D render image.",
-          "Card 3 (Cesium): Focus on 'Geospatial' with map/globe abstract.",
-          "Use 'Tracing Beam' effect on hover for these cards."
-        ]
-      },
-      {
-        "name": "Use Cases (The Impact)",
-        "tasks": [
-          "Horizontal scroll or grid of high-contrast cards.",
-          "Use the Dutch infrastructure images here.",
-          "Focus on 'Problem -> Solution' storytelling."
-        ]
-      },
-      {
-        "name": "Contact (The Uplink)",
-        "tasks": [
-          "Minimalist form with 'Terminal' aesthetic inputs.",
-          "Large 'Connect' CTA."
-        ]
-      }
+  "components": {
+    "buttons": {
+      "primary": "bg-primary text-primary-foreground hover:bg-primary/90 rounded-sm uppercase tracking-widest font-bold text-xs h-10 px-6 shadow-[0_0_15px_rgba(14,165,233,0.3)]",
+      "secondary": "bg-transparent border border-primary/30 text-primary hover:bg-primary/10 rounded-sm uppercase tracking-widest font-bold text-xs h-10 px-6",
+      "ghost": "hover:bg-white/5 text-muted-foreground hover:text-foreground"
+    },
+    "cards": {
+      "dashboard_widget": "glass rounded-sm p-6 border-t-2 border-t-transparent hover:border-t-primary transition-colors relative overflow-hidden",
+      "metric_card": "bg-slate-900/40 border border-white/5 p-4 rounded-sm flex flex-col gap-2"
+    },
+    "inputs": {
+      "default": "bg-slate-950/50 border-white/10 focus:border-primary/50 rounded-sm font-body h-10 text-sm placeholder:text-slate-600"
+    },
+    "navigation": {
+      "sidebar": "fixed left-0 top-0 bottom-0 w-64 bg-slate-950 border-r border-white/10 z-40 flex flex-col",
+      "sidebar_item": "flex items-center gap-3 px-4 py-3 text-sm font-mono text-muted-foreground hover:text-primary hover:bg-white/5 border-l-2 border-transparent hover:border-primary transition-all",
+      "sidebar_item_active": "text-primary bg-primary/5 border-l-primary"
+    }
+  },
+  "layouts": {
+    "auth_portal": {
+      "structure": "Full-screen Cesium background + Centered Glass Card (max-w-md).",
+      "elements": "Logo, 'ACCESS CONTROL' header, Username/Password inputs, 'Login with Rijkswaterstaat' (SSO), 'Login with Google'."
+    },
+    "dashboard_shell": {
+      "structure": "Sidebar (Left, Fixed) + Topbar (Top, Fixed, Glass) + Main Content (Scrollable, Pad-Top-16, Pad-Left-64).",
+      "grid_system": "Bento Grid Mode B: grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-6."
+    },
+    "monitoring_view": {
+      "structure": "Full-screen Cesium Viewer (z-0).",
+      "overlays": "Floating Glass Panels (z-10): Top-Left (Status), Bottom-Center (Timeline), Right (Asset Details)."
+    }
+  },
+  "motion": {
+    "transitions": "transition-all duration-300 ease-out",
+    "enter": "animate-fade-in-up",
+    "hover": "hover:-translate-y-1 hover:shadow-lg",
+    "loading": "animate-pulse-glow"
+  },
+  "accessibility": {
+    "contrast": "Ensure text-muted-foreground is at least Slate-400 on dark backgrounds.",
+    "focus_states": "focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 focus:ring-offset-slate-950",
+    "aria": "All interactive elements must have aria-labels if icon-only."
+  },
+  "media": {
+    "image_style": "Desaturated or Blue-tinted overlay to match theme. No bright warm photography unless it's an alert.",
+    "icons": "Lucide React. Stroke width 1.5px for elegance."
+  },
+  "3d_libraries": {
+    "primary": "CesiumJS (resium)",
+    "usage": "Hero background (Landing), Main View (Monitoring).",
+    "config": "Disable default credits/toolbar. Enable terrain provider. Custom dark map style."
+  },
+  "image_urls": {
+    "infrastructure": [
+      "https://images.pexels.com/photos/31777886/pexels-photo-31777886.jpeg",
+      "https://images.pexels.com/photos/1646164/pexels-photo-1646164.jpeg"
     ],
-    "technical_constraints": {
-      "cesium": "Ensure the Cesium container has a defined height (e.g., h-[80vh]). Use a fallback image if the 3D context fails.",
-      "mobile": "On mobile, the 3D globe might be too heavy. Consider replacing it with a static high-res render or video loop.",
-      "accessibility": "Ensure high contrast between the 'Electric Blue' text and the 'Obsidian' background. Use white for body text."
-    }
-  },
-  "universal_guidelines": {
-    "do_not": [
-      "Do NOT use gradients for text (readability issues).",
-      "Do NOT use rounded corners > 4px (keep it sharp/technical).",
-      "Do NOT use generic 'Lorem Ipsum' - use 'System Status: Nominal', 'Data Stream: Active', etc."
-    ],
-    "must_do": [
-      "MUST use 'data-testid' on all interactive elements.",
-      "MUST implement hover states for every interactive element.",
-      "MUST use the 'Rijkswaterstaat' colors (Blue/Yellow) as the primary accents."
+    "logos": [
+      "https://customer-assets.emergentagent.com/job_6ae21f61-41f1-4fe3-b686-c9b67c21c4f7/artifacts/laanqkqz_FUI%20Headband%20-%20LCM%20Rijkswaterstaat%20Style.png"
     ]
-  }
+  },
+  "instructions_to_main_agent": [
+    "REFACTOR: Split App.js into multiple pages using React Router (Landing, Login, Dashboard/*).",
+    "AUTH: Implement a mock auth context. Login should redirect to /dashboard.",
+    "THEME: STRICTLY follow the 'Dark Control Room' aesthetic. No light mode for this specific app (it is a specialized tool).",
+    "DASHBOARD: Create a 'DashboardLayout' component that wraps the internal pages.",
+    "MAP: The Monitoring page should be the 'Jewel' of the app - full screen 3D map with overlay controls.",
+    "DATA: Use mock data for sensors. Animate values to make them look 'live'.",
+    "NOTIFICATIONS: Use 'sonner' for system alerts (e.g., 'Pressure Warning on Sector 7')."
+  ],
+  "UNIVERSAL_GUIDELINES_FOR_MAIN_AGENT": [
+    "Dark colors look good when used independently without gradients. DO NOT use dark colors as gradients",
+    "Don't make generic centered layouts, simplistic gradients, and uniform styling.",
+    "Create depth through layered design elements with z-index hierarchy",
+    "Use glass-morphism effects with backdrop filters (12-24px blur)",
+    "You MUST NOT apply universal transition. Eg: transition: all. This results in breaking transforms. Always add transitions for specific interactive elements like button, input excluding transforms",
+    "You MUST NOT center align the app container, ie do not add .App { text-align: center; } in the css file. This disrupts the human natural reading flow of text",
+    "Always use modern button styles like pill-shaped, or sharp button with interaction animations & color relevant to the app style",
+    "NEVER: use AI assistant Emoji characters like 🤖🧠 etc for icons.",
+    "Every interaction needs micro-animations - hover states, transitions, parallax effects, and entrance animations. Static = dead.",
+    "Use 2-3x more spacing than feels comfortable. Cramped designs look cheap.",
+    "Subtle grain textures, noise overlays, custom cursors, selection states, and loading animations: separates good from extraordinary.",
+    "Main agent relies on these image URLs. Missing categories = main agent will use placeholder text which is FORBIDDEN",
+    "Prioritize using pre-existing components from src/components/ui when applicable",
+    "Components MUST use named exports",
+    "Pages MUST use default exports",
+    "Use sonner for toasts"
+  ]
 }
