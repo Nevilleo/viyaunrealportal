@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API } from '../../App';
 import { 
@@ -12,25 +12,25 @@ import {
   Clock,
   CheckCircle2,
   XCircle,
-  Maximize2,
+  Map,
   MapPin,
-  Loader2
+  ArrowRight
 } from 'lucide-react';
 import { Button } from '../../components/ui/button';
 import { useNavigate } from 'react-router-dom';
 
-const StatCard = ({ icon: Icon, label, value, subValue, trend, color = 'primary' }) => {
+const StatCard = ({ icon: Icon, label, value, trend, color = 'primary' }) => {
   const colorClasses = {
-    primary: 'text-primary bg-primary/10 border-primary/20',
-    secondary: 'text-yellow-500 bg-yellow-500/10 border-yellow-500/20',
+    primary: 'text-cyan-500 bg-cyan-500/10 border-cyan-500/20',
+    secondary: 'text-amber-500 bg-amber-500/10 border-amber-500/20',
     accent: 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20',
     danger: 'text-red-500 bg-red-500/10 border-red-500/20'
   };
 
   return (
-    <div className="glass p-4 rounded-sm hover:border-primary/30 transition-all group" data-testid="stat-card">
+    <div className="bg-slate-900 border border-slate-800 rounded-lg p-4 hover:border-slate-700 transition-all" data-testid="stat-card">
       <div className="flex items-start justify-between mb-2">
-        <div className={`w-10 h-10 rounded-sm flex items-center justify-center border ${colorClasses[color]}`}>
+        <div className={`w-10 h-10 rounded-lg flex items-center justify-center border ${colorClasses[color]}`}>
           <Icon className="w-5 h-5" />
         </div>
         {trend && (
@@ -40,8 +40,8 @@ const StatCard = ({ icon: Icon, label, value, subValue, trend, color = 'primary'
           </div>
         )}
       </div>
-      <p className="text-xs font-mono text-muted-foreground uppercase tracking-widest mb-1">{label}</p>
-      <p className="text-2xl font-heading font-bold text-foreground">{value}</p>
+      <p className="text-xs font-mono text-slate-400 uppercase tracking-widest mb-1">{label}</p>
+      <p className="text-2xl font-heading font-bold text-white">{value}</p>
     </div>
   );
 };
@@ -49,23 +49,23 @@ const StatCard = ({ icon: Icon, label, value, subValue, trend, color = 'primary'
 const AlertItem = ({ alert, onAcknowledge }) => {
   const severityColors = {
     low: 'border-l-emerald-500 bg-emerald-500/5',
-    medium: 'border-l-yellow-500 bg-yellow-500/5',
+    medium: 'border-l-amber-500 bg-amber-500/5',
     high: 'border-l-orange-500 bg-orange-500/5',
     critical: 'border-l-red-500 bg-red-500/5'
   };
 
   return (
-    <div className={`p-3 border-l-4 rounded-r-sm ${severityColors[alert.severity]}`} data-testid="alert-item">
+    <div className={`p-3 border-l-4 rounded-r-lg ${severityColors[alert.severity]}`} data-testid="alert-item">
       <div className="flex items-start justify-between">
         <div className="flex-1">
-          <p className="font-medium text-foreground text-sm">{alert.title}</p>
-          <p className="text-xs text-muted-foreground mt-1">{alert.asset_name}</p>
+          <p className="font-medium text-white text-sm">{alert.title}</p>
+          <p className="text-xs text-slate-400 mt-1">{alert.asset_name}</p>
         </div>
         {alert.status === 'active' && (
           <Button
             size="sm"
             variant="ghost"
-            className="text-xs h-7 px-2"
+            className="text-xs h-7 px-2 text-slate-400 hover:text-white"
             onClick={() => onAcknowledge(alert.alert_id)}
             data-testid={`acknowledge-${alert.alert_id}`}
           >
@@ -78,15 +78,10 @@ const AlertItem = ({ alert, onAcknowledge }) => {
 };
 
 export default function DashboardOverview() {
-  const cesiumContainerRef = useRef(null);
-  const viewerRef = useRef(null);
   const [analytics, setAnalytics] = useState(null);
   const [alerts, setAlerts] = useState([]);
-  const [assets, setAssets] = useState([]);
   const [allAssets, setAllAssets] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [mapLoading, setMapLoading] = useState(true);
-  const [selectedAsset, setSelectedAsset] = useState(null);
   const navigate = useNavigate();
 
   const fetchData = async () => {
@@ -97,8 +92,7 @@ export default function DashboardOverview() {
         axios.get(`${API}/assets`, { withCredentials: true })
       ]);
       setAnalytics(analyticsRes.data);
-      setAlerts(alertsRes.data.slice(0, 4));
-      setAssets(assetsRes.data.slice(0, 5));
+      setAlerts(alertsRes.data.slice(0, 5));
       setAllAssets(assetsRes.data);
     } catch (error) {
       console.error('Failed to fetch dashboard data:', error);
@@ -113,109 +107,6 @@ export default function DashboardOverview() {
     return () => clearInterval(interval);
   }, []);
 
-  // Initialize Cesium for embedded map
-  useEffect(() => {
-    if (loading || allAssets.length === 0 || !cesiumContainerRef.current) return;
-
-    let isMounted = true;
-
-    const initCesium = async () => {
-      try {
-        const Cesium = await import('cesium');
-        
-        const token = process.env.REACT_APP_CESIUM_ION_TOKEN;
-        if (token) {
-          Cesium.Ion.defaultAccessToken = token;
-        }
-
-        if (!isMounted || !cesiumContainerRef.current) return;
-
-        // Suppress Cesium errors in console
-        Cesium.TileProviderError.reportError = function() {};
-
-        const viewer = new Cesium.Viewer(cesiumContainerRef.current, {
-          animation: false,
-          baseLayerPicker: false,
-          fullscreenButton: false,
-          vrButton: false,
-          geocoder: false,
-          homeButton: false,
-          infoBox: false,
-          sceneModePicker: false,
-          selectionIndicator: false,
-          timeline: false,
-          navigationHelpButton: false,
-          scene3DOnly: true,
-          skyBox: false,
-          skyAtmosphere: false,
-          requestRenderMode: true,
-          maximumRenderTimeChange: Infinity,
-        });
-
-        // Hide credits
-        viewer.cesiumWidget.creditContainer.style.display = 'none';
-
-        viewer.scene.backgroundColor = Cesium.Color.fromCssColorString('#0f172a');
-        viewer.scene.globe.baseColor = Cesium.Color.fromCssColorString('#1e293b');
-        viewer.scene.globe.showGroundAtmosphere = false;
-        
-        viewer.camera.setView({
-          destination: Cesium.Cartesian3.fromDegrees(5.5, 52.2, 400000),
-          orientation: {
-            heading: 0,
-            pitch: Cesium.Math.toRadians(-50),
-            roll: 0,
-          },
-        });
-
-        // Add markers
-        allAssets.forEach((asset) => {
-          const color = asset.status === 'critical' ? '#ef4444' :
-                       asset.status === 'warning' ? '#f59e0b' :
-                       asset.status === 'maintenance' ? '#a855f7' : '#22c55e';
-          
-          viewer.entities.add({
-            id: asset.asset_id,
-            position: Cesium.Cartesian3.fromDegrees(asset.longitude, asset.latitude, 0),
-            point: {
-              pixelSize: 14,
-              color: Cesium.Color.fromCssColorString(color),
-              outlineColor: Cesium.Color.WHITE,
-              outlineWidth: 2,
-              disableDepthTestDistance: Number.POSITIVE_INFINITY,
-            },
-          });
-        });
-
-        // Click handler
-        viewer.screenSpaceEventHandler.setInputAction((click) => {
-          const picked = viewer.scene.pick(click.position);
-          if (Cesium.defined(picked) && picked.id) {
-            const asset = allAssets.find(a => a.asset_id === picked.id.id);
-            if (asset) setSelectedAsset(asset);
-          }
-        }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
-
-        viewerRef.current = viewer;
-        setMapLoading(false);
-
-      } catch (err) {
-        console.error('Cesium init error:', err);
-        setMapLoading(false);
-      }
-    };
-
-    initCesium();
-
-    return () => {
-      isMounted = false;
-      if (viewerRef.current) {
-        viewerRef.current.destroy();
-        viewerRef.current = null;
-      }
-    };
-  }, [loading, allAssets]);
-
   const handleAcknowledge = async (alertId) => {
     try {
       await axios.put(`${API}/alerts/${alertId}/acknowledge`, {}, { withCredentials: true });
@@ -225,24 +116,12 @@ export default function DashboardOverview() {
     }
   };
 
-  const handleAssetClick = (asset) => {
-    setSelectedAsset(asset);
-    if (viewerRef.current) {
-      import('cesium').then((Cesium) => {
-        viewerRef.current.camera.flyTo({
-          destination: Cesium.Cartesian3.fromDegrees(asset.longitude, asset.latitude, 100000),
-          duration: 1,
-        });
-      });
-    }
-  };
-
   if (loading) {
     return (
-      <div className="p-6 lg:p-8 grid-bg min-h-screen flex items-center justify-center">
+      <div className="p-6 lg:p-8 bg-slate-950 min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <Activity className="w-12 h-12 text-primary animate-pulse mx-auto mb-4" />
-          <p className="text-muted-foreground font-mono text-sm">Loading dashboard...</p>
+          <Activity className="w-12 h-12 text-cyan-500 animate-pulse mx-auto mb-4" />
+          <p className="text-slate-400 font-mono text-sm">Loading dashboard...</p>
         </div>
       </div>
     );
@@ -251,72 +130,51 @@ export default function DashboardOverview() {
   const statusIcons = {
     operational: <CheckCircle2 className="w-4 h-4 text-emerald-500" />,
     maintenance: <Clock className="w-4 h-4 text-purple-500" />,
-    warning: <AlertTriangle className="w-4 h-4 text-yellow-500" />,
+    warning: <AlertTriangle className="w-4 h-4 text-amber-500" />,
     critical: <XCircle className="w-4 h-4 text-red-500" />
   };
 
   const statusColors = {
     operational: 'bg-emerald-500',
     maintenance: 'bg-purple-500',
-    warning: 'bg-yellow-500',
+    warning: 'bg-amber-500',
     critical: 'bg-red-500'
   };
 
   return (
-    <div className="p-4 lg:p-6 grid-bg min-h-screen" data-testid="dashboard-overview">
+    <div className="p-4 lg:p-6 bg-slate-950 min-h-screen" data-testid="dashboard-overview">
       {/* Header */}
       <div className="mb-6">
-        <h1 className="text-2xl lg:text-3xl font-heading font-bold tracking-tight uppercase mb-1">
-          Dashboard <span className="text-primary">Overzicht</span>
+        <h1 className="text-2xl lg:text-3xl font-heading font-bold tracking-tight uppercase mb-1 text-white">
+          Dashboard <span className="text-cyan-500">Overzicht</span>
         </h1>
-        <p className="text-muted-foreground font-mono text-sm">
+        <p className="text-slate-400 font-mono text-sm">
           Real-time status van alle infrastructuur assets
         </p>
       </div>
 
-      {/* Stats Grid - Compact */}
+      {/* Stats Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
-        <StatCard
-          icon={Box}
-          label="Totaal Assets"
-          value={analytics?.total_assets || 0}
-          color="primary"
-        />
-        <StatCard
-          icon={AlertTriangle}
-          label="Actieve Alerts"
-          value={analytics?.active_alerts || 0}
-          color={analytics?.active_alerts > 0 ? 'secondary' : 'accent'}
-        />
-        <StatCard
-          icon={TrendingUp}
-          label="Gem. Gezondheid"
-          value={`${analytics?.average_health_score || 0}%`}
-          trend={2.3}
-          color="accent"
-        />
-        <StatCard
-          icon={Waves}
-          label="Uptime"
-          value={`${analytics?.uptime_percentage || 99.7}%`}
-          color="primary"
-        />
+        <StatCard icon={Box} label="Totaal Assets" value={analytics?.total_assets || 0} color="primary" />
+        <StatCard icon={AlertTriangle} label="Actieve Alerts" value={analytics?.active_alerts || 0} color={analytics?.active_alerts > 0 ? 'secondary' : 'accent'} />
+        <StatCard icon={TrendingUp} label="Gem. Gezondheid" value={`${analytics?.average_health_score || 0}%`} trend={2.3} color="accent" />
+        <StatCard icon={Waves} label="Uptime" value={`${analytics?.uptime_percentage || 99.7}%`} color="primary" />
       </div>
 
-      {/* Main Content: Map in Center with Sidebars */}
+      {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
-        {/* Left Sidebar - Alerts */}
-        <div className="lg:col-span-3 order-2 lg:order-1">
-          <div className="glass p-4 rounded-sm h-full">
-            <div className="flex items-center justify-between mb-3">
-              <h2 className="font-heading font-bold text-sm uppercase tracking-tight">
+        {/* Left - Alerts */}
+        <div className="lg:col-span-4">
+          <div className="bg-slate-900 border border-slate-800 rounded-lg p-4 h-full">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="font-heading font-bold text-sm uppercase tracking-tight text-white">
                 Recente Alerts
               </h2>
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => navigate('/dashboard/alerts')}
-                className="text-xs font-mono h-7 px-2"
+                className="text-xs font-mono h-7 px-2 text-slate-400 hover:text-white"
                 data-testid="view-all-alerts"
               >
                 Alle
@@ -328,7 +186,7 @@ export default function DashboardOverview() {
                   <AlertItem key={alert.alert_id} alert={alert} onAcknowledge={handleAcknowledge} />
                 ))
               ) : (
-                <p className="text-muted-foreground text-sm text-center py-4">
+                <p className="text-slate-400 text-sm text-center py-8">
                   Geen actieve alerts
                 </p>
               )}
@@ -336,92 +194,79 @@ export default function DashboardOverview() {
           </div>
         </div>
 
-        {/* Center - Map Canvas */}
-        <div className="lg:col-span-6 order-1 lg:order-2">
-          <div className="bg-slate-900 border border-slate-800 rounded-lg overflow-hidden" data-testid="map-canvas">
-            {/* Map Header */}
-            <div className="p-3 border-b border-slate-800 flex items-center justify-between bg-slate-900">
-              <div className="flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-cyan-500" />
-                <h2 className="font-heading font-bold text-sm uppercase tracking-tight text-white">
-                  Infrastructuur Kaart
-                </h2>
+        {/* Center - Map Preview Card */}
+        <div className="lg:col-span-4">
+          <div 
+            className="bg-slate-900 border border-slate-800 rounded-lg overflow-hidden h-full cursor-pointer group hover:border-cyan-500/50 transition-all"
+            onClick={() => navigate('/dashboard/monitoring')}
+            data-testid="map-preview-card"
+          >
+            {/* Map Preview Header */}
+            <div className="p-4 border-b border-slate-800">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Map className="w-5 h-5 text-cyan-500" />
+                  <h2 className="font-heading font-bold text-sm uppercase tracking-tight text-white">
+                    Infrastructuur Kaart
+                  </h2>
+                </div>
+                <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-cyan-500 group-hover:translate-x-1 transition-all" />
               </div>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => navigate('/dashboard/monitoring')}
-                className="text-xs font-mono h-7 px-2 text-slate-400 hover:text-white"
-                data-testid="expand-map"
-              >
-                <Maximize2 className="w-3 h-3 mr-1" />
-                Volledig
-              </Button>
             </div>
             
-            {/* Map Container */}
-            <div className="relative w-full" style={{ height: '420px', background: '#0f172a' }}>
-              {/* Cesium Container */}
-              <div 
-                ref={cesiumContainerRef}
-                className="absolute inset-0 w-full h-full"
-                data-testid="cesium-container"
-              />
-              
-              {/* Map Loading */}
-              {mapLoading && (
-                <div className="absolute inset-0 bg-slate-950/90 flex items-center justify-center z-20">
-                  <div className="text-center">
-                    <Loader2 className="w-8 h-8 text-cyan-500 animate-spin mx-auto mb-2" />
-                    <p className="text-slate-400 font-mono text-xs">Loading map...</p>
-                  </div>
+            {/* Map Preview Image */}
+            <div className="relative h-64 bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center">
+              <div className="absolute inset-0 opacity-30">
+                <svg viewBox="0 0 200 150" className="w-full h-full">
+                  {/* Simplified Netherlands outline */}
+                  <path 
+                    d="M100,20 L130,30 L140,60 L150,80 L140,100 L130,120 L110,130 L80,125 L60,110 L50,80 L60,50 L80,30 Z" 
+                    fill="none" 
+                    stroke="#0ea5e9" 
+                    strokeWidth="1"
+                    opacity="0.5"
+                  />
+                  {/* Asset markers */}
+                  <circle cx="100" cy="60" r="4" fill="#22c55e" />
+                  <circle cx="85" cy="75" r="4" fill="#22c55e" />
+                  <circle cx="110" cy="80" r="4" fill="#f59e0b" />
+                  <circle cx="95" cy="95" r="4" fill="#a855f7" />
+                  <circle cx="120" cy="70" r="4" fill="#22c55e" />
+                </svg>
+              </div>
+              <div className="text-center z-10">
+                <div className="w-16 h-16 rounded-full bg-cyan-500/20 flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
+                  <MapPin className="w-8 h-8 text-cyan-500" />
                 </div>
-              )}
-              
-              {/* Selected Asset Overlay */}
-              {selectedAsset && (
-                <div className="absolute bottom-3 left-3 right-3 bg-slate-900/95 backdrop-blur-sm border border-slate-700 p-3 rounded-lg z-30" data-testid="selected-asset-info">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className={`w-3 h-3 rounded-full ${statusColors[selectedAsset.status]}`} />
-                      <div>
-                        <p className="font-medium text-sm text-white">{selectedAsset.name}</p>
-                        <p className="text-xs text-slate-400 font-mono">{selectedAsset.type} • {selectedAsset.location}</p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-lg font-heading font-bold text-cyan-400">{selectedAsset.health_score}%</p>
-                      <p className="text-xs text-slate-400 capitalize">{selectedAsset.status}</p>
-                    </div>
-                  </div>
-                </div>
-              )}
+                <p className="text-slate-300 font-medium">Bekijk Kaart</p>
+                <p className="text-xs text-slate-500 mt-1">3D Cesium Visualisatie</p>
+              </div>
+            </div>
 
-              {/* Legend */}
-              <div className="absolute top-3 right-3 bg-slate-900/95 backdrop-blur-sm border border-slate-700 p-2 rounded-lg z-30">
-                <div className="flex flex-col gap-1 text-xs font-mono">
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-emerald-500" />
-                    <span className="text-slate-400">Normaal</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-amber-500" />
-                    <span className="text-slate-400">Waarschuwing</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-purple-500" />
-                    <span className="text-slate-400">Onderhoud</span>
-                  </div>
+            {/* Quick Stats */}
+            <div className="p-4 border-t border-slate-800">
+              <div className="grid grid-cols-3 gap-2 text-center">
+                <div>
+                  <p className="text-lg font-bold text-emerald-500">{analytics?.status_distribution?.operational || 0}</p>
+                  <p className="text-[10px] text-slate-500 uppercase">Normaal</p>
+                </div>
+                <div>
+                  <p className="text-lg font-bold text-amber-500">{analytics?.status_distribution?.warning || 0}</p>
+                  <p className="text-[10px] text-slate-500 uppercase">Warning</p>
+                </div>
+                <div>
+                  <p className="text-lg font-bold text-purple-500">{analytics?.status_distribution?.maintenance || 0}</p>
+                  <p className="text-[10px] text-slate-500 uppercase">Onderhoud</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Right Sidebar - Asset List */}
-        <div className="lg:col-span-3 order-3">
+        {/* Right - Asset List */}
+        <div className="lg:col-span-4">
           <div className="bg-slate-900 border border-slate-800 rounded-lg p-4 h-full">
-            <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center justify-between mb-4">
               <h2 className="font-heading font-bold text-sm uppercase tracking-tight text-white">
                 Assets
               </h2>
@@ -436,21 +281,17 @@ export default function DashboardOverview() {
               </Button>
             </div>
             <div className="space-y-2">
-              {allAssets.map((asset) => (
+              {allAssets.slice(0, 7).map((asset) => (
                 <div 
                   key={asset.asset_id} 
-                  className={`flex items-center justify-between p-2 rounded-lg cursor-pointer transition-all ${
-                    selectedAsset?.asset_id === asset.asset_id 
-                      ? 'bg-cyan-500/20 border border-cyan-500/30' 
-                      : 'bg-slate-800/50 hover:bg-slate-800'
-                  }`}
-                  onClick={() => handleAssetClick(asset)}
+                  className="flex items-center justify-between p-2 rounded-lg bg-slate-800/50 hover:bg-slate-800 cursor-pointer transition-all"
+                  onClick={() => navigate('/dashboard/monitoring')}
                   data-testid={`asset-${asset.asset_id}`}
                 >
                   <div className="flex items-center gap-2">
                     <div className={`w-2 h-2 rounded-full ${statusColors[asset.status]}`} />
                     <div>
-                      <p className="text-xs font-medium text-white truncate max-w-[120px]">{asset.name}</p>
+                      <p className="text-xs font-medium text-white truncate max-w-[140px]">{asset.name}</p>
                       <p className="text-[10px] text-slate-500 font-mono">{asset.type}</p>
                     </div>
                   </div>
@@ -466,7 +307,7 @@ export default function DashboardOverview() {
 
       {/* Bottom - Status Distribution */}
       <div className="bg-slate-900 border border-slate-800 rounded-lg p-4 mt-4">
-        <h2 className="font-heading font-bold text-sm uppercase tracking-tight mb-3 text-white">
+        <h2 className="font-heading font-bold text-sm uppercase tracking-tight mb-4 text-white">
           Status Verdeling
         </h2>
         <div className="grid grid-cols-4 gap-3">
