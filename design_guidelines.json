@@ -1,0 +1,190 @@
+{
+  "design_system": {
+    "identity": {
+      "name": "The Digital Delta",
+      "description": "A fusion of Dutch water management authority with high-tech digital twin capabilities. The aesthetic is 'Control Room Chic'—dark, data-rich, and precise, but grounded in the organic reality of water and infrastructure.",
+      "archetype": "The Performance Pro (Archetype 2) mixed with Swiss & High-Contrast (Archetype 4)",
+      "emotional_tone": "Authoritative, Innovative, Precise, Protective"
+    },
+    "typography": {
+      "font_family": {
+        "heading": "Barlow Condensed, sans-serif",
+        "body": "Public Sans, sans-serif",
+        "mono": "JetBrains Mono, monospace"
+      },
+      "weights": {
+        "heading": "700, 800",
+        "body": "400, 500",
+        "mono": "400"
+      },
+      "scale": {
+        "h1": "text-6xl md:text-8xl tracking-tighter uppercase font-bold",
+        "h2": "text-4xl md:text-5xl tracking-tight font-bold",
+        "h3": "text-2xl md:text-3xl font-semibold",
+        "body": "text-base md:text-lg leading-relaxed",
+        "caption": "text-xs md:text-sm tracking-widest uppercase font-mono text-muted-foreground"
+      },
+      "imports": [
+        "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Public+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+      ]
+    },
+    "colors": {
+      "palette": {
+        "background": "#020617", 
+        "foreground": "#f8fafc",
+        "primary": "#0ea5e9", 
+        "primary_foreground": "#0f172a",
+        "secondary": "#eab308", 
+        "secondary_foreground": "#020617",
+        "accent": "#22c55e", 
+        "accent_foreground": "#020617",
+        "muted": "#1e293b",
+        "muted_foreground": "#94a3b8",
+        "border": "#1e293b",
+        "input": "#1e293b",
+        "ring": "#0ea5e9"
+      },
+      "usage": {
+        "background": "Deep Obsidian (Slate 950) - The canvas for the digital twin.",
+        "primary": "Electric Sky (Sky 500) - Represents water, data, and the Rijkswaterstaat blue modernized.",
+        "secondary": "Signal Yellow (Yellow 500) - Used for 'Alerts', 'Highlights', and 'Call to Actions'. A nod to RWS yellow.",
+        "accent": "Eco Green (Green 500) - Used for 'Sustainability', 'Growth', and 'Success' states.",
+        "surface": "Glassmorphism with Slate 900/80 opacity and blur."
+      },
+      "gradients": {
+        "hero_glow": "radial-gradient(circle at center, rgba(14, 165, 233, 0.15) 0%, rgba(2, 6, 23, 0) 70%)",
+        "beam": "linear-gradient(to right, transparent, #0ea5e9, transparent)"
+      }
+    },
+    "layout": {
+      "spacing": {
+        "container_padding": "px-6 md:px-12 lg:px-24",
+        "section_gap": "py-24 md:py-32",
+        "element_gap": "gap-6 md:gap-12"
+      },
+      "grid_system": "Bento Grid (Mode A) for features, High Density Grid (Mode B) for data visualization sections.",
+      "container_width": "max-w-7xl mx-auto"
+    },
+    "components": {
+      "buttons": {
+        "primary": "bg-primary text-primary-foreground hover:bg-primary/90 h-12 px-8 rounded-none uppercase tracking-widest font-bold text-sm border-l-4 border-white/20 transition-all hover:pl-10",
+        "secondary": "bg-transparent border border-primary/30 text-primary hover:bg-primary/10 h-12 px-8 rounded-none uppercase tracking-widest font-bold text-sm backdrop-blur-sm"
+      },
+      "cards": {
+        "style": "bg-slate-900/50 border border-white/10 backdrop-blur-md rounded-sm hover:border-primary/50 transition-colors duration-300 group relative overflow-hidden",
+        "hover_effect": "The 'Tracing Beam' effect on borders."
+      },
+      "inputs": {
+        "style": "bg-slate-950/50 border-white/10 focus:border-primary/50 rounded-none h-12 font-mono text-sm"
+      }
+    },
+    "visual_enhancers": {
+      "textures": "Subtle noise overlay (opacity 0.03) on the entire background to reduce digital flatness.",
+      "decorations": [
+        "Grid lines (1px dashed white/5) in the background.",
+        "Corner brackets (SVG) on cards to emphasize the 'Technical/HUD' feel.",
+        "Glowing dots (divs with box-shadow) at grid intersections."
+      ],
+      "motion": {
+        "scroll": "Lenis smooth scrolling (mandatory).",
+        "reveal": "Staggered fade-in + slide-up for text. Scale-in for images.",
+        "hero": "Slow rotation of the 3D globe."
+      }
+    }
+  },
+  "assets": {
+    "images": {
+      "hero_bg": {
+        "url": "https://images.unsplash.com/photo-1727478432629-848130807583?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDF8MHwxfHNlYXJjaHw0fHxmdXR1cmlzdGljJTIwZGlnaXRhbCUyMHR3aW4lMjBjaXR5JTIwaW5mcmFzdHJ1Y3R1cmUlMjB3aXJlZnJhbWV8ZW58MHx8fHwxNzY5MDc3OTkyfDA&ixlib=rb-4.1.0&q=85",
+        "alt": "Digital Twin City Infrastructure",
+        "usage": "Hero background overlay (low opacity) behind the Cesium globe."
+      },
+      "feature_sas": {
+        "url": "https://images.unsplash.com/photo-1756701781600-12a63ab571fb?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDF8MHwxfHNlYXJjaHwyfHxmdXR1cmlzdGljJTIwZGlnaXRhbCUyMHR3aW4lMjBjaXR5JTIwaW5mcmFzdHJ1Y3R1cmUlMjB3aXJlZnJhbWV8ZW58MHx8fHwxNzY5MDc3OTkyfDA&ixlib=rb-4.1.0&q=85",
+        "alt": "Data Analytics Visualization",
+        "usage": "Represents SAS Viya analytics capabilities."
+      },
+      "feature_unreal": {
+        "url": "https://images.unsplash.com/photo-1599334391341-3b277fe7829b?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDF8MHwxfHNlYXJjaHwzfHxmdXR1cmlzdGljJTIwZGlnaXRhbCUyMHR3aW4lMjBjaXR5JTIwaW5mcmFzdHJ1Y3R1cmUlMjB3aXJlZnJhbWV8ZW58MHx8fHwxNzY5MDc3OTkyfDA&ixlib=rb-4.1.0&q=85",
+        "alt": "High Fidelity Rendering",
+        "usage": "Represents Unreal Engine visual fidelity."
+      },
+      "use_case_water": {
+        "url": "https://images.unsplash.com/photo-1500946692445-667e3f05df77?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA0MTJ8MHwxfHNlYXJjaHwxfHxkdXRjaCUyMHdhdGVyJTIwaW5mcmFzdHJ1Y3R1cmUlMjBtYWVzbGFudGtlcmluZyUyMGFlcmlhbHxlbnwwfHx8fDE3NjkwNzc5OTV8MA&ixlib=rb-4.1.0&q=85",
+        "alt": "Dutch Water Infrastructure",
+        "usage": "Use case card for 'Infrastructure Monitoring'."
+      },
+      "use_case_asset": {
+        "url": "https://images.pexels.com/photos/12200805/pexels-photo-12200805.jpeg",
+        "alt": "Asset Management",
+        "usage": "Use case card for 'Asset Lifecycle'."
+      }
+    },
+    "icons": {
+      "library": "lucide-react",
+      "style": "Stroke width 1.5px, size 24px."
+    }
+  },
+  "implementation_plan": {
+    "phases": [
+      {
+        "name": "Setup & Global Styles",
+        "tasks": [
+          "Install fonts (Barlow Condensed, Public Sans, JetBrains Mono).",
+          "Configure Tailwind colors and font families.",
+          "Add global CSS for 'noise' texture and 'lenis' smooth scroll."
+        ]
+      },
+      {
+        "name": "Hero Section (The Digital Globe)",
+        "tasks": [
+          "Implement CesiumJS viewer (mocked if token missing, but structure ready).",
+          "Overlay HUD elements (coordinates, status indicators) using absolute positioning.",
+          "Create 'Mission Control' style header with glassmorphism."
+        ]
+      },
+      {
+        "name": "Features Section (The Tech Stack)",
+        "tasks": [
+          "Build a Bento Grid layout.",
+          "Card 1 (SAS Viya): Focus on 'Analytics' with data viz abstract image.",
+          "Card 2 (Unreal Engine): Focus on 'Fidelity' with 3D render image.",
+          "Card 3 (Cesium): Focus on 'Geospatial' with map/globe abstract.",
+          "Use 'Tracing Beam' effect on hover for these cards."
+        ]
+      },
+      {
+        "name": "Use Cases (The Impact)",
+        "tasks": [
+          "Horizontal scroll or grid of high-contrast cards.",
+          "Use the Dutch infrastructure images here.",
+          "Focus on 'Problem -> Solution' storytelling."
+        ]
+      },
+      {
+        "name": "Contact (The Uplink)",
+        "tasks": [
+          "Minimalist form with 'Terminal' aesthetic inputs.",
+          "Large 'Connect' CTA."
+        ]
+      }
+    ],
+    "technical_constraints": {
+      "cesium": "Ensure the Cesium container has a defined height (e.g., h-[80vh]). Use a fallback image if the 3D context fails.",
+      "mobile": "On mobile, the 3D globe might be too heavy. Consider replacing it with a static high-res render or video loop.",
+      "accessibility": "Ensure high contrast between the 'Electric Blue' text and the 'Obsidian' background. Use white for body text."
+    }
+  },
+  "universal_guidelines": {
+    "do_not": [
+      "Do NOT use gradients for text (readability issues).",
+      "Do NOT use rounded corners > 4px (keep it sharp/technical).",
+      "Do NOT use generic 'Lorem Ipsum' - use 'System Status: Nominal', 'Data Stream: Active', etc."
+    ],
+    "must_do": [
+      "MUST use 'data-testid' on all interactive elements.",
+      "MUST implement hover states for every interactive element.",
+      "MUST use the 'Rijkswaterstaat' colors (Blue/Yellow) as the primary accents."
+    ]
+  }
+}
