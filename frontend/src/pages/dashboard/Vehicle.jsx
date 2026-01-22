@@ -268,7 +268,7 @@ const colorClasses = {
 export default function VehiclePage() {
   const [viewMode, setViewMode] = useState('realistic'); // realistic or schematic
   const [perspective, setPerspective] = useState('side'); // side, front, perspective
-  const [activeSection, setActiveSection] = useState('hud');
+  const [activeSection, setActiveSection] = useState('voertuig');
 
   const currentImage = viewMode === 'realistic' 
     ? VEHICLE_IMAGES.realistic.side 
