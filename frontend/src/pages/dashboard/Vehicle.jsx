@@ -19,7 +19,8 @@ import {
   Satellite,
   Activity,
   ChevronRight,
-  RotateCcw
+  RotateCcw,
+  Truck
 } from 'lucide-react';
 import { Button } from '../../components/ui/button';
 
@@ -37,6 +38,28 @@ const VEHICLE_IMAGES = {
 
 // Info sections data
 const INFO_SECTIONS = [
+  {
+    id: 'voertuig',
+    icon: Truck,
+    title: 'Voertuig',
+    subtitle: 'LCM Inspectie Voertuig - Rijkswaterstaat',
+    color: 'amber',
+    isVehicleOverview: true,
+    items: [
+      {
+        title: 'Voertuig Specificaties',
+        details: ['Mercedes X-Klasse pickup', 'Volledig uitgerust inspectieplatform', 'Elektrisch / Waterstof aandrijving']
+      },
+      {
+        title: 'Hoofdfuncties',
+        details: ['Rijdend meetstation', 'Digital Twin koppeling', 'Real-time data streaming', 'Calamiteiten ondersteuning']
+      },
+      {
+        title: 'Inzetgebied',
+        details: ['Dijkinspecties', 'Watermonitoring', 'Wegonderhoud', 'Infrastructuur controle']
+      }
+    ]
+  },
   {
     id: 'hud',
     icon: Eye,
