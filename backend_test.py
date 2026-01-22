@@ -158,40 +158,215 @@ class DigitalDeltaAPITester:
             self.log_test("Cesium Token Endpoint", False, str(e))
             return False
 
-    def test_status_endpoints(self):
-        """Test status check endpoints"""
+    def test_user_registration(self):
+        """Test user registration endpoint"""
         try:
-            # Test POST status
-            status_data = {"client_name": "test_client"}
+            user_data = {
+                "email": "test@lcm.nl",
+                "password": "test123456",
+                "name": "Test User",
+                "role": "veldwerker"
+            }
+            
             response = requests.post(
-                f"{self.api_url}/status",
-                json=status_data,
+                f"{self.api_url}/auth/register",
+                json=user_data,
                 headers={"Content-Type": "application/json"},
                 timeout=10
             )
             
-            post_success = response.status_code == 200
-            if post_success:
+            success = response.status_code == 200
+            
+            if success:
                 data = response.json()
-                expected_keys = ["id", "client_name", "timestamp"]
-                post_success = all(key in data for key in expected_keys)
+                expected_keys = ["user_id", "email", "name", "role", "created_at"]
+                has_keys = all(key in data for key in expected_keys)
+                success = has_keys and data.get("email") == user_data["email"]
+                self.test_user_id = data.get("user_id")
+                details = f"Status: {response.status_code}, User ID: {self.test_user_id}" if success else f"Missing keys: {data}"
+            else:
+                details = f"Status: {response.status_code}, Response: {response.text}"
             
-            # Test GET status
-            response = requests.get(f"{self.api_url}/status", timeout=10)
-            get_success = response.status_code == 200
-            
-            if get_success:
-                data = response.json()
-                get_success = isinstance(data, list)
-            
-            success = post_success and get_success
-            details = f"POST success: {post_success}, GET success: {get_success}"
-            
-            self.log_test("Status Endpoints", success, details)
+            self.log_test("User Registration", success, details)
             return success
             
         except Exception as e:
-            self.log_test("Status Endpoints", False, str(e))
+            self.log_test("User Registration", False, str(e))
+            return False
+
+    def test_user_login(self):
+        """Test user login endpoint"""
+        try:
+            login_data = {
+                "email": "test@lcm.nl",
+                "password": "test123456"
+            }
+            
+            response = requests.post(
+                f"{self.api_url}/auth/login",
+                json=login_data,
+                headers={"Content-Type": "application/json"},
+                timeout=10
+            )
+            
+            success = response.status_code == 200
+            
+            if success:
+                data = response.json()
+                expected_keys = ["user", "session_token"]
+                has_keys = all(key in data for key in expected_keys)
+                success = has_keys and data.get("session_token")
+                if success:
+                    self.session_token = data.get("session_token")
+                details = f"Status: {response.status_code}, Has session token: {bool(self.session_token)}" if success else f"Missing keys: {data}"
+            else:
+                details = f"Status: {response.status_code}, Response: {response.text}"
+            
+            self.log_test("User Login", success, details)
+            return success
+            
+        except Exception as e:
+            self.log_test("User Login", False, str(e))
+            return False
+
+    def test_get_assets(self):
+        """Test get assets endpoint (requires authentication)"""
+        try:
+            if not self.session_token:
+                self.log_test("Get Assets", False, "No session token available")
+                return False
+            
+            headers = {
+                "Authorization": f"Bearer {self.session_token}",
+                "Content-Type": "application/json"
+            }
+            
+            response = requests.get(
+                f"{self.api_url}/assets",
+                headers=headers,
+                timeout=10
+            )
+            
+            success = response.status_code == 200
+            
+            if success:
+                data = response.json()
+                success = isinstance(data, list)
+                details = f"Status: {response.status_code}, Assets count: {len(data)}" if success else f"Invalid response format: {type(data)}"
+            else:
+                details = f"Status: {response.status_code}, Response: {response.text}"
+            
+            self.log_test("Get Assets", success, details)
+            return success
+            
+        except Exception as e:
+            self.log_test("Get Assets", False, str(e))
+            return False
+
+    def test_get_alerts(self):
+        """Test get alerts endpoint (requires authentication)"""
+        try:
+            if not self.session_token:
+                self.log_test("Get Alerts", False, "No session token available")
+                return False
+            
+            headers = {
+                "Authorization": f"Bearer {self.session_token}",
+                "Content-Type": "application/json"
+            }
+            
+            response = requests.get(
+                f"{self.api_url}/alerts",
+                headers=headers,
+                timeout=10
+            )
+            
+            success = response.status_code == 200
+            
+            if success:
+                data = response.json()
+                success = isinstance(data, list)
+                details = f"Status: {response.status_code}, Alerts count: {len(data)}" if success else f"Invalid response format: {type(data)}"
+            else:
+                details = f"Status: {response.status_code}, Response: {response.text}"
+            
+            self.log_test("Get Alerts", success, details)
+            return success
+            
+        except Exception as e:
+            self.log_test("Get Alerts", False, str(e))
+            return False
+
+    def test_get_analytics_overview(self):
+        """Test get analytics overview endpoint (requires authentication)"""
+        try:
+            if not self.session_token:
+                self.log_test("Get Analytics Overview", False, "No session token available")
+                return False
+            
+            headers = {
+                "Authorization": f"Bearer {self.session_token}",
+                "Content-Type": "application/json"
+            }
+            
+            response = requests.get(
+                f"{self.api_url}/analytics/overview",
+                headers=headers,
+                timeout=10
+            )
+            
+            success = response.status_code == 200
+            
+            if success:
+                data = response.json()
+                expected_keys = ["total_assets", "active_alerts", "average_health_score", "status_distribution"]
+                has_keys = all(key in data for key in expected_keys)
+                success = has_keys
+                details = f"Status: {response.status_code}, Analytics data: {data}" if success else f"Missing keys: {data}"
+            else:
+                details = f"Status: {response.status_code}, Response: {response.text}"
+            
+            self.log_test("Get Analytics Overview", success, details)
+            return success
+            
+        except Exception as e:
+            self.log_test("Get Analytics Overview", False, str(e))
+            return False
+
+    def test_seed_database(self):
+        """Test database seeding endpoint (requires authentication)"""
+        try:
+            if not self.session_token:
+                self.log_test("Seed Database", False, "No session token available")
+                return False
+            
+            headers = {
+                "Authorization": f"Bearer {self.session_token}",
+                "Content-Type": "application/json"
+            }
+            
+            response = requests.post(
+                f"{self.api_url}/seed",
+                headers=headers,
+                timeout=15
+            )
+            
+            success = response.status_code == 200
+            
+            if success:
+                data = response.json()
+                expected_keys = ["message", "assets", "alerts"]
+                has_keys = all(key in data for key in expected_keys)
+                success = has_keys and data.get("assets", 0) > 0
+                details = f"Status: {response.status_code}, Seeded: {data.get('assets', 0)} assets, {data.get('alerts', 0)} alerts" if success else f"Missing keys: {data}"
+            else:
+                details = f"Status: {response.status_code}, Response: {response.text}"
+            
+            self.log_test("Seed Database", success, details)
+            return success
+            
+        except Exception as e:
+            self.log_test("Seed Database", False, str(e))
             return False
 
     def run_all_tests(self):
