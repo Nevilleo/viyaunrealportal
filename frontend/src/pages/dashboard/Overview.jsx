@@ -235,7 +235,7 @@ export default function DashboardOverview() {
         <div className="lg:col-span-6 order-1 lg:order-2">
           <div className="glass rounded-sm overflow-hidden" data-testid="map-canvas">
             {/* Map Header */}
-            <div className="p-3 border-b border-white/10 flex items-center justify-between">
+            <div className="p-3 border-b border-white/10 flex items-center justify-between bg-slate-950/80 relative z-30">
               <div className="flex items-center gap-2">
                 <MapPin className="w-4 h-4 text-primary" />
                 <h2 className="font-heading font-bold text-sm uppercase tracking-tight">
@@ -254,17 +254,19 @@ export default function DashboardOverview() {
               </Button>
             </div>
             
-            {/* Map Container */}
-            <div className="relative h-[400px] lg:h-[450px]">
-              <CesiumGlobe 
-                markers={allAssets} 
-                onMarkerClick={handleMarkerClick}
-                flyTo={flyTo}
-              />
+            {/* Map Container - Fixed height with relative positioning */}
+            <div className="relative w-full" style={{ height: '450px' }}>
+              <div className="absolute inset-0 w-full h-full">
+                <CesiumGlobe 
+                  markers={allAssets} 
+                  onMarkerClick={handleMarkerClick}
+                  flyTo={flyTo}
+                />
+              </div>
               
               {/* Selected Asset Overlay */}
               {selectedAsset && (
-                <div className="absolute bottom-4 left-4 right-4 glass p-3 rounded-sm z-20" data-testid="selected-asset-info">
+                <div className="absolute bottom-4 left-4 right-4 glass p-3 rounded-sm z-30" data-testid="selected-asset-info">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div className={`w-3 h-3 rounded-full ${statusColors[selectedAsset.status]}`} />
@@ -282,7 +284,7 @@ export default function DashboardOverview() {
               )}
 
               {/* Legend */}
-              <div className="absolute top-4 right-4 glass p-2 rounded-sm z-20">
+              <div className="absolute top-4 right-4 glass p-2 rounded-sm z-30">
                 <div className="flex flex-col gap-1 text-xs font-mono">
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 rounded-full bg-emerald-500" />
