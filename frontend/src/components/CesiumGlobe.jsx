@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Loader2 } from 'lucide-react';
 
-const CesiumGlobe = () => {
+const CesiumGlobe = ({ markers = [], onMarkerClick, flyTo }) => {
   const cesiumContainerRef = useRef(null);
   const viewerRef = useRef(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -12,21 +12,17 @@ const CesiumGlobe = () => {
 
     const initCesium = async () => {
       try {
-        // Dynamically import Cesium
         const Cesium = await import('cesium');
         
-        // Set the access token
         const token = process.env.REACT_APP_CESIUM_ION_TOKEN;
         if (token) {
           Cesium.Ion.defaultAccessToken = token;
         }
 
-        // Set base URL for Cesium assets
         window.CESIUM_BASE_URL = '/cesium/';
 
         if (!isMounted || !cesiumContainerRef.current) return;
 
-        // Create viewer with minimal UI
         const viewer = new Cesium.Viewer(cesiumContainerRef.current, {
           animation: false,
           baseLayerPicker: false,
@@ -44,23 +40,18 @@ const CesiumGlobe = () => {
           skyBox: false,
           skyAtmosphere: new Cesium.SkyAtmosphere(),
           contextOptions: {
-            webgl: {
-              alpha: true,
-            },
+            webgl: { alpha: true },
           },
         });
 
-        // Make background transparent
         viewer.scene.backgroundColor = Cesium.Color.TRANSPARENT;
         viewer.scene.globe.baseColor = Cesium.Color.fromCssColorString('#0a1628');
-
-        // Enable atmosphere and lighting
         viewer.scene.globe.enableLighting = true;
         viewer.scene.globe.showGroundAtmosphere = true;
 
-        // Set initial camera position - Focus on Netherlands
+        // Focus on Netherlands / Afsluitdijk
         viewer.camera.setView({
-          destination: Cesium.Cartesian3.fromDegrees(5.2913, 52.1326, 800000), // Netherlands coordinates
+          destination: Cesium.Cartesian3.fromDegrees(5.2, 52.8, 400000),
           orientation: {
             heading: Cesium.Math.toRadians(0),
             pitch: Cesium.Math.toRadians(-45),
@@ -68,96 +59,46 @@ const CesiumGlobe = () => {
           },
         });
 
-        // Add some sample entities for visualization
-        // Rotterdam port area marker
-        viewer.entities.add({
-          name: 'Rotterdam Port',
-          position: Cesium.Cartesian3.fromDegrees(4.4777, 51.9244, 0),
-          point: {
-            pixelSize: 12,
-            color: Cesium.Color.fromCssColorString('#0ea5e9'),
-            outlineColor: Cesium.Color.WHITE,
-            outlineWidth: 2,
-          },
-          label: {
-            text: 'Rotterdam Port',
-            font: '14px Public Sans',
-            fillColor: Cesium.Color.WHITE,
-            outlineColor: Cesium.Color.BLACK,
-            outlineWidth: 2,
-            style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-            verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-            pixelOffset: new Cesium.Cartesian2(0, -20),
-          },
-        });
-
-        // Maeslantkering (storm surge barrier)
-        viewer.entities.add({
-          name: 'Maeslantkering',
-          position: Cesium.Cartesian3.fromDegrees(4.0539, 51.9547, 0),
-          point: {
-            pixelSize: 12,
-            color: Cesium.Color.fromCssColorString('#eab308'),
-            outlineColor: Cesium.Color.WHITE,
-            outlineWidth: 2,
-          },
-          label: {
-            text: 'Maeslantkering',
-            font: '14px Public Sans',
-            fillColor: Cesium.Color.WHITE,
-            outlineColor: Cesium.Color.BLACK,
-            outlineWidth: 2,
-            style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-            verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-            pixelOffset: new Cesium.Cartesian2(0, -20),
-          },
-        });
-
-        // Afsluitdijk
-        viewer.entities.add({
-          name: 'Afsluitdijk',
-          position: Cesium.Cartesian3.fromDegrees(5.2536, 52.9583, 0),
-          point: {
-            pixelSize: 12,
-            color: Cesium.Color.fromCssColorString('#22c55e'),
-            outlineColor: Cesium.Color.WHITE,
-            outlineWidth: 2,
-          },
-          label: {
-            text: 'Afsluitdijk',
-            font: '14px Public Sans',
-            fillColor: Cesium.Color.WHITE,
-            outlineColor: Cesium.Color.BLACK,
-            outlineWidth: 2,
-            style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-            verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-            pixelOffset: new Cesium.Cartesian2(0, -20),
-          },
-        });
-
-        // Slow rotation animation
-        const startTime = Date.now();
-        const rotateGlobe = () => {
-          if (!viewerRef.current || !isMounted) return;
+        // Add markers
+        markers.forEach((marker) => {
+          const color = marker.status === 'critical' ? '#ef4444' :
+                       marker.status === 'warning' ? '#eab308' :
+                       marker.status === 'maintenance' ? '#a855f7' : '#22c55e';
           
-          const elapsed = (Date.now() - startTime) / 1000;
-          const heading = Cesium.Math.toRadians(elapsed * 2); // 2 degrees per second
-          
-          viewer.camera.setView({
-            destination: Cesium.Cartesian3.fromDegrees(5.2913 + elapsed * 0.5, 52.1326, 800000),
-            orientation: {
-              heading: heading,
-              pitch: Cesium.Math.toRadians(-45),
-              roll: 0,
+          viewer.entities.add({
+            id: marker.asset_id,
+            name: marker.name,
+            position: Cesium.Cartesian3.fromDegrees(marker.longitude, marker.latitude, 0),
+            point: {
+              pixelSize: 14,
+              color: Cesium.Color.fromCssColorString(color),
+              outlineColor: Cesium.Color.WHITE,
+              outlineWidth: 2,
+            },
+            label: {
+              text: marker.name,
+              font: '13px Public Sans',
+              fillColor: Cesium.Color.WHITE,
+              outlineColor: Cesium.Color.BLACK,
+              outlineWidth: 2,
+              style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+              verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+              pixelOffset: new Cesium.Cartesian2(0, -20),
+              distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 500000),
             },
           });
-        };
+        });
+
+        // Click handler
+        viewer.screenSpaceEventHandler.setInputAction((click) => {
+          const pickedObject = viewer.scene.pick(click.position);
+          if (Cesium.defined(pickedObject) && pickedObject.id) {
+            onMarkerClick?.(pickedObject.id.id);
+          }
+        }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 
         viewerRef.current = viewer;
         setIsLoading(false);
-
-        // Optional: Enable slow rotation (commented out to allow user interaction)
-        // setInterval(rotateGlobe, 100);
 
       } catch (err) {
         console.error('Failed to initialize Cesium:', err);
@@ -177,7 +118,24 @@ const CesiumGlobe = () => {
         viewerRef.current = null;
       }
     };
-  }, []);
+  }, [markers, onMarkerClick]);
+
+  // Fly to asset
+  useEffect(() => {
+    if (flyTo && viewerRef.current) {
+      import('cesium').then((Cesium) => {
+        viewerRef.current.camera.flyTo({
+          destination: Cesium.Cartesian3.fromDegrees(flyTo.longitude, flyTo.latitude, 50000),
+          orientation: {
+            heading: Cesium.Math.toRadians(0),
+            pitch: Cesium.Math.toRadians(-45),
+            roll: 0,
+          },
+          duration: 2,
+        });
+      });
+    }
+  }, [flyTo]);
 
   if (error) {
     return (
