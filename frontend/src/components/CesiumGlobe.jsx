@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Loader2 } from 'lucide-react';
+import 'cesium/Build/Cesium/Widgets/widgets.css';
 
 const CesiumGlobe = ({ markers = [], onMarkerClick, flyTo }) => {
   const cesiumContainerRef = useRef(null);
@@ -42,8 +43,17 @@ const CesiumGlobe = ({ markers = [], onMarkerClick, flyTo }) => {
           contextOptions: {
             webgl: { alpha: true },
           },
+          requestRenderMode: false,
+          maximumRenderTimeChange: Infinity,
         });
 
+        // Force resize to fill container
+        viewer.canvas.style.width = '100%';
+        viewer.canvas.style.height = '100%';
+        viewer.canvas.style.position = 'absolute';
+        viewer.canvas.style.top = '0';
+        viewer.canvas.style.left = '0';
+        
         viewer.scene.backgroundColor = Cesium.Color.TRANSPARENT;
         viewer.scene.globe.baseColor = Cesium.Color.fromCssColorString('#0a1628');
         viewer.scene.globe.enableLighting = true;
