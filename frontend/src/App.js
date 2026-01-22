@@ -16,6 +16,7 @@ import AlertsPage from './pages/dashboard/Alerts';
 import ReportsPage from './pages/dashboard/Reports';
 import UsersPage from './pages/dashboard/Users';
 import SettingsPage from './pages/dashboard/Settings';
+import VehiclePage from './pages/dashboard/Vehicle';
 
 import '@/App.css';
 
