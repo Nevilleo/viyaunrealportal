@@ -145,13 +145,24 @@ export default function DashboardOverview() {
   return (
     <div className="p-4 lg:p-6 bg-slate-950 min-h-screen" data-testid="dashboard-overview">
       {/* Header */}
-      <div className="mb-6">
-        <h1 className="text-2xl lg:text-3xl font-heading font-bold tracking-tight uppercase mb-1 text-white">
-          Dashboard <span className="text-cyan-500">Overzicht</span>
-        </h1>
-        <p className="text-slate-400 font-mono text-sm">
-          Real-time status van alle infrastructuur assets
-        </p>
+      <div className="mb-6 flex items-start justify-between">
+        <div>
+          <h1 className="text-2xl lg:text-3xl font-heading font-bold tracking-tight uppercase mb-1 text-white">
+            Dashboard <span className="text-cyan-500">Overzicht</span>
+          </h1>
+          <p className="text-slate-400 font-mono text-sm">
+            Real-time status van alle infrastructuur assets
+          </p>
+        </div>
+        {/* LCM Voertuig Button */}
+        <Button
+          onClick={() => navigate('/dashboard/vehicle')}
+          className="bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-white px-6 h-11 rounded-lg font-bold shadow-lg shadow-amber-500/20 transition-all hover:shadow-amber-500/40"
+          data-testid="lcm-vehicle-btn"
+        >
+          <Car className="w-5 h-5 mr-2" />
+          LCM Voertuig
+        </Button>
       </div>
 
       {/* Stats Grid */}
