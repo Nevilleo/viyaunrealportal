@@ -215,16 +215,16 @@ export default function DashboardOverview() {
     }
   };
 
-  const handleMarkerClick = (assetId) => {
-    const asset = allAssets.find(a => a.asset_id === assetId);
-    if (asset) {
-      setSelectedAsset(asset);
-    }
-  };
-
-  const handleAssetHover = (asset) => {
-    setFlyTo({ latitude: asset.latitude, longitude: asset.longitude });
+  const handleAssetClick = (asset) => {
     setSelectedAsset(asset);
+    if (viewerRef.current) {
+      import('cesium').then((Cesium) => {
+        viewerRef.current.camera.flyTo({
+          destination: Cesium.Cartesian3.fromDegrees(asset.longitude, asset.latitude, 100000),
+          duration: 1,
+        });
+      });
+    }
   };
 
   if (loading) {
