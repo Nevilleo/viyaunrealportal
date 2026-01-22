@@ -1,38 +1,58 @@
 {
-  "timestamp": "2026-01-22T10:43:01.961648",
-  "total_tests": 6,
-  "passed_tests": 6,
+  "timestamp": "2026-01-22T11:12:29.169308",
+  "total_tests": 10,
+  "passed_tests": 10,
   "success_rate": 100.0,
   "test_details": [
     {
       "test": "Health Check",
       "success": true,
-      "details": "Status: 200, Data: {'status': 'healthy', 'database': 'connected', 'timestamp': '2026-01-22T10:43:01.723633+00:00'}"
+      "details": "Status: 200, Data: {'status': 'healthy', 'database': 'connected', 'timestamp': '2026-01-22T11:12:28.365535+00:00'}"
     },
     {
       "test": "API Root",
       "success": true,
-      "details": "Status: 200, Data: {'status': 'operational', 'service': 'Digital Delta Platform', 'version': '1.0.0', 'timestamp': '2026-01-22T10:43:01.764714Z'}"
+      "details": "Status: 200, Data: {'status': 'operational', 'service': 'Digital Delta Platform', 'version': '2.0.0', 'timestamp': '2026-01-22T11:12:28.401797+00:00'}"
+    },
+    {
+      "test": "User Registration",
+      "success": true,
+      "details": "Status: 200, User ID: user_4bb9176d3cc4"
+    },
+    {
+      "test": "User Login",
+      "success": "session_d871b8231b79496f8fcdd38ac57b6597",
+      "details": "Status: 200, Has session token: True"
+    },
+    {
+      "test": "Seed Database",
+      "success": true,
+      "details": "Status: 200, Seeded: 7 assets, 4 alerts"
+    },
+    {
+      "test": "Get Assets",
+      "success": true,
+      "details": "Status: 200, Assets count: 7"
+    },
+    {
+      "test": "Get Alerts",
+      "success": true,
+      "details": "Status: 200, Alerts count: 4"
+    },
+    {
+      "test": "Get Analytics Overview",
+      "success": true,
+      "details": "Status: 200, Analytics data: {'total_assets': 7, 'active_alerts': 3, 'average_health_score': 86.9, 'status_distribution': {'operational': 5, 'maintenance': 1, 'warning': 1, 'critical': 0}, 'uptime_percentage': 99.7, 'last_updated': '2026-01-22T11:12:29.089737+00:00'}"
     },
     {
       "test": "Contact Form Submission",
       "success": true,
-      "details": "Status: 200, Contact ID: 4b0540cb-c1d0-4ca7-9cfb-3847c6b05f20"
+      "details": "Status: 200, Contact ID: 6182d0b8-44e4-4a83-b799-2c60294b4f75"
     },
     {
       "test": "Contact Form Validation",
       "success": true,
       "details": "Status: 422, Response: {\"detail\":[{\"type\":\"string_too_short\",\"loc\":[\"body\",\"name\"],\"msg\":\"String should have at least 1 character\",\"input\":\"\",\"ctx\":{\"min_length\":1},\"url\":\"https://errors.pydantic.dev/2.12/v/string_too_short\"},{\"type\":\"value_error\",\"loc\":[\"body\",\"email\"],\"msg\":\"value is not a valid email address: An email address must have an @-sign.\",\"input\":\"invalid-email\",\"ctx\":{\"reason\":\"An email address must have an @-sign.\"}},{\"type\":\"string_too_short\",\"loc\":[\"body\",\"message\"],\"msg\":\"String should have at least 10 characters\",\"input\":\"short\",\"ctx\":{\"min_length\":10},\"url\":\"https://errors.pydantic.dev/2.12/v/string_too_short\"}]}"
-    },
-    {
-      "test": "Cesium Token Endpoint",
-      "success": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI5MWNkYmNmNi1iNjhkLTRkMDMtODc5Mi1hYWFhNTM0MDMxMDgiLCJpZCI6MzEzNzY0LCJpYXQiOjE3NTAzMzM1MTF9.yOJI-9_lj-Q6m8d1XNy0sNC5SNHnn11QD5fAc30EJQU",
-      "details": "Status: 200, Has token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI5MWNkYmNmNi1iNjhkLTRkMDMtODc5Mi1hYWFhNTM0MDMxMDgiLCJpZCI6MzEzNzY0LCJpYXQiOjE3NTAzMzM1MTF9.yOJI-9_lj-Q6m8d1XNy0sNC5SNHnn11QD5fAc30EJQU"
-    },
-    {
-      "test": "Status Endpoints",
-      "success": true,
-      "details": "POST success: True, GET success: True"
     }
   ]
 }
