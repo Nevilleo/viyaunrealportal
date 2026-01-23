@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { API } from '../../App';
+import { API, useTheme } from '../../App';
 import { 
   Activity, 
   AlertTriangle, 
@@ -20,7 +20,7 @@ import {
 import { Button } from '../../components/ui/button';
 import { useNavigate } from 'react-router-dom';
 
-const StatCard = ({ icon: Icon, label, value, trend, color = 'primary' }) => {
+const StatCard = ({ icon: Icon, label, value, trend, color = 'primary', isLight }) => {
   const colorClasses = {
     primary: 'text-cyan-500 bg-cyan-500/10 border-cyan-500/20',
     secondary: 'text-amber-500 bg-amber-500/10 border-amber-500/20',
@@ -29,7 +29,7 @@ const StatCard = ({ icon: Icon, label, value, trend, color = 'primary' }) => {
   };
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-lg p-4 hover:border-slate-700 transition-all" data-testid="stat-card">
+    <div className={`border rounded-lg p-4 transition-all ${isLight ? 'bg-white border-slate-200 hover:border-slate-300' : 'bg-slate-900 border-slate-800 hover:border-slate-700'}`} data-testid="stat-card">
       <div className="flex items-start justify-between mb-2">
         <div className={`w-10 h-10 rounded-lg flex items-center justify-center border ${colorClasses[color]}`}>
           <Icon className="w-5 h-5" />
@@ -41,13 +41,13 @@ const StatCard = ({ icon: Icon, label, value, trend, color = 'primary' }) => {
           </div>
         )}
       </div>
-      <p className="text-xs font-mono text-slate-400 uppercase tracking-widest mb-1">{label}</p>
-      <p className="text-2xl font-heading font-bold text-white">{value}</p>
+      <p className={`text-xs font-mono uppercase tracking-widest mb-1 ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>{label}</p>
+      <p className={`text-2xl font-heading font-bold ${isLight ? 'text-slate-900' : 'text-white'}`}>{value}</p>
     </div>
   );
 };
 
-const AlertItem = ({ alert, onAcknowledge }) => {
+const AlertItem = ({ alert, onAcknowledge, isLight }) => {
   const severityColors = {
     low: 'border-l-emerald-500 bg-emerald-500/5',
     medium: 'border-l-amber-500 bg-amber-500/5',
@@ -59,14 +59,14 @@ const AlertItem = ({ alert, onAcknowledge }) => {
     <div className={`p-3 border-l-4 rounded-r-lg ${severityColors[alert.severity]}`} data-testid="alert-item">
       <div className="flex items-start justify-between">
         <div className="flex-1">
-          <p className="font-medium text-white text-sm">{alert.title}</p>
-          <p className="text-xs text-slate-400 mt-1">{alert.asset_name}</p>
+          <p className={`font-medium text-sm ${isLight ? 'text-slate-900' : 'text-white'}`}>{alert.title}</p>
+          <p className={`text-xs mt-1 ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>{alert.asset_name}</p>
         </div>
         {alert.status === 'active' && (
           <Button
             size="sm"
             variant="ghost"
-            className="text-xs h-7 px-2 text-slate-400 hover:text-white"
+            className={`text-xs h-7 px-2 ${isLight ? 'text-slate-500 hover:text-slate-900' : 'text-slate-400 hover:text-white'}`}
             onClick={() => onAcknowledge(alert.alert_id)}
             data-testid={`acknowledge-${alert.alert_id}`}
           >
