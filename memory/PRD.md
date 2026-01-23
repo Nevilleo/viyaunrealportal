@@ -21,7 +21,7 @@ Volledige Digital Twin infrastructuur website met login voor LCM medewerkers (Ri
 - [x] Gebruikersbeheer (admin only)
 - [x] Profielinstellingen
 
-## What's Been Implemented (Jan 22, 2025)
+## What's Been Implemented (Jan 22-23, 2025)
 
 ### Backend (FastAPI)
 - User authentication (JWT + Google OAuth via Emergent)
@@ -43,6 +43,12 @@ Volledige Digital Twin infrastructuur website met login voor LCM medewerkers (Ri
 - Reports page with charts
 - Users page (admin only)
 - Settings page
+- **LCM Vehicle Page** (`/dashboard/vehicle`) - Jan 23, 2025
+  - Side navigation with system categories
+  - Realistic/Schematic view toggle
+  - HUD image display when HUD section selected
+  - Interactive info panels for each system
+  - "Voertuig" as default selection
 
 ### Database (MongoDB)
 - users collection (with roles)
@@ -71,6 +77,9 @@ Volledige Digital Twin infrastructuur website met login voor LCM medewerkers (Ri
 - **Sensor Data**: Simulated random values via /api/sensors/live/{asset_id}
 
 ## Next Tasks / Backlog
+### P0 (Immediate)
+- Fix embedded Cesium map on Overview page (currently shows static link)
+
 ### P1
 - Real SAS Viya API integration for analytics
 - Historical sensor data with time-series charts
@@ -82,6 +91,9 @@ Volledige Digital Twin infrastructuur website met login voor LCM medewerkers (Ri
 - Real-time WebSocket updates
 - Multi-language support (NL/EN)
 - Notification system (email/push)
+
+## Known Issues
+- **Overview Cesium Map**: The embedded Cesium component on `/dashboard/overview` was causing errors. Currently replaced with a static image linking to the full-screen map page as a workaround.
 
 ## Test Results
 - Backend: 100% (10/10 tests passed)
