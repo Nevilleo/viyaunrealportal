@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
-import { useAuth } from '../App';
+import { useAuth, useTheme } from '../App';
 import { 
   LayoutDashboard, 
   Map, 
@@ -21,6 +21,7 @@ const DashboardLayout = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user, logout } = useAuth();
+  const { theme } = useTheme();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -45,10 +46,14 @@ const DashboardLayout = () => {
     veldwerker: 'Veldwerker'
   };
 
+  const isLight = theme === 'light';
+
   return (
     <div className="min-h-screen bg-background" data-testid="dashboard-layout">
       {/* Mobile Header */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 h-16 glass-strong z-50 flex items-center justify-between px-4">
+      <div className={`lg:hidden fixed top-0 left-0 right-0 h-16 z-50 flex items-center justify-between px-4 ${
+        isLight ? 'bg-white/95 border-b border-slate-200' : 'glass-strong'
+      }`}>
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-sm bg-primary/20 flex items-center justify-center">
             <Globe2 className="w-4 h-4 text-primary" />
@@ -75,21 +80,26 @@ const DashboardLayout = () => {
 
       {/* Sidebar */}
       <aside
-        className={`fixed left-0 top-0 bottom-0 bg-slate-950 dark:bg-slate-950 border-r border-white/10 z-50 flex flex-col transition-all duration-300 ${
+        className={`fixed left-0 top-0 bottom-0 z-50 flex flex-col transition-all duration-300 ${
           sidebarCollapsed ? 'w-20' : 'w-64'
-        } ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}
-        style={{ backgroundColor: 'hsl(var(--card))' }}
+        } ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'} ${
+          isLight 
+            ? 'bg-white border-r border-slate-200 shadow-sm' 
+            : 'bg-slate-950 border-r border-white/10'
+        }`}
         data-testid="sidebar"
       >
         {/* Logo */}
-        <div className="h-16 flex items-center justify-between px-4 border-b border-white/10">
+        <div className={`h-16 flex items-center justify-between px-4 border-b ${
+          isLight ? 'border-slate-200' : 'border-white/10'
+        }`}>
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-sm bg-primary/20 flex items-center justify-center border border-primary/30 flex-shrink-0">
               <Globe2 className="w-5 h-5 text-primary" />
             </div>
             {!sidebarCollapsed && (
               <div>
-                <span className="font-heading font-bold text-sm tracking-tight block">DIGITAL DELTA</span>
+                <span className={`font-heading font-bold text-sm tracking-tight block ${isLight ? 'text-slate-900' : 'text-white'}`}>DIGITAL DELTA</span>
                 <span className="text-[10px] font-mono text-muted-foreground tracking-widest">RWS • LCM</span>
               </div>
             )}
@@ -116,8 +126,8 @@ const DashboardLayout = () => {
               className={({ isActive }) =>
                 `flex items-center gap-3 px-4 py-3 text-sm font-mono border-l-2 transition-all ${
                   isActive
-                    ? 'text-primary bg-primary/5 border-l-primary'
-                    : 'text-muted-foreground hover:text-primary hover:bg-white/5 border-transparent hover:border-primary/50'
+                    ? `text-primary ${isLight ? 'bg-primary/10' : 'bg-primary/5'} border-l-primary`
+                    : `${isLight ? 'text-slate-600 hover:text-primary hover:bg-slate-100' : 'text-muted-foreground hover:text-primary hover:bg-white/5'} border-transparent hover:border-primary/50`
                 } ${sidebarCollapsed ? 'justify-center px-0' : ''}`
               }
               data-testid={`nav-${item.label.toLowerCase()}`}
@@ -129,17 +139,17 @@ const DashboardLayout = () => {
         </nav>
 
         {/* User Info */}
-        <div className="p-4 border-t border-white/10">
+        <div className={`p-4 border-t ${isLight ? 'border-slate-200' : 'border-white/10'}`}>
           {!sidebarCollapsed && (
             <div className="mb-3">
-              <p className="text-sm font-medium text-foreground truncate">{user?.name}</p>
+              <p className={`text-sm font-medium truncate ${isLight ? 'text-slate-900' : 'text-foreground'}`}>{user?.name}</p>
               <p className="text-xs font-mono text-muted-foreground">{roleLabels[user?.role] || user?.role}</p>
             </div>
           )}
           <Button
             variant="ghost"
             onClick={handleLogout}
-            className={`text-muted-foreground hover:text-destructive hover:bg-destructive/10 ${
+            className={`${isLight ? 'text-slate-600 hover:text-red-600 hover:bg-red-50' : 'text-muted-foreground hover:text-destructive hover:bg-destructive/10'} ${
               sidebarCollapsed ? 'w-full justify-center p-2' : 'w-full justify-start'
             }`}
             data-testid="logout-btn"
