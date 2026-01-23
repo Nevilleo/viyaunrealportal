@@ -52,6 +52,8 @@ export default function MonitoringPage() {
   const [loading, setLoading] = useState(true);
   const [mapLoading, setMapLoading] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
 
   // Fetch assets
   useEffect(() => {
