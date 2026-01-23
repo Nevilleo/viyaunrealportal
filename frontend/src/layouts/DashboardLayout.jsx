@@ -75,9 +75,10 @@ const DashboardLayout = () => {
 
       {/* Sidebar */}
       <aside
-        className={`fixed left-0 top-0 bottom-0 bg-slate-950 border-r border-white/10 z-50 flex flex-col transition-all duration-300 ${
+        className={`fixed left-0 top-0 bottom-0 bg-slate-950 dark:bg-slate-950 border-r border-white/10 z-50 flex flex-col transition-all duration-300 ${
           sidebarCollapsed ? 'w-20' : 'w-64'
         } ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}
+        style={{ backgroundColor: 'hsl(var(--card))' }}
         data-testid="sidebar"
       >
         {/* Logo */}
