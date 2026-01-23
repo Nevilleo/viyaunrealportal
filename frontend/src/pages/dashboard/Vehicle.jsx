@@ -413,45 +413,45 @@ export default function VehiclePage() {
           </div>
 
           {/* Bottom Stats Bar */}
-          <div className="absolute bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur-sm border-t border-slate-800 p-4">
+          <div className={`absolute bottom-0 left-0 right-0 backdrop-blur-sm border-t p-4 ${isLight ? 'bg-white/95 border-slate-200' : 'bg-slate-900/95 border-slate-800'}`}>
             <div className="flex items-center justify-between max-w-4xl mx-auto">
               <div className="flex items-center gap-6">
                 <div className="flex items-center gap-2">
                   <Activity className="w-4 h-4 text-emerald-500" />
-                  <span className="text-xs text-slate-400">Status:</span>
+                  <span className={`text-xs ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>Status:</span>
                   <span className="text-sm font-medium text-emerald-500">Operationeel</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Gauge className="w-4 h-4 text-cyan-500" />
-                  <span className="text-xs text-slate-400">Sensoren:</span>
-                  <span className="text-sm font-medium text-white">24 Actief</span>
+                  <span className={`text-xs ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>Sensoren:</span>
+                  <span className={`text-sm font-medium ${isLight ? 'text-slate-900' : 'text-white'}`}>24 Actief</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Satellite className="w-4 h-4 text-purple-500" />
-                  <span className="text-xs text-slate-400">Connectie:</span>
-                  <span className="text-sm font-medium text-white">5G + Satelliet</span>
+                  <span className={`text-xs ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>Connectie:</span>
+                  <span className={`text-sm font-medium ${isLight ? 'text-slate-900' : 'text-white'}`}>5G + Satelliet</span>
                 </div>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-xs text-slate-400">Live Data Stream</span>
+                <span className={`text-xs ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>Live Data Stream</span>
               </div>
             </div>
           </div>
         </div>
 
         {/* Right - Info Panel */}
-        <div className="w-96 flex-shrink-0 bg-slate-900 border-l border-slate-800 overflow-y-auto" data-testid="info-panel">
+        <div className={`w-96 flex-shrink-0 border-l overflow-y-auto ${isLight ? 'bg-white border-slate-200' : 'bg-slate-900 border-slate-800'}`} data-testid="info-panel">
           {activeInfo && (
             <>
-              <div className="p-4 border-b border-slate-800">
+              <div className={`p-4 border-b ${isLight ? 'border-slate-200' : 'border-slate-800'}`}>
                 <div className="flex items-center gap-3">
                   <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${colorClasses[activeInfo.color].bg}`}>
                     <activeInfo.icon className={`w-5 h-5 ${colorClasses[activeInfo.color].text}`} />
                   </div>
                   <div>
-                    <h2 className="font-heading font-bold text-white">{activeInfo.title}</h2>
-                    <p className="text-xs text-slate-400">{activeInfo.subtitle}</p>
+                    <h2 className={`font-heading font-bold ${isLight ? 'text-slate-900' : 'text-white'}`}>{activeInfo.title}</h2>
+                    <p className={`text-xs ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>{activeInfo.subtitle}</p>
                   </div>
                 </div>
               </div>
@@ -462,10 +462,10 @@ export default function VehiclePage() {
                     key={index} 
                     className={`p-4 rounded-lg border ${colorClasses[activeInfo.color].bg} ${colorClasses[activeInfo.color].border}`}
                   >
-                    <h3 className="font-medium text-white text-sm mb-2">{item.title}</h3>
+                    <h3 className={`font-medium text-sm mb-2 ${isLight ? 'text-slate-900' : 'text-white'}`}>{item.title}</h3>
                     <ul className="space-y-1">
                       {item.details.map((detail, i) => (
-                        <li key={i} className="flex items-start gap-2 text-sm text-slate-400">
+                        <li key={i} className={`flex items-start gap-2 text-sm ${isLight ? 'text-slate-600' : 'text-slate-400'}`}>
                           <ChevronRight className={`w-3 h-3 mt-1 flex-shrink-0 ${colorClasses[activeInfo.color].text}`} />
                           <span>{detail}</span>
                         </li>
