@@ -1,18 +1,21 @@
 import React from 'react';
-import { useAuth } from '../../App';
+import { useAuth, useTheme } from '../../App';
 import { 
   User, 
   Mail, 
   Shield,
   Bell,
   Moon,
+  Sun,
   Globe2
 } from 'lucide-react';
 import { Button } from '../../components/ui/button';
 import { Switch } from '../../components/ui/switch';
+import { toast } from 'sonner';
 
 export default function SettingsPage() {
   const { user } = useAuth();
+  const { theme, toggleTheme } = useTheme();
 
   const roleLabels = {
     admin: 'Administrator',
