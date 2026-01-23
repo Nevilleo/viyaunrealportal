@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { API } from '../../App';
+import { API, useTheme } from '../../App';
 import { 
   MapPin, 
   RefreshCw, 
@@ -23,7 +23,7 @@ import { Button } from '../../components/ui/button';
 import { Loader2 } from 'lucide-react';
 
 // Sensor gauge component
-const SensorGauge = ({ label, value, unit, status, icon: Icon }) => {
+const SensorGauge = ({ label, value, unit, status, icon: Icon, isLight }) => {
   const statusColors = {
     normal: 'text-emerald-400',
     warning: 'text-yellow-400',
@@ -31,10 +31,10 @@ const SensorGauge = ({ label, value, unit, status, icon: Icon }) => {
   };
 
   return (
-    <div className="flex items-center justify-between p-2 bg-slate-800/50 rounded">
+    <div className={`flex items-center justify-between p-2 rounded ${isLight ? 'bg-slate-100' : 'bg-slate-800/50'}`}>
       <div className="flex items-center gap-2">
         <Icon className={`w-4 h-4 ${statusColors[status]}`} />
-        <span className="text-xs text-slate-400 capitalize">{label.replace('_', ' ')}</span>
+        <span className={`text-xs capitalize ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>{label.replace('_', ' ')}</span>
       </div>
       <span className={`text-sm font-mono font-bold ${statusColors[status]}`}>
         {value} <span className="text-xs">{unit}</span>
