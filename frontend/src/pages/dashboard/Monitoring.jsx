@@ -416,11 +416,11 @@ export default function MonitoringPage() {
         </div>
 
         {/* Right Sidebar - Location Details */}
-        <div className="w-80 flex-shrink-0 bg-slate-900 border-l border-slate-800 overflow-y-auto" data-testid="location-details-panel">
-          <div className="p-4 border-b border-slate-800">
+        <div className={`w-80 flex-shrink-0 border-l overflow-y-auto ${isLight ? 'bg-white border-slate-200' : 'bg-slate-900 border-slate-800'}`} data-testid="location-details-panel">
+          <div className={`p-4 border-b ${isLight ? 'border-slate-200' : 'border-slate-800'}`}>
             <div className="flex items-center gap-2">
               <MapPin className="w-4 h-4 text-cyan-500" />
-              <h2 className="font-heading font-bold text-sm uppercase tracking-tight text-white">
+              <h2 className={`font-heading font-bold text-sm uppercase tracking-tight ${isLight ? 'text-slate-900' : 'text-white'}`}>
                 Locatie Details
               </h2>
             </div>
@@ -432,33 +432,33 @@ export default function MonitoringPage() {
               <div className="flex items-start gap-3">
                 <div className={`w-4 h-4 rounded-full mt-1 ${statusColors[selectedAsset.status]}`} />
                 <div className="flex-1">
-                  <h3 className="font-bold text-white text-lg leading-tight">{selectedAsset.name}</h3>
-                  <p className="text-xs text-slate-400 font-mono mt-1">{selectedAsset.asset_id}</p>
+                  <h3 className={`font-bold text-lg leading-tight ${isLight ? 'text-slate-900' : 'text-white'}`}>{selectedAsset.name}</h3>
+                  <p className={`text-xs font-mono mt-1 ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>{selectedAsset.asset_id}</p>
                 </div>
               </div>
 
               {/* Status Badge */}
               <div className="flex items-center gap-2">
                 {statusIcons[selectedAsset.status]}
-                <span className="text-sm capitalize text-slate-300">{selectedAsset.status}</span>
+                <span className={`text-sm capitalize ${isLight ? 'text-slate-700' : 'text-slate-300'}`}>{selectedAsset.status}</span>
               </div>
 
               {/* Location */}
-              <div className="bg-slate-800/50 rounded-lg p-3">
-                <p className="text-xs text-slate-400 uppercase tracking-wider mb-1">Locatie</p>
-                <p className="text-sm text-white">{selectedAsset.location}</p>
-                <p className="text-xs text-slate-500 font-mono mt-1">
+              <div className={`rounded-lg p-3 ${isLight ? 'bg-slate-100' : 'bg-slate-800/50'}`}>
+                <p className={`text-xs uppercase tracking-wider mb-1 ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>Locatie</p>
+                <p className={`text-sm ${isLight ? 'text-slate-900' : 'text-white'}`}>{selectedAsset.location}</p>
+                <p className={`text-xs font-mono mt-1 ${isLight ? 'text-slate-500' : 'text-slate-500'}`}>
                   {selectedAsset.latitude.toFixed(4)}°N, {selectedAsset.longitude.toFixed(4)}°E
                 </p>
               </div>
 
               {/* Health Score */}
-              <div className="bg-slate-800/50 rounded-lg p-3">
+              <div className={`rounded-lg p-3 ${isLight ? 'bg-slate-100' : 'bg-slate-800/50'}`}>
                 <div className="flex items-center justify-between mb-2">
-                  <p className="text-xs text-slate-400 uppercase tracking-wider">Gezondheid Score</p>
+                  <p className={`text-xs uppercase tracking-wider ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>Gezondheid Score</p>
                   <span className="text-lg font-bold text-cyan-400">{selectedAsset.health_score}%</span>
                 </div>
-                <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
+                <div className={`h-2 rounded-full overflow-hidden ${isLight ? 'bg-slate-200' : 'bg-slate-700'}`}>
                   <div 
                     className={`h-full transition-all duration-500 ${
                       selectedAsset.health_score >= 80 ? 'bg-emerald-500' :
@@ -471,20 +471,20 @@ export default function MonitoringPage() {
 
               {/* Dates */}
               <div className="grid grid-cols-2 gap-3">
-                <div className="bg-slate-800/50 rounded-lg p-3">
-                  <p className="text-xs text-slate-400 uppercase tracking-wider mb-1">Laatste Inspectie</p>
+                <div className={`rounded-lg p-3 ${isLight ? 'bg-slate-100' : 'bg-slate-800/50'}`}>
+                  <p className={`text-xs uppercase tracking-wider mb-1 ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>Laatste Inspectie</p>
                   <div className="flex items-center gap-1">
-                    <Calendar className="w-3 h-3 text-slate-500" />
-                    <span className="text-sm text-white">
+                    <Calendar className={`w-3 h-3 ${isLight ? 'text-slate-400' : 'text-slate-500'}`} />
+                    <span className={`text-sm ${isLight ? 'text-slate-900' : 'text-white'}`}>
                       {new Date(selectedAsset.last_inspection).toLocaleDateString('nl-NL')}
                     </span>
                   </div>
                 </div>
-                <div className="bg-slate-800/50 rounded-lg p-3">
-                  <p className="text-xs text-slate-400 uppercase tracking-wider mb-1">Volgend Onderhoud</p>
+                <div className={`rounded-lg p-3 ${isLight ? 'bg-slate-100' : 'bg-slate-800/50'}`}>
+                  <p className={`text-xs uppercase tracking-wider mb-1 ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>Volgend Onderhoud</p>
                   <div className="flex items-center gap-1">
                     <Calendar className="w-3 h-3 text-cyan-500" />
-                    <span className="text-sm text-white">
+                    <span className={`text-sm ${isLight ? 'text-slate-900' : 'text-white'}`}>
                       {new Date(selectedAsset.next_maintenance).toLocaleDateString('nl-NL')}
                     </span>
                   </div>
@@ -493,10 +493,10 @@ export default function MonitoringPage() {
 
               {/* Live Sensor Data */}
               {sensorData && (
-                <div className="bg-slate-800/50 rounded-lg p-3">
+                <div className={`rounded-lg p-3 ${isLight ? 'bg-slate-100' : 'bg-slate-800/50'}`}>
                   <div className="flex items-center gap-2 mb-3">
                     <Activity className="w-4 h-4 text-cyan-500 animate-pulse" />
-                    <p className="text-xs text-slate-400 uppercase tracking-wider">Live Sensor Data</p>
+                    <p className={`text-xs uppercase tracking-wider ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>Live Sensor Data</p>
                   </div>
                   <div className="space-y-2">
                     {Object.entries(sensorData).map(([key, data]) => {
@@ -509,6 +509,7 @@ export default function MonitoringPage() {
                           unit={data.unit}
                           status={data.status}
                           icon={Icon}
+                          isLight={isLight}
                         />
                       );
                     })}
@@ -518,10 +519,10 @@ export default function MonitoringPage() {
             </div>
           ) : (
             <div className="p-8 text-center">
-              <div className="w-16 h-16 rounded-full bg-slate-800 flex items-center justify-center mx-auto mb-4">
-                <Navigation className="w-8 h-8 text-slate-600" />
+              <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 ${isLight ? 'bg-slate-100' : 'bg-slate-800'}`}>
+                <Navigation className={`w-8 h-8 ${isLight ? 'text-slate-400' : 'text-slate-600'}`} />
               </div>
-              <p className="text-slate-400 text-sm">
+              <p className={`text-sm ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>
                 Klik op een locatie op de kaart voor details
               </p>
             </div>
