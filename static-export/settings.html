@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Delta - Instellingen</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="flex items-center gap-3 p-4 border-b">
+                <div style="width: 40px; height: 40px; border-radius: 4px; background: rgba(14, 165, 233, 0.2); border: 1px solid rgba(14, 165, 233, 0.3); display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-globe text-cyan"></i>
+                </div>
+                <div>
+                    <span style="font-family: var(--font-heading); font-weight: 700; font-size: 0.875rem; display: block;">DIGITAL DELTA</span>
+                    <span class="text-xs font-mono text-muted" style="letter-spacing: 0.1em;">RWS • LCM</span>
+                </div>
+            </div>
+            <nav style="flex: 1; padding: 1rem 0;">
+                <a href="dashboard.html" class="nav-link"><i class="fas fa-th-large"></i> Overzicht</a>
+                <a href="monitoring.html" class="nav-link"><i class="fas fa-map"></i> Kaart</a>
+                <a href="vehicle.html" class="nav-link"><i class="fas fa-truck"></i> LCM Voertuig</a>
+                <a href="#" class="nav-link"><i class="fas fa-box"></i> Assets</a>
+                <a href="#" class="nav-link"><i class="fas fa-bell"></i> Alerts</a>
+                <a href="#" class="nav-link"><i class="fas fa-chart-bar"></i> Rapportages</a>
+                <a href="settings.html" class="nav-link active"><i class="fas fa-cog"></i> Instellingen</a>
+            </nav>
+            <div class="p-4" style="border-top: 1px solid var(--border);">
+                <p class="text-sm font-medium mb-1">Demo Gebruiker</p>
+                <p class="text-xs font-mono text-muted">Administrator</p>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content" style="padding: 2rem;">
+            <!-- Header -->
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-uppercase tracking-tight mb-2">Instellingen</h1>
+                <p class="text-muted font-mono text-sm">Beheer uw account en voorkeuren</p>
+            </div>
+
+            <div style="max-width: 640px;">
+                <!-- Profile Section -->
+                <div class="glass p-6 rounded mb-6">
+                    <h2 class="font-bold text-lg text-uppercase tracking-tight mb-6 flex items-center gap-2">
+                        <i class="fas fa-user text-cyan"></i>
+                        Profiel
+                    </h2>
+                    <div class="flex items-start gap-6">
+                        <div style="width: 80px; height: 80px; border-radius: 4px; background: rgba(14, 165, 233, 0.2); display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-user text-cyan" style="font-size: 2rem;"></i>
+                        </div>
+                        <div style="flex: 1;">
+                            <div class="mb-4">
+                                <label class="text-xs font-mono text-muted text-uppercase mb-1" style="display: block;">Naam</label>
+                                <p class="font-medium">Demo Gebruiker</p>
+                            </div>
+                            <div class="mb-4">
+                                <label class="text-xs font-mono text-muted text-uppercase mb-1" style="display: block;">Email</label>
+                                <div class="flex items-center gap-2">
+                                    <i class="fas fa-envelope text-muted"></i>
+                                    <p>demo@lcm.nl</p>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-xs font-mono text-muted text-uppercase mb-1" style="display: block;">Rol</label>
+                                <div class="flex items-center gap-2">
+                                    <i class="fas fa-shield-alt text-cyan"></i>
+                                    <p>Administrator</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notifications Section -->
+                <div class="glass p-6 rounded mb-6">
+                    <h2 class="font-bold text-lg text-uppercase tracking-tight mb-6 flex items-center gap-2">
+                        <i class="fas fa-bell text-cyan"></i>
+                        Notificaties
+                    </h2>
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="font-medium">Email Notificaties</p>
+                                <p class="text-sm text-muted">Ontvang alerts via email</p>
+                            </div>
+                            <div class="switch active" onclick="this.classList.toggle('active')"></div>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="font-medium">Kritieke Alerts</p>
+                                <p class="text-sm text-muted">Direct bericht bij kritieke situaties</p>
+                            </div>
+                            <div class="switch active" onclick="this.classList.toggle('active')"></div>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="font-medium">Onderhouds Herinneringen</p>
+                                <p class="text-sm text-muted">Herinneringen voor gepland onderhoud</p>
+                            </div>
+                            <div class="switch active" onclick="this.classList.toggle('active')"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Appearance Section -->
+                <div class="glass p-6 rounded mb-6">
+                    <h2 class="font-bold text-lg text-uppercase tracking-tight mb-6 flex items-center gap-2">
+                        <i class="fas fa-moon text-cyan" id="themeIcon"></i>
+                        Weergave
+                    </h2>
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="font-medium">Light Mode</p>
+                                <p class="text-sm text-muted">Schakel over naar lichte weergave</p>
+                            </div>
+                            <div class="switch" id="lightModeSwitch" onclick="toggleTheme()"></div>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="font-medium">Compacte Weergave</p>
+                                <p class="text-sm text-muted">Meer informatie per scherm</p>
+                            </div>
+                            <div class="switch" onclick="this.classList.toggle('active')"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Language Section -->
+                <div class="glass p-6 rounded mb-6">
+                    <h2 class="font-bold text-lg text-uppercase tracking-tight mb-6 flex items-center gap-2">
+                        <i class="fas fa-globe text-cyan"></i>
+                        Taal & Regio
+                    </h2>
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div>
+                            <label class="text-xs font-mono text-muted text-uppercase mb-2" style="display: block;">Taal</label>
+                            <div class="flex items-center gap-2 p-3" style="background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 4px;">
+                                <span style="font-size: 1.25rem;">🇳🇱</span>
+                                <span>Nederlands</span>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="text-xs font-mono text-muted text-uppercase mb-2" style="display: block;">Tijdzone</label>
+                            <div class="flex items-center gap-2 p-3" style="background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 4px;">
+                                <span>Europe/Amsterdam (CET)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Save Button -->
+                <button class="btn btn-primary w-full" style="padding: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;">
+                    Instellingen Opslaan
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const isLight = document.documentElement.classList.toggle('light');
+            const switchEl = document.getElementById('lightModeSwitch');
+            const iconEl = document.getElementById('themeIcon');
+            
+            if (isLight) {
+                switchEl.classList.add('active');
+                iconEl.classList.remove('fa-moon');
+                iconEl.classList.add('fa-sun');
+            } else {
+                switchEl.classList.remove('active');
+                iconEl.classList.remove('fa-sun');
+                iconEl.classList.add('fa-moon');
+            }
+        }
+
+        // Check saved theme on load
+        if (localStorage.getItem('theme') === 'light') {
+            toggleTheme();
+        }
+    </script>
+</body>
+</html>
