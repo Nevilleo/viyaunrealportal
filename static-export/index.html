@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Delta - Landing Page</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav style="position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1rem 2rem;" class="glass">
+        <div class="container flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div style="width: 40px; height: 40px; border-radius: 4px; background: rgba(14, 165, 233, 0.2); display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-globe text-cyan"></i>
+                </div>
+                <span style="font-family: var(--font-heading); font-weight: 700; font-size: 1.125rem;">DIGITAL DELTA</span>
+            </div>
+            <div class="flex gap-6" style="display: none;">
+                <a href="#hero" class="nav-link">Home</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#use-cases" class="nav-link">Use Cases</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+            <a href="login.html" class="btn btn-primary">
+                <i class="fas fa-sign-in-alt"></i>
+                Inloggen
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+        <div class="hero-bg">
+            <img src="https://customer-assets.emergentagent.com/job_twin-vehicle-app/artifacts/jlhtjysw_LCM%20Minimalist%20Variant%203.png" alt="LCM Vehicle">
+            <div class="hero-overlay"></div>
+        </div>
+        <div class="hero-content">
+            <p class="text-sm font-mono text-cyan mb-4" style="letter-spacing: 0.2em;">RIJKSWATERSTAAT • DIGITAL INFRASTRUCTURE</p>
+            <h1 class="hero-title">
+                DIGITAL <span class="text-gradient">TWIN</span> PLATFORM
+            </h1>
+            <p class="hero-subtitle">
+                Real-time monitoring en visualisatie van Nederlandse waterinfrastructuur
+                met geavanceerde 3D-technologie en data-analyse.
+            </p>
+            <div class="flex gap-4 justify-center">
+                <a href="dashboard.html" class="btn btn-primary" style="padding: 0.75rem 2rem; font-size: 1rem;">
+                    <i class="fas fa-rocket"></i>
+                    Start Nu
+                </a>
+                <a href="#features" class="btn btn-outline" style="padding: 0.75rem 2rem; font-size: 1rem;">
+                    <i class="fas fa-info-circle"></i>
+                    Meer Info
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" style="padding: 6rem 0;">
+        <div class="container">
+            <div class="text-center mb-8">
+                <p class="text-sm font-mono text-cyan mb-2" style="letter-spacing: 0.2em;">TECHNOLOGIE STACK</p>
+                <h2 class="text-3xl font-bold text-uppercase tracking-tight">
+                    GEAVANCEERDE <span class="text-cyan">FEATURES</span>
+                </h2>
+            </div>
+            
+            <div class="grid grid-cols-3 gap-6" style="margin-top: 3rem;">
+                <!-- Feature 1 -->
+                <div class="card" style="padding: 2rem;">
+                    <div style="width: 48px; height: 48px; border-radius: 8px; background: rgba(14, 165, 233, 0.1); border: 1px solid rgba(14, 165, 233, 0.2); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
+                        <i class="fas fa-cube text-cyan" style="font-size: 1.25rem;"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">3D Visualisatie</h3>
+                    <p class="text-muted text-sm">CesiumJS-gebaseerde 3D globe met real-time asset visualisatie en interactieve navigatie.</p>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="card" style="padding: 2rem;">
+                    <div style="width: 48px; height: 48px; border-radius: 8px; background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.2); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
+                        <i class="fas fa-chart-line text-emerald" style="font-size: 1.25rem;"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">Data Analytics</h3>
+                    <p class="text-muted text-sm">SAS Viya-powered analytics voor voorspellend onderhoud en trend analyse.</p>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="card" style="padding: 2rem;">
+                    <div style="width: 48px; height: 48px; border-radius: 8px; background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.2); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
+                        <i class="fas fa-bell text-purple" style="font-size: 1.25rem;"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">Alert Systeem</h3>
+                    <p class="text-muted text-sm">Automatische alerts bij afwijkingen met severity-based prioritering.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section style="padding: 4rem 0; background: var(--card);">
+        <div class="container">
+            <div class="grid grid-cols-4 gap-6 text-center">
+                <div>
+                    <p class="text-3xl font-bold text-cyan">150+</p>
+                    <p class="text-sm text-muted font-mono text-uppercase">Assets</p>
+                </div>
+                <div>
+                    <p class="text-3xl font-bold text-emerald">99.9%</p>
+                    <p class="text-sm text-muted font-mono text-uppercase">Uptime</p>
+                </div>
+                <div>
+                    <p class="text-3xl font-bold text-amber">24/7</p>
+                    <p class="text-sm text-muted font-mono text-uppercase">Monitoring</p>
+                </div>
+                <div>
+                    <p class="text-3xl font-bold text-purple">&lt;1s</p>
+                    <p class="text-sm text-muted font-mono text-uppercase">Response</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" style="padding: 6rem 0;">
+        <div class="container" style="max-width: 600px;">
+            <div class="text-center mb-8">
+                <p class="text-sm font-mono text-cyan mb-2" style="letter-spacing: 0.2em;">NEEM CONTACT OP</p>
+                <h2 class="text-3xl font-bold text-uppercase tracking-tight">
+                    MEER <span class="text-cyan">WETEN</span>?
+                </h2>
+            </div>
+            
+            <form class="card" style="padding: 2rem;">
+                <div class="mb-4">
+                    <label class="text-xs font-mono text-muted text-uppercase mb-2" style="display: block;">Naam</label>
+                    <input type="text" placeholder="Uw naam" style="width: 100%; padding: 0.75rem; background: var(--muted); border: 1px solid var(--border); border-radius: 4px; color: var(--foreground);">
+                </div>
+                <div class="mb-4">
+                    <label class="text-xs font-mono text-muted text-uppercase mb-2" style="display: block;">Email</label>
+                    <input type="email" placeholder="uw@email.nl" style="width: 100%; padding: 0.75rem; background: var(--muted); border: 1px solid var(--border); border-radius: 4px; color: var(--foreground);">
+                </div>
+                <div class="mb-4">
+                    <label class="text-xs font-mono text-muted text-uppercase mb-2" style="display: block;">Bericht</label>
+                    <textarea rows="4" placeholder="Uw bericht..." style="width: 100%; padding: 0.75rem; background: var(--muted); border: 1px solid var(--border); border-radius: 4px; color: var(--foreground); resize: vertical;"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary w-full" style="padding: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;">
+                    Verstuur Bericht
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="padding: 2rem 0; border-top: 1px solid var(--border);">
+        <div class="container">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-globe text-cyan"></i>
+                    <span class="font-bold">DIGITAL DELTA</span>
+                </div>
+                <p class="text-sm text-muted">© 2025 Rijkswaterstaat. Alle rechten voorbehouden.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Theme Toggle (for demo)
+        function toggleTheme() {
+            document.documentElement.classList.toggle('light');
+        }
+    </script>
+</body>
+</html>
