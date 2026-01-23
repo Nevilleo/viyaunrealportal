@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Delta - Kaart</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="flex items-center gap-3 p-4 border-b">
+                <div style="width: 40px; height: 40px; border-radius: 4px; background: rgba(14, 165, 233, 0.2); border: 1px solid rgba(14, 165, 233, 0.3); display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-globe text-cyan"></i>
+                </div>
+                <div>
+                    <span style="font-family: var(--font-heading); font-weight: 700; font-size: 0.875rem; display: block;">DIGITAL DELTA</span>
+                    <span class="text-xs font-mono text-muted" style="letter-spacing: 0.1em;">RWS • LCM</span>
+                </div>
+            </div>
+            <nav style="flex: 1; padding: 1rem 0;">
+                <a href="dashboard.html" class="nav-link"><i class="fas fa-th-large"></i> Overzicht</a>
+                <a href="monitoring.html" class="nav-link active"><i class="fas fa-map"></i> Kaart</a>
+                <a href="vehicle.html" class="nav-link"><i class="fas fa-truck"></i> LCM Voertuig</a>
+                <a href="#" class="nav-link"><i class="fas fa-box"></i> Assets</a>
+                <a href="#" class="nav-link"><i class="fas fa-bell"></i> Alerts</a>
+                <a href="#" class="nav-link"><i class="fas fa-chart-bar"></i> Rapportages</a>
+                <a href="settings.html" class="nav-link"><i class="fas fa-cog"></i> Instellingen</a>
+            </nav>
+            <div class="p-4" style="border-top: 1px solid var(--border);">
+                <p class="text-sm font-medium mb-1">Demo Gebruiker</p>
+                <p class="text-xs font-mono text-muted">Administrator</p>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content" style="display: flex; flex-direction: column; padding: 0;">
+            <!-- Header -->
+            <div class="flex justify-between items-center p-4 border-b" style="background: var(--card);">
+                <div>
+                    <h1 class="text-2xl font-bold text-uppercase tracking-tight">KAART</h1>
+                    <p class="text-sm text-muted mt-1">Geografisch overzicht van meetpunten en assets</p>
+                </div>
+                <div class="flex gap-2">
+                    <button class="btn btn-outline" style="padding: 0.5rem;">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <button class="btn btn-outline" style="padding: 0.5rem;">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button class="btn btn-outline">
+                        <i class="fas fa-sync-alt"></i>
+                        Vernieuwen
+                    </button>
+                </div>
+            </div>
+
+            <!-- Map Area -->
+            <div class="flex flex-1" style="overflow: hidden;">
+                <!-- Map Container -->
+                <div style="flex: 1; position: relative; background: linear-gradient(135deg, #1e3a5f 0%, #0c1929 100%);">
+                    <!-- Simulated Map Background -->
+                    <div style="position: absolute; inset: 0; opacity: 0.3;">
+                        <svg viewBox="0 0 800 600" style="width: 100%; height: 100%;">
+                            <!-- Water/Sea background -->
+                            <rect fill="#0a1628" width="800" height="600"/>
+                            
+                            <!-- Netherlands outline (simplified) -->
+                            <path d="M300,100 L450,80 L500,150 L520,250 L480,350 L420,400 L350,420 L280,380 L250,300 L260,200 L300,100 Z" 
+                                  fill="#1e3a5f" stroke="#0ea5e9" stroke-width="1" opacity="0.5"/>
+                            
+                            <!-- Afsluitdijk line -->
+                            <line x1="320" y1="180" x2="420" y2="160" stroke="#0ea5e9" stroke-width="3" stroke-dasharray="5,5"/>
+                            
+                            <!-- Asset markers -->
+                            <circle cx="340" cy="175" r="8" fill="#22c55e"/>
+                            <circle cx="360" cy="170" r="8" fill="#22c55e"/>
+                            <circle cx="380" cy="165" r="8" fill="#f59e0b"/>
+                            <circle cx="400" cy="162" r="8" fill="#a855f7"/>
+                            <circle cx="350" cy="200" r="8" fill="#22c55e"/>
+                            <circle cx="370" cy="195" r="8" fill="#22c55e"/>
+                        </svg>
+                    </div>
+
+                    <!-- Map Instructions -->
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
+                        <div style="width: 80px; height: 80px; border-radius: 50%; background: rgba(14, 165, 233, 0.2); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                            <i class="fas fa-map-marked-alt text-cyan" style="font-size: 2rem;"></i>
+                        </div>
+                        <p class="font-medium mb-1">3D Cesium Globe</p>
+                        <p class="text-sm text-muted">Interactieve kaart van de Afsluitdijk</p>
+                        <p class="text-xs text-muted mt-2">(Cesium vereist API key voor live weergave)</p>
+                    </div>
+
+                    <!-- Legend -->
+                    <div style="position: absolute; bottom: 1.5rem; left: 1.5rem; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); border-radius: 0.5rem; padding: 1rem; min-width: 160px;">
+                        <p class="text-xs font-mono text-muted text-uppercase mb-3" style="letter-spacing: 0.1em;">Legenda</p>
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                            <div class="flex items-center gap-3">
+                                <div style="width: 12px; height: 12px; border-radius: 50%; background: #22c55e;"></div>
+                                <span class="text-sm">Normaal</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div style="width: 12px; height: 12px; border-radius: 50%; background: #f59e0b;"></div>
+                                <span class="text-sm">Waarschuwing</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div style="width: 12px; height: 12px; border-radius: 50%; background: #ef4444;"></div>
+                                <span class="text-sm">Kritiek</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div style="width: 12px; height: 12px; border-radius: 50%; background: #a855f7;"></div>
+                                <span class="text-sm">Onderhoud</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reset View Button -->
+                    <div style="position: absolute; bottom: 1.5rem; right: 1.5rem;">
+                        <button class="btn btn-outline" style="background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(12px);">
+                            <i class="fas fa-crosshairs"></i>
+                            Reset View
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right Panel - Location Details -->
+                <div style="width: 320px; background: var(--card); border-left: 1px solid var(--border); overflow-y: auto;">
+                    <div class="p-4 border-b">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-map-marker-alt text-cyan"></i>
+                            <h2 class="font-bold text-sm text-uppercase tracking-tight">Locatie Details</h2>
+                        </div>
+                    </div>
+
+                    <div class="p-4">
+                        <!-- Selected Asset Info -->
+                        <div class="flex items-start gap-3 mb-4">
+                            <div style="width: 16px; height: 16px; border-radius: 50%; background: #22c55e; margin-top: 2px;"></div>
+                            <div>
+                                <h3 class="font-bold text-lg" style="line-height: 1.2;">Sluiscomplex Den Oever</h3>
+                                <p class="text-xs font-mono text-muted mt-1">asset_001</p>
+                            </div>
+                        </div>
+
+                        <!-- Status -->
+                        <div class="flex items-center gap-2 mb-4">
+                            <i class="fas fa-check-circle text-emerald"></i>
+                            <span class="text-sm">Operational</span>
+                        </div>
+
+                        <!-- Location -->
+                        <div class="p-3 rounded mb-4" style="background: rgba(255,255,255,0.03);">
+                            <p class="text-xs text-muted text-uppercase mb-1">Locatie</p>
+                            <p class="text-sm">Afsluitdijk, Den Oever</p>
+                            <p class="text-xs font-mono text-muted mt-1">52.9320°N, 5.0400°E</p>
+                        </div>
+
+                        <!-- Health Score -->
+                        <div class="p-3 rounded mb-4" style="background: rgba(255,255,255,0.03);">
+                            <div class="flex justify-between items-center mb-2">
+                                <p class="text-xs text-muted text-uppercase">Gezondheid Score</p>
+                                <span class="text-lg font-bold text-cyan">92%</span>
+                            </div>
+                            <div style="height: 8px; background: var(--muted); border-radius: 4px; overflow: hidden;">
+                                <div style="width: 92%; height: 100%; background: #22c55e;"></div>
+                            </div>
+                        </div>
+
+                        <!-- Dates -->
+                        <div class="grid grid-cols-2 gap-3 mb-4">
+                            <div class="p-3 rounded" style="background: rgba(255,255,255,0.03);">
+                                <p class="text-xs text-muted text-uppercase mb-1">Laatste Inspectie</p>
+                                <div class="flex items-center gap-1">
+                                    <i class="fas fa-calendar text-muted" style="font-size: 0.625rem;"></i>
+                                    <span class="text-sm">15-01-2025</span>
+                                </div>
+                            </div>
+                            <div class="p-3 rounded" style="background: rgba(255,255,255,0.03);">
+                                <p class="text-xs text-muted text-uppercase mb-1">Volgend Onderhoud</p>
+                                <div class="flex items-center gap-1">
+                                    <i class="fas fa-calendar text-cyan" style="font-size: 0.625rem;"></i>
+                                    <span class="text-sm">15-04-2025</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Live Sensor Data -->
+                        <div class="p-3 rounded" style="background: rgba(255,255,255,0.03);">
+                            <div class="flex items-center gap-2 mb-3">
+                                <i class="fas fa-wave-square text-cyan animate-pulse"></i>
+                                <p class="text-xs text-muted text-uppercase">Live Sensor Data</p>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                <div class="flex justify-between items-center p-2 rounded" style="background: rgba(255,255,255,0.03);">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-water text-emerald"></i>
+                                        <span class="text-xs text-muted">Water Level</span>
+                                    </div>
+                                    <span class="text-sm font-mono font-bold text-emerald">2.45 <span class="text-xs">m</span></span>
+                                </div>
+                                <div class="flex justify-between items-center p-2 rounded" style="background: rgba(255,255,255,0.03);">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-thermometer-half text-emerald"></i>
+                                        <span class="text-xs text-muted">Temperature</span>
+                                    </div>
+                                    <span class="text-sm font-mono font-bold text-emerald">8.2 <span class="text-xs">°C</span></span>
+                                </div>
+                                <div class="flex justify-between items-center p-2 rounded" style="background: rgba(255,255,255,0.03);">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-wind text-amber"></i>
+                                        <span class="text-xs text-muted">Wind Speed</span>
+                                    </div>
+                                    <span class="text-sm font-mono font-bold text-amber">28 <span class="text-xs">km/h</span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            document.documentElement.classList.toggle('light');
+        }
+    </script>
+</body>
+</html>
