@@ -273,6 +273,8 @@ export default function VehiclePage() {
   const [viewMode, setViewMode] = useState('realistic'); // realistic or schematic
   const [perspective, setPerspective] = useState('side'); // side, front, perspective
   const [activeSection, setActiveSection] = useState('voertuig');
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
 
   const currentImage = viewMode === 'realistic' 
     ? VEHICLE_IMAGES.realistic.side 
@@ -281,26 +283,26 @@ export default function VehiclePage() {
   const activeInfo = INFO_SECTIONS.find(s => s.id === activeSection);
 
   return (
-    <div className="h-screen bg-slate-950 flex flex-col" data-testid="vehicle-page">
+    <div className={`h-screen flex flex-col ${isLight ? 'bg-slate-100' : 'bg-slate-950'}`} data-testid="vehicle-page">
       {/* Header */}
-      <div className="flex-shrink-0 px-6 py-4 border-b border-slate-800 bg-slate-950">
+      <div className={`flex-shrink-0 px-6 py-4 border-b ${isLight ? 'border-slate-200 bg-white' : 'border-slate-800 bg-slate-950'}`}>
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-heading font-bold tracking-tight uppercase text-white">
+            <h1 className={`text-2xl font-heading font-bold tracking-tight uppercase ${isLight ? 'text-slate-900' : 'text-white'}`}>
               LCM <span className="text-cyan-500">Voertuig</span>
             </h1>
-            <p className="text-slate-400 text-sm mt-1">
+            <p className={`text-sm mt-1 ${isLight ? 'text-slate-600' : 'text-slate-400'}`}>
               Rijkswaterstaat Life Cycle Management Inspectie Voertuig
             </p>
           </div>
           <div className="flex items-center gap-2">
             {/* View Mode Toggle */}
-            <div className="flex bg-slate-800 rounded-lg p-1">
+            <div className={`flex rounded-lg p-1 ${isLight ? 'bg-slate-200' : 'bg-slate-800'}`}>
               <Button
                 size="sm"
                 variant={viewMode === 'realistic' ? 'default' : 'ghost'}
                 onClick={() => setViewMode('realistic')}
-                className={`h-8 px-3 text-xs ${viewMode === 'realistic' ? 'bg-cyan-600 text-white' : 'text-slate-400 hover:text-white'}`}
+                className={`h-8 px-3 text-xs ${viewMode === 'realistic' ? 'bg-cyan-600 text-white' : isLight ? 'text-slate-600 hover:text-slate-900' : 'text-slate-400 hover:text-white'}`}
                 data-testid="view-realistic"
               >
                 Realistisch
@@ -309,7 +311,7 @@ export default function VehiclePage() {
                 size="sm"
                 variant={viewMode === 'schematic' ? 'default' : 'ghost'}
                 onClick={() => setViewMode('schematic')}
-                className={`h-8 px-3 text-xs ${viewMode === 'schematic' ? 'bg-cyan-600 text-white' : 'text-slate-400 hover:text-white'}`}
+                className={`h-8 px-3 text-xs ${viewMode === 'schematic' ? 'bg-cyan-600 text-white' : isLight ? 'text-slate-600 hover:text-slate-900' : 'text-slate-400 hover:text-white'}`}
                 data-testid="view-schematic"
               >
                 Schematisch
@@ -322,8 +324,8 @@ export default function VehiclePage() {
       {/* Main Content */}
       <div className="flex-1 flex overflow-hidden">
         {/* Left - Category Navigation */}
-        <div className="w-64 flex-shrink-0 bg-slate-900 border-r border-slate-800 overflow-y-auto p-4">
-          <h3 className="text-xs font-mono text-slate-500 uppercase tracking-widest mb-3">Systemen</h3>
+        <div className={`w-64 flex-shrink-0 border-r overflow-y-auto p-4 ${isLight ? 'bg-white border-slate-200' : 'bg-slate-900 border-slate-800'}`}>
+          <h3 className={`text-xs font-mono uppercase tracking-widest mb-3 ${isLight ? 'text-slate-500' : 'text-slate-500'}`}>Systemen</h3>
           <div className="space-y-1">
             {INFO_SECTIONS.map((section) => {
               const Icon = section.icon;
