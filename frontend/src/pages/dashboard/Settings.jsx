@@ -113,17 +113,24 @@ export default function SettingsPage() {
         {/* Appearance Section */}
         <div className="glass p-6 rounded-sm">
           <h2 className="font-heading font-bold text-lg uppercase tracking-tight mb-6 flex items-center gap-2">
-            <Moon className="w-5 h-5 text-primary" />
+            {theme === 'dark' ? <Moon className="w-5 h-5 text-primary" /> : <Sun className="w-5 h-5 text-primary" />}
             Weergave
           </h2>
           
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-medium">Donker Thema</p>
-                <p className="text-sm text-muted-foreground">Control Room modus (aanbevolen)</p>
+                <p className="font-medium">Light Mode</p>
+                <p className="text-sm text-muted-foreground">Schakel over naar lichte weergave</p>
               </div>
-              <Switch defaultChecked disabled data-testid="dark-theme" />
+              <Switch 
+                checked={theme === 'light'} 
+                onCheckedChange={() => {
+                  toggleTheme();
+                  toast.success(theme === 'dark' ? 'Light mode ingeschakeld' : 'Dark mode ingeschakeld');
+                }}
+                data-testid="light-mode-toggle" 
+              />
             </div>
             <div className="flex items-center justify-between">
               <div>
