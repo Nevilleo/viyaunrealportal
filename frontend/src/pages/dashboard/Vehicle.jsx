@@ -389,10 +389,10 @@ export default function VehiclePage() {
           <div className="absolute inset-0 flex items-center justify-center p-8">
             <div className="relative w-full h-full max-w-4xl max-h-[500px] flex items-center justify-center">
               <img
-                src={currentImage}
-                alt="LCM Voertuig"
+                src={activeSection === 'hud' ? VEHICLE_IMAGES.sections.hud : currentImage}
+                alt={activeSection === 'hud' ? 'HUD Interface' : 'LCM Voertuig'}
                 className={`max-w-full max-h-full object-contain transition-all duration-500 ${
-                  viewMode === 'realistic' ? 'drop-shadow-2xl' : ''
+                  viewMode === 'realistic' && activeSection !== 'hud' ? 'drop-shadow-2xl' : ''
                 }`}
                 data-testid="vehicle-image"
               />
