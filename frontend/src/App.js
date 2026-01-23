@@ -261,12 +261,14 @@ const AppRouter = () => {
 function App() {
   return (
     <BrowserRouter>
-      <AuthProvider>
-        <div className="App min-h-screen bg-background text-foreground">
-          <Toaster position="top-right" richColors />
-          <AppRouter />
-        </div>
-      </AuthProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <div className="App min-h-screen bg-background text-foreground">
+            <Toaster position="top-right" richColors />
+            <AppRouter />
+          </div>
+        </AuthProvider>
+      </ThemeProvider>
     </BrowserRouter>
   );
 }
