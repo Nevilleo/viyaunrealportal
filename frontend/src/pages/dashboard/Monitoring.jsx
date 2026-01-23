@@ -370,26 +370,26 @@ export default function MonitoringPage() {
 
           {/* Legend - Bottom Left */}
           <div className="absolute bottom-6 left-6 z-20" data-testid="map-legend">
-            <div className="bg-slate-900/95 backdrop-blur-sm border border-slate-700 rounded-lg p-4 min-w-[160px]">
-              <h3 className="text-xs font-mono text-slate-400 uppercase tracking-widest mb-3">
+            <div className={`backdrop-blur-sm border rounded-lg p-4 min-w-[160px] ${isLight ? 'bg-white/95 border-slate-200 shadow-lg' : 'bg-slate-900/95 border-slate-700'}`}>
+              <h3 className={`text-xs font-mono uppercase tracking-widest mb-3 ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>
                 Legenda
               </h3>
               <div className="space-y-2">
                 <div className="flex items-center gap-3">
                   <div className="w-3 h-3 rounded-full bg-emerald-500" />
-                  <span className="text-sm text-slate-300">Normaal</span>
+                  <span className={`text-sm ${isLight ? 'text-slate-700' : 'text-slate-300'}`}>Normaal</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="w-3 h-3 rounded-full bg-amber-500" />
-                  <span className="text-sm text-slate-300">Waarschuwing</span>
+                  <span className={`text-sm ${isLight ? 'text-slate-700' : 'text-slate-300'}`}>Waarschuwing</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="w-3 h-3 rounded-full bg-red-500" />
-                  <span className="text-sm text-slate-300">Kritiek</span>
+                  <span className={`text-sm ${isLight ? 'text-slate-700' : 'text-slate-300'}`}>Kritiek</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="w-3 h-3 rounded-full bg-purple-500" />
-                  <span className="text-sm text-slate-300">Onderhoud</span>
+                  <span className={`text-sm ${isLight ? 'text-slate-700' : 'text-slate-300'}`}>Onderhoud</span>
                 </div>
               </div>
             </div>
@@ -401,7 +401,7 @@ export default function MonitoringPage() {
               variant="outline"
               size="sm"
               onClick={handleResetView}
-              className="bg-slate-900/95 backdrop-blur-sm border-slate-700 hover:bg-slate-800 text-white gap-2"
+              className={`backdrop-blur-sm gap-2 ${isLight ? 'bg-white/95 border-slate-200 hover:bg-slate-100 text-slate-700 shadow-lg' : 'bg-slate-900/95 border-slate-700 hover:bg-slate-800 text-white'}`}
               data-testid="reset-view-btn"
             >
               <Navigation className="w-4 h-4" />
