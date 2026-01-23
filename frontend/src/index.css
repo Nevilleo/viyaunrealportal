@@ -94,9 +94,17 @@
     .glass {
         @apply bg-slate-900/50 backdrop-blur-xl border border-white/10;
     }
+
+    .light .glass {
+        @apply bg-white/80 backdrop-blur-xl border border-slate-200;
+    }
     
     .glass-strong {
         @apply bg-slate-900/80 backdrop-blur-2xl border border-white/10;
+    }
+
+    .light .glass-strong {
+        @apply bg-white/95 backdrop-blur-2xl border border-slate-200;
     }
     
     .hover-lift {
@@ -107,6 +115,13 @@
         background-image: 
             linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
             linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 50px 50px;
+    }
+
+    .light .grid-bg {
+        background-image: 
+            linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
         background-size: 50px 50px;
     }
     
