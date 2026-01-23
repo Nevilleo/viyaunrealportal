@@ -476,26 +476,26 @@ export default function VehiclePage() {
               </div>
 
               {/* Technical Specs */}
-              <div className="p-4 border-t border-slate-800">
-                <h3 className="text-xs font-mono text-slate-500 uppercase tracking-widest mb-3">
+              <div className={`p-4 border-t ${isLight ? 'border-slate-200' : 'border-slate-800'}`}>
+                <h3 className={`text-xs font-mono uppercase tracking-widest mb-3 ${isLight ? 'text-slate-500' : 'text-slate-500'}`}>
                   Technische Specificaties
                 </h3>
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="text-slate-400">Voertuig Type</span>
-                    <span className="text-white">Mercedes X-Klasse</span>
+                    <span className={isLight ? 'text-slate-500' : 'text-slate-400'}>Voertuig Type</span>
+                    <span className={isLight ? 'text-slate-900' : 'text-white'}>Mercedes X-Klasse</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-slate-400">Aandrijving</span>
+                    <span className={isLight ? 'text-slate-500' : 'text-slate-400'}>Aandrijving</span>
                     <span className="text-emerald-500">Elektrisch / Waterstof</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-slate-400">Sensoren</span>
-                    <span className="text-white">24 stuks</span>
+                    <span className={isLight ? 'text-slate-500' : 'text-slate-400'}>Sensoren</span>
+                    <span className={isLight ? 'text-slate-900' : 'text-white'}>24 stuks</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-slate-400">Data Connectie</span>
-                    <span className="text-white">5G + Satelliet</span>
+                    <span className={isLight ? 'text-slate-500' : 'text-slate-400'}>Data Connectie</span>
+                    <span className={isLight ? 'text-slate-900' : 'text-white'}>5G + Satelliet</span>
                   </div>
                 </div>
               </div>
