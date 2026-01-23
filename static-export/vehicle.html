@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Delta - LCM Voertuig</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .vehicle-nav-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            text-align: left;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: transparent;
+            color: var(--muted-foreground);
+        }
+        .vehicle-nav-btn:hover {
+            background: rgba(255,255,255,0.05);
+        }
+        .vehicle-nav-btn.active {
+            background: rgba(14, 165, 233, 0.1);
+            border: 1px solid rgba(14, 165, 233, 0.2);
+        }
+        .vehicle-nav-btn.active .btn-text {
+            color: var(--foreground);
+        }
+        .light .vehicle-nav-btn:hover {
+            background: rgba(0,0,0,0.05);
+        }
+        .vehicle-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .info-card {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid;
+        }
+    </style>
+</head>
+<body>
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="flex items-center gap-3 p-4 border-b">
+                <div style="width: 40px; height: 40px; border-radius: 4px; background: rgba(14, 165, 233, 0.2); border: 1px solid rgba(14, 165, 233, 0.3); display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-globe text-cyan"></i>
+                </div>
+                <div>
+                    <span style="font-family: var(--font-heading); font-weight: 700; font-size: 0.875rem; display: block;">DIGITAL DELTA</span>
+                    <span class="text-xs font-mono text-muted" style="letter-spacing: 0.1em;">RWS • LCM</span>
+                </div>
+            </div>
+            <nav style="flex: 1; padding: 1rem 0;">
+                <a href="dashboard.html" class="nav-link"><i class="fas fa-th-large"></i> Overzicht</a>
+                <a href="monitoring.html" class="nav-link"><i class="fas fa-map"></i> Kaart</a>
+                <a href="vehicle.html" class="nav-link active"><i class="fas fa-truck"></i> LCM Voertuig</a>
+                <a href="#" class="nav-link"><i class="fas fa-box"></i> Assets</a>
+                <a href="#" class="nav-link"><i class="fas fa-bell"></i> Alerts</a>
+                <a href="#" class="nav-link"><i class="fas fa-chart-bar"></i> Rapportages</a>
+                <a href="settings.html" class="nav-link"><i class="fas fa-cog"></i> Instellingen</a>
+            </nav>
+            <div class="p-4" style="border-top: 1px solid var(--border);">
+                <p class="text-sm font-medium mb-1">Demo Gebruiker</p>
+                <p class="text-xs font-mono text-muted">Administrator</p>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content" style="display: flex; flex-direction: column; padding: 0;">
+            <!-- Header -->
+            <div class="flex justify-between items-center p-4 border-b" style="background: var(--card);">
+                <div>
+                    <h1 class="text-2xl font-bold text-uppercase tracking-tight">
+                        LCM <span class="text-cyan">Voertuig</span>
+                    </h1>
+                    <p class="text-sm text-muted mt-1">Rijkswaterstaat Life Cycle Management Inspectie Voertuig</p>
+                </div>
+                <div class="flex gap-2">
+                    <div class="flex rounded-lg p-1" style="background: var(--muted);">
+                        <button class="btn btn-primary text-xs" style="padding: 0.5rem 0.75rem;">Realistisch</button>
+                        <button class="btn btn-ghost text-xs" style="padding: 0.5rem 0.75rem;">Schematisch</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="flex flex-1" style="overflow: hidden;">
+                <!-- Left Navigation -->
+                <div style="width: 256px; background: var(--card); border-right: 1px solid var(--border); padding: 1rem; overflow-y: auto;">
+                    <p class="text-xs font-mono text-muted text-uppercase mb-3" style="letter-spacing: 0.1em;">Systemen</p>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+                        <button class="vehicle-nav-btn active" onclick="showSection('voertuig')">
+                            <div class="vehicle-icon bg-amber-light"><i class="fas fa-truck text-amber"></i></div>
+                            <span class="btn-text text-sm font-medium">Voertuig</span>
+                            <i class="fas fa-chevron-right text-amber" style="margin-left: auto;"></i>
+                        </button>
+                        <button class="vehicle-nav-btn" onclick="showSection('hud')">
+                            <div class="vehicle-icon bg-cyan-light"><i class="fas fa-desktop text-cyan"></i></div>
+                            <span class="btn-text text-sm font-medium">HUD</span>
+                        </button>
+                        <button class="vehicle-nav-btn" onclick="showSection('water')">
+                            <div class="vehicle-icon bg-cyan-light"><i class="fas fa-tint text-cyan"></i></div>
+                            <span class="btn-text text-sm font-medium">Water</span>
+                        </button>
+                        <button class="vehicle-nav-btn" onclick="showSection('sensoren')">
+                            <div class="vehicle-icon bg-emerald-light"><i class="fas fa-wifi text-emerald"></i></div>
+                            <span class="btn-text text-sm font-medium">Sensoren</span>
+                        </button>
+                        <button class="vehicle-nav-btn" onclick="showSection('ai')">
+                            <div class="vehicle-icon bg-purple-light"><i class="fas fa-brain text-purple"></i></div>
+                            <span class="btn-text text-sm font-medium">AI Systemen</span>
+                        </button>
+                        <button class="vehicle-nav-btn" onclick="showSection('communicatie')">
+                            <div class="vehicle-icon bg-cyan-light"><i class="fas fa-comments text-cyan"></i></div>
+                            <span class="btn-text text-sm font-medium">Communicatie</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Center - Vehicle Display -->
+                <div style="flex: 1; position: relative; background: linear-gradient(to bottom, var(--muted), var(--card));">
+                    <!-- Vehicle Image -->
+                    <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 2rem;">
+                        <img id="vehicleImage" src="https://customer-assets.emergentagent.com/job_viya-unreal-portal/artifacts/qm7avcga_realistic_side.png" alt="LCM Voertuig" style="max-width: 100%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 25px 25px rgba(0,0,0,0.5));">
+                    </div>
+
+                    <!-- Bottom Stats Bar -->
+                    <div style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(12px); border-top: 1px solid var(--border); padding: 1rem;">
+                        <div class="flex justify-between items-center" style="max-width: 800px; margin: 0 auto;">
+                            <div class="flex gap-6">
+                                <div class="flex items-center gap-2">
+                                    <i class="fas fa-heartbeat text-emerald"></i>
+                                    <span class="text-xs text-muted">Status:</span>
+                                    <span class="text-sm font-medium text-emerald">Operationeel</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <i class="fas fa-tachometer-alt text-cyan"></i>
+                                    <span class="text-xs text-muted">Sensoren:</span>
+                                    <span class="text-sm font-medium">24 Actief</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <i class="fas fa-satellite text-purple"></i>
+                                    <span class="text-xs text-muted">Connectie:</span>
+                                    <span class="text-sm font-medium">5G + Satelliet</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <div style="width: 8px; height: 8px; border-radius: 50%; background: #22c55e;" class="animate-pulse"></div>
+                                <span class="text-xs text-muted">Live Data Stream</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right - Info Panel -->
+                <div style="width: 384px; background: var(--card); border-left: 1px solid var(--border); overflow-y: auto;">
+                    <div class="p-4 border-b">
+                        <div class="flex items-center gap-3">
+                            <div class="vehicle-icon bg-amber-light" style="width: 40px; height: 40px;">
+                                <i class="fas fa-truck text-amber"></i>
+                            </div>
+                            <div>
+                                <h2 class="font-bold" id="sectionTitle">LCM Voertuig</h2>
+                                <p class="text-xs text-muted" id="sectionSubtitle">Rijkswaterstaat Inspectie Unit</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-4" id="infoContent">
+                        <div class="info-card bg-amber-light mb-3" style="border-color: rgba(245, 158, 11, 0.3);">
+                            <h3 class="font-medium text-sm mb-2">Voertuig Specificaties</h3>
+                            <ul class="text-sm text-muted" style="list-style: none;">
+                                <li class="flex items-start gap-2 mb-1">
+                                    <i class="fas fa-chevron-right text-amber" style="margin-top: 4px; font-size: 0.625rem;"></i>
+                                    <span>Mercedes X-Klasse 4x4</span>
+                                </li>
+                                <li class="flex items-start gap-2 mb-1">
+                                    <i class="fas fa-chevron-right text-amber" style="margin-top: 4px; font-size: 0.625rem;"></i>
+                                    <span>Elektrisch/Waterstof aandrijving</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fas fa-chevron-right text-amber" style="margin-top: 4px; font-size: 0.625rem;"></i>
+                                    <span>Actieradius: 500+ km</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="info-card bg-amber-light mb-3" style="border-color: rgba(245, 158, 11, 0.3);">
+                            <h3 class="font-medium text-sm mb-2">Uitrusting</h3>
+                            <ul class="text-sm text-muted" style="list-style: none;">
+                                <li class="flex items-start gap-2 mb-1">
+                                    <i class="fas fa-chevron-right text-amber" style="margin-top: 4px; font-size: 0.625rem;"></i>
+                                    <span>360° camerasysteem</span>
+                                </li>
+                                <li class="flex items-start gap-2 mb-1">
+                                    <i class="fas fa-chevron-right text-amber" style="margin-top: 4px; font-size: 0.625rem;"></i>
+                                    <span>LiDAR scanning unit</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fas fa-chevron-right text-amber" style="margin-top: 4px; font-size: 0.625rem;"></i>
+                                    <span>Mobiel commandocentrum</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Technical Specs -->
+                        <div class="p-4 border-t" style="margin-top: 1rem; padding-top: 1rem;">
+                            <p class="text-xs font-mono text-muted text-uppercase mb-3" style="letter-spacing: 0.1em;">Technische Specificaties</p>
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-muted">Voertuig Type</span>
+                                    <span>Mercedes X-Klasse</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-muted">Aandrijving</span>
+                                    <span class="text-emerald">Elektrisch / Waterstof</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-muted">Sensoren</span>
+                                    <span>24 stuks</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-muted">Data Connectie</span>
+                                    <span>5G + Satelliet</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const hudImage = 'https://customer-assets.emergentagent.com/job_twin-vehicle-app/artifacts/0bts72yf_HUD.png';
+        const vehicleImage = 'https://customer-assets.emergentagent.com/job_viya-unreal-portal/artifacts/qm7avcga_realistic_side.png';
+
+        function showSection(section) {
+            // Update buttons
+            document.querySelectorAll('.vehicle-nav-btn').forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            
+            // Update image
+            const imgEl = document.getElementById('vehicleImage');
+            if (section === 'hud') {
+                imgEl.src = hudImage;
+                imgEl.style.filter = 'none';
+            } else {
+                imgEl.src = vehicleImage;
+                imgEl.style.filter = 'drop-shadow(0 25px 25px rgba(0,0,0,0.5))';
+            }
+        }
+
+        function toggleTheme() {
+            document.documentElement.classList.toggle('light');
+        }
+    </script>
+</body>
+</html>
