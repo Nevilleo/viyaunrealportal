@@ -339,14 +339,14 @@ export default function VehiclePage() {
                   className={`w-full flex items-center gap-3 p-3 rounded-lg transition-all text-left ${
                     isActive 
                       ? `${colors.bg} ${colors.border} border` 
-                      : 'hover:bg-slate-800'
+                      : isLight ? 'hover:bg-slate-100' : 'hover:bg-slate-800'
                   }`}
                   data-testid={`nav-${section.id}`}
                 >
                   <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${colors.bg}`}>
                     <Icon className={`w-4 h-4 ${colors.text}`} />
                   </div>
-                  <span className={`text-sm font-medium ${isActive ? 'text-white' : 'text-slate-400'}`}>
+                  <span className={`text-sm font-medium ${isActive ? (isLight ? 'text-slate-900' : 'text-white') : (isLight ? 'text-slate-600' : 'text-slate-400')}`}>
                     {section.title.split(' ')[0]}
                   </span>
                   {isActive && <ChevronRight className={`w-4 h-4 ml-auto ${colors.text}`} />}
@@ -357,15 +357,15 @@ export default function VehiclePage() {
         </div>
 
         {/* Center - Vehicle Canvas */}
-        <div className="flex-1 relative bg-gradient-to-b from-slate-900 to-slate-950">
+        <div className={`flex-1 relative ${isLight ? 'bg-gradient-to-b from-slate-200 to-slate-100' : 'bg-gradient-to-b from-slate-900 to-slate-950'}`}>
           {/* Perspective Controls (only for schematic) */}
           {viewMode === 'schematic' && (
-            <div className="absolute top-4 left-1/2 -translate-x-1/2 z-20 flex bg-slate-800/90 backdrop-blur-sm rounded-lg p-1">
+            <div className={`absolute top-4 left-1/2 -translate-x-1/2 z-20 flex backdrop-blur-sm rounded-lg p-1 ${isLight ? 'bg-white/90 shadow-md' : 'bg-slate-800/90'}`}>
               <Button
                 size="sm"
                 variant={perspective === 'perspective' ? 'default' : 'ghost'}
                 onClick={() => setPerspective('perspective')}
-                className={`h-8 px-4 text-xs ${perspective === 'perspective' ? 'bg-cyan-600 text-white' : 'text-slate-400 hover:text-white'}`}
+                className={`h-8 px-4 text-xs ${perspective === 'perspective' ? 'bg-cyan-600 text-white' : isLight ? 'text-slate-600 hover:text-slate-900' : 'text-slate-400 hover:text-white'}`}
               >
                 Perspectief
               </Button>
@@ -373,7 +373,7 @@ export default function VehiclePage() {
                 size="sm"
                 variant={perspective === 'front' ? 'default' : 'ghost'}
                 onClick={() => setPerspective('front')}
-                className={`h-8 px-4 text-xs ${perspective === 'front' ? 'bg-cyan-600 text-white' : 'text-slate-400 hover:text-white'}`}
+                className={`h-8 px-4 text-xs ${perspective === 'front' ? 'bg-cyan-600 text-white' : isLight ? 'text-slate-600 hover:text-slate-900' : 'text-slate-400 hover:text-white'}`}
               >
                 Front
               </Button>
@@ -381,7 +381,7 @@ export default function VehiclePage() {
                 size="sm"
                 variant={perspective === 'side' ? 'default' : 'ghost'}
                 onClick={() => setPerspective('side')}
-                className={`h-8 px-4 text-xs ${perspective === 'side' ? 'bg-cyan-600 text-white' : 'text-slate-400 hover:text-white'}`}
+                className={`h-8 px-4 text-xs ${perspective === 'side' ? 'bg-cyan-600 text-white' : isLight ? 'text-slate-600 hover:text-slate-900' : 'text-slate-400 hover:text-white'}`}
               >
                 Zijkant
               </Button>
