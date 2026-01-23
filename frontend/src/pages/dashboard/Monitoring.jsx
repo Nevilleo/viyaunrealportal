@@ -291,25 +291,25 @@ export default function MonitoringPage() {
 
   if (loading) {
     return (
-      <div className="h-screen bg-slate-950 flex items-center justify-center">
+      <div className={`h-screen flex items-center justify-center ${isLight ? 'bg-slate-100' : 'bg-slate-950'}`}>
         <div className="text-center">
           <Loader2 className="w-12 h-12 text-cyan-500 animate-spin mx-auto mb-4" />
-          <p className="text-slate-400 font-mono text-sm">Loading infrastructure data...</p>
+          <p className={`font-mono text-sm ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>Loading infrastructure data...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="h-screen bg-slate-950 flex flex-col" data-testid="monitoring-page">
+    <div className={`h-screen flex flex-col ${isLight ? 'bg-slate-100' : 'bg-slate-950'}`} data-testid="monitoring-page">
       {/* Header */}
-      <div className="flex-shrink-0 px-6 py-4 border-b border-slate-800 bg-slate-950">
+      <div className={`flex-shrink-0 px-6 py-4 border-b ${isLight ? 'border-slate-200 bg-white' : 'border-slate-800 bg-slate-950'}`}>
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-heading font-bold tracking-tight uppercase text-white">
+            <h1 className={`text-2xl font-heading font-bold tracking-tight uppercase ${isLight ? 'text-slate-900' : 'text-white'}`}>
               KAART
             </h1>
-            <p className="text-slate-400 text-sm mt-1">
+            <p className={`text-sm mt-1 ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>
               Geografisch overzicht van meetpunten en assets
             </p>
           </div>
@@ -318,7 +318,7 @@ export default function MonitoringPage() {
               variant="outline"
               size="sm"
               onClick={handleZoomIn}
-              className="bg-slate-800 border-slate-700 hover:bg-slate-700 text-white h-9 w-9 p-0"
+              className={`h-9 w-9 p-0 ${isLight ? 'bg-white border-slate-300 hover:bg-slate-100 text-slate-700' : 'bg-slate-800 border-slate-700 hover:bg-slate-700 text-white'}`}
               data-testid="zoom-in-btn"
             >
               <ZoomIn className="w-4 h-4" />
@@ -327,7 +327,7 @@ export default function MonitoringPage() {
               variant="outline"
               size="sm"
               onClick={handleZoomOut}
-              className="bg-slate-800 border-slate-700 hover:bg-slate-700 text-white h-9 w-9 p-0"
+              className={`h-9 w-9 p-0 ${isLight ? 'bg-white border-slate-300 hover:bg-slate-100 text-slate-700' : 'bg-slate-800 border-slate-700 hover:bg-slate-700 text-white'}`}
               data-testid="zoom-out-btn"
             >
               <ZoomOut className="w-4 h-4" />
@@ -336,7 +336,7 @@ export default function MonitoringPage() {
               variant="outline"
               size="sm"
               onClick={handleRefresh}
-              className="bg-slate-800 border-slate-700 hover:bg-slate-700 text-white gap-2"
+              className={`gap-2 ${isLight ? 'bg-white border-slate-300 hover:bg-slate-100 text-slate-700' : 'bg-slate-800 border-slate-700 hover:bg-slate-700 text-white'}`}
               data-testid="refresh-btn"
             >
               <RefreshCw className="w-4 h-4" />
