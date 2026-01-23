@@ -35,7 +35,7 @@ const VEHICLE_IMAGES = {
     side: 'https://customer-assets.emergentagent.com/job_viya-unreal-portal/artifacts/bn2btzqc_LCM%20Pickup%20Truck%20-%20Minimalist%20Clean%20%281%29.png',
   },
   sections: {
-    hud: 'https://customer-assets.emergentagent.com/job_viya-unreal-portal/artifacts/mr0a38qo_HUD.png',
+    hud: 'https://customer-assets.emergentagent.com/job_twin-vehicle-app/artifacts/0bts72yf_HUD.png',
   }
 };
 
