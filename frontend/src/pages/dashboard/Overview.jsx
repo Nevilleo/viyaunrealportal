@@ -84,6 +84,8 @@ export default function DashboardOverview() {
   const [allAssets, setAllAssets] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
 
   const fetchData = async () => {
     try {
@@ -119,10 +121,10 @@ export default function DashboardOverview() {
 
   if (loading) {
     return (
-      <div className="p-6 lg:p-8 bg-slate-950 min-h-screen flex items-center justify-center">
+      <div className={`p-6 lg:p-8 min-h-screen flex items-center justify-center ${isLight ? 'bg-slate-100' : 'bg-slate-950'}`}>
         <div className="text-center">
           <Activity className="w-12 h-12 text-cyan-500 animate-pulse mx-auto mb-4" />
-          <p className="text-slate-400 font-mono text-sm">Loading dashboard...</p>
+          <p className={`font-mono text-sm ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>Loading dashboard...</p>
         </div>
       </div>
     );
@@ -143,14 +145,14 @@ export default function DashboardOverview() {
   };
 
   return (
-    <div className="p-4 lg:p-6 bg-slate-950 min-h-screen" data-testid="dashboard-overview">
+    <div className={`p-4 lg:p-6 min-h-screen ${isLight ? 'bg-slate-100' : 'bg-slate-950'}`} data-testid="dashboard-overview">
       {/* Header */}
       <div className="mb-6 flex items-start justify-between">
         <div>
-          <h1 className="text-2xl lg:text-3xl font-heading font-bold tracking-tight uppercase mb-1 text-white">
+          <h1 className={`text-2xl lg:text-3xl font-heading font-bold tracking-tight uppercase mb-1 ${isLight ? 'text-slate-900' : 'text-white'}`}>
             Dashboard <span className="text-cyan-500">Overzicht</span>
           </h1>
-          <p className="text-slate-400 font-mono text-sm">
+          <p className={`font-mono text-sm ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>
             Real-time status van alle infrastructuur assets
           </p>
         </div>
@@ -167,26 +169,26 @@ export default function DashboardOverview() {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
-        <StatCard icon={Box} label="Totaal Assets" value={analytics?.total_assets || 0} color="primary" />
-        <StatCard icon={AlertTriangle} label="Actieve Alerts" value={analytics?.active_alerts || 0} color={analytics?.active_alerts > 0 ? 'secondary' : 'accent'} />
-        <StatCard icon={TrendingUp} label="Gem. Gezondheid" value={`${analytics?.average_health_score || 0}%`} trend={2.3} color="accent" />
-        <StatCard icon={Waves} label="Uptime" value={`${analytics?.uptime_percentage || 99.7}%`} color="primary" />
+        <StatCard icon={Box} label="Totaal Assets" value={analytics?.total_assets || 0} color="primary" isLight={isLight} />
+        <StatCard icon={AlertTriangle} label="Actieve Alerts" value={analytics?.active_alerts || 0} color={analytics?.active_alerts > 0 ? 'secondary' : 'accent'} isLight={isLight} />
+        <StatCard icon={TrendingUp} label="Gem. Gezondheid" value={`${analytics?.average_health_score || 0}%`} trend={2.3} color="accent" isLight={isLight} />
+        <StatCard icon={Waves} label="Uptime" value={`${analytics?.uptime_percentage || 99.7}%`} color="primary" isLight={isLight} />
       </div>
 
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
         {/* Left - Alerts */}
         <div className="lg:col-span-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-lg p-4 h-full">
+          <div className={`border rounded-lg p-4 h-full ${isLight ? 'bg-white border-slate-200' : 'bg-slate-900 border-slate-800'}`}>
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-heading font-bold text-sm uppercase tracking-tight text-white">
+              <h2 className={`font-heading font-bold text-sm uppercase tracking-tight ${isLight ? 'text-slate-900' : 'text-white'}`}>
                 Recente Alerts
               </h2>
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => navigate('/dashboard/alerts')}
-                className="text-xs font-mono h-7 px-2 text-slate-400 hover:text-white"
+                className={`text-xs font-mono h-7 px-2 ${isLight ? 'text-slate-500 hover:text-slate-900' : 'text-slate-400 hover:text-white'}`}
                 data-testid="view-all-alerts"
               >
                 Alle
@@ -195,10 +197,10 @@ export default function DashboardOverview() {
             <div className="space-y-2">
               {alerts.length > 0 ? (
                 alerts.map((alert) => (
-                  <AlertItem key={alert.alert_id} alert={alert} onAcknowledge={handleAcknowledge} />
+                  <AlertItem key={alert.alert_id} alert={alert} onAcknowledge={handleAcknowledge} isLight={isLight} />
                 ))
               ) : (
-                <p className="text-slate-400 text-sm text-center py-8">
+                <p className={`text-sm text-center py-8 ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>
                   Geen actieve alerts
                 </p>
               )}
@@ -209,25 +211,25 @@ export default function DashboardOverview() {
         {/* Center - Map Preview Card */}
         <div className="lg:col-span-4">
           <div 
-            className="bg-slate-900 border border-slate-800 rounded-lg overflow-hidden h-full cursor-pointer group hover:border-cyan-500/50 transition-all"
+            className={`border rounded-lg overflow-hidden h-full cursor-pointer group transition-all ${isLight ? 'bg-white border-slate-200 hover:border-cyan-400' : 'bg-slate-900 border-slate-800 hover:border-cyan-500/50'}`}
             onClick={() => navigate('/dashboard/monitoring')}
             data-testid="map-preview-card"
           >
             {/* Map Preview Header */}
-            <div className="p-4 border-b border-slate-800">
+            <div className={`p-4 border-b ${isLight ? 'border-slate-200' : 'border-slate-800'}`}>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Map className="w-5 h-5 text-cyan-500" />
-                  <h2 className="font-heading font-bold text-sm uppercase tracking-tight text-white">
+                  <h2 className={`font-heading font-bold text-sm uppercase tracking-tight ${isLight ? 'text-slate-900' : 'text-white'}`}>
                     Infrastructuur Kaart
                   </h2>
                 </div>
-                <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-cyan-500 group-hover:translate-x-1 transition-all" />
+                <ArrowRight className={`w-4 h-4 group-hover:text-cyan-500 group-hover:translate-x-1 transition-all ${isLight ? 'text-slate-400' : 'text-slate-400'}`} />
               </div>
             </div>
             
             {/* Map Preview Image */}
-            <div className="relative h-64 bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center">
+            <div className={`relative h-64 flex items-center justify-center ${isLight ? 'bg-gradient-to-br from-slate-100 to-slate-200' : 'bg-gradient-to-br from-slate-800 to-slate-900'}`}>
               <div className="absolute inset-0 opacity-30">
                 <svg viewBox="0 0 200 150" className="w-full h-full">
                   {/* Simplified Netherlands outline */}
@@ -250,25 +252,25 @@ export default function DashboardOverview() {
                 <div className="w-16 h-16 rounded-full bg-cyan-500/20 flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
                   <MapPin className="w-8 h-8 text-cyan-500" />
                 </div>
-                <p className="text-slate-300 font-medium">Bekijk Kaart</p>
-                <p className="text-xs text-slate-500 mt-1">3D Cesium Visualisatie</p>
+                <p className={`font-medium ${isLight ? 'text-slate-700' : 'text-slate-300'}`}>Bekijk Kaart</p>
+                <p className={`text-xs mt-1 ${isLight ? 'text-slate-500' : 'text-slate-500'}`}>3D Cesium Visualisatie</p>
               </div>
             </div>
 
             {/* Quick Stats */}
-            <div className="p-4 border-t border-slate-800">
+            <div className={`p-4 border-t ${isLight ? 'border-slate-200' : 'border-slate-800'}`}>
               <div className="grid grid-cols-3 gap-2 text-center">
                 <div>
                   <p className="text-lg font-bold text-emerald-500">{analytics?.status_distribution?.operational || 0}</p>
-                  <p className="text-[10px] text-slate-500 uppercase">Normaal</p>
+                  <p className={`text-[10px] uppercase ${isLight ? 'text-slate-500' : 'text-slate-500'}`}>Normaal</p>
                 </div>
                 <div>
                   <p className="text-lg font-bold text-amber-500">{analytics?.status_distribution?.warning || 0}</p>
-                  <p className="text-[10px] text-slate-500 uppercase">Warning</p>
+                  <p className={`text-[10px] uppercase ${isLight ? 'text-slate-500' : 'text-slate-500'}`}>Warning</p>
                 </div>
                 <div>
                   <p className="text-lg font-bold text-purple-500">{analytics?.status_distribution?.maintenance || 0}</p>
-                  <p className="text-[10px] text-slate-500 uppercase">Onderhoud</p>
+                  <p className={`text-[10px] uppercase ${isLight ? 'text-slate-500' : 'text-slate-500'}`}>Onderhoud</p>
                 </div>
               </div>
             </div>
@@ -277,16 +279,16 @@ export default function DashboardOverview() {
 
         {/* Right - Asset List */}
         <div className="lg:col-span-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-lg p-4 h-full">
+          <div className={`border rounded-lg p-4 h-full ${isLight ? 'bg-white border-slate-200' : 'bg-slate-900 border-slate-800'}`}>
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-heading font-bold text-sm uppercase tracking-tight text-white">
+              <h2 className={`font-heading font-bold text-sm uppercase tracking-tight ${isLight ? 'text-slate-900' : 'text-white'}`}>
                 Assets
               </h2>
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => navigate('/dashboard/assets')}
-                className="text-xs font-mono h-7 px-2 text-slate-400 hover:text-white"
+                className={`text-xs font-mono h-7 px-2 ${isLight ? 'text-slate-500 hover:text-slate-900' : 'text-slate-400 hover:text-white'}`}
                 data-testid="view-all-assets"
               >
                 Alle
@@ -296,15 +298,15 @@ export default function DashboardOverview() {
               {allAssets.slice(0, 7).map((asset) => (
                 <div 
                   key={asset.asset_id} 
-                  className="flex items-center justify-between p-2 rounded-lg bg-slate-800/50 hover:bg-slate-800 cursor-pointer transition-all"
+                  className={`flex items-center justify-between p-2 rounded-lg cursor-pointer transition-all ${isLight ? 'bg-slate-50 hover:bg-slate-100' : 'bg-slate-800/50 hover:bg-slate-800'}`}
                   onClick={() => navigate('/dashboard/monitoring')}
                   data-testid={`asset-${asset.asset_id}`}
                 >
                   <div className="flex items-center gap-2">
                     <div className={`w-2 h-2 rounded-full ${statusColors[asset.status]}`} />
                     <div>
-                      <p className="text-xs font-medium text-white truncate max-w-[140px]">{asset.name}</p>
-                      <p className="text-[10px] text-slate-500 font-mono">{asset.type}</p>
+                      <p className={`text-xs font-medium truncate max-w-[140px] ${isLight ? 'text-slate-900' : 'text-white'}`}>{asset.name}</p>
+                      <p className={`text-[10px] font-mono ${isLight ? 'text-slate-500' : 'text-slate-500'}`}>{asset.type}</p>
                     </div>
                   </div>
                   <div className="text-right">
@@ -318,16 +320,16 @@ export default function DashboardOverview() {
       </div>
 
       {/* Bottom - Status Distribution */}
-      <div className="bg-slate-900 border border-slate-800 rounded-lg p-4 mt-4">
-        <h2 className="font-heading font-bold text-sm uppercase tracking-tight mb-4 text-white">
+      <div className={`border rounded-lg p-4 mt-4 ${isLight ? 'bg-white border-slate-200' : 'bg-slate-900 border-slate-800'}`}>
+        <h2 className={`font-heading font-bold text-sm uppercase tracking-tight mb-4 ${isLight ? 'text-slate-900' : 'text-white'}`}>
           Status Verdeling
         </h2>
         <div className="grid grid-cols-4 gap-3">
           {analytics?.status_distribution && Object.entries(analytics.status_distribution).map(([status, count]) => (
-            <div key={status} className="text-center p-3 bg-slate-800/50 rounded-lg">
+            <div key={status} className={`text-center p-3 rounded-lg ${isLight ? 'bg-slate-50' : 'bg-slate-800/50'}`}>
               {statusIcons[status]}
-              <p className="text-xl font-heading font-bold mt-1 text-white">{count}</p>
-              <p className="text-[10px] font-mono text-slate-400 uppercase">{status}</p>
+              <p className={`text-xl font-heading font-bold mt-1 ${isLight ? 'text-slate-900' : 'text-white'}`}>{count}</p>
+              <p className={`text-[10px] font-mono uppercase ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>{status}</p>
             </div>
           ))}
         </div>
