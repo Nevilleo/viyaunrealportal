@@ -98,8 +98,12 @@ const Navigation = () => {
 const HeroSection = () => (
   <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden" data-testid="hero-section">
     <div className="absolute inset-0 z-0">
-      <CesiumGlobe markers={[]} />
-      <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/40 to-background z-10" />
+      <img 
+        src="https://customer-assets.emergentagent.com/job_twin-vehicle-app/artifacts/jlhtjysw_LCM%20Minimalist%20Variant%203.png" 
+        alt="LCM Vehicle"
+        className="absolute inset-0 w-full h-full object-cover object-center"
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/70 to-background z-10" />
     </div>
 
     <div className="absolute inset-0 z-20 pointer-events-none">
