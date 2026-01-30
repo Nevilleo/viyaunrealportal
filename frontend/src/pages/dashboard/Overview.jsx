@@ -426,34 +426,26 @@ export default function DashboardOverview() {
             </div>
           </div>
         </div>
-                <div>
-                  <p className="text-lg font-bold text-purple-500">{analytics?.status_distribution?.maintenance || 0}</p>
-                  <p className={`text-[10px] uppercase ${isLight ? 'text-slate-500' : 'text-slate-500'}`}>Onderhoud</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
 
-        {/* Right - Asset List */}
-        <div className="lg:col-span-4">
-          <div className={`border rounded-lg p-4 h-full ${isLight ? 'bg-white border-slate-200' : 'bg-slate-900 border-slate-800'}`}>
-            <div className="flex items-center justify-between mb-4">
-              <h2 className={`font-heading font-bold text-sm uppercase tracking-tight ${isLight ? 'text-slate-900' : 'text-white'}`}>
+        {/* Right - Asset List (smaller on desktop) */}
+        <div className="md:col-span-1 xl:col-span-3 order-3">
+          <div className={`border rounded-lg p-3 lg:p-4 h-full ${isLight ? 'bg-white border-slate-200' : 'bg-slate-900 border-slate-800'}`}>
+            <div className="flex items-center justify-between mb-3">
+              <h2 className={`font-heading font-bold text-xs lg:text-sm uppercase tracking-tight ${isLight ? 'text-slate-900' : 'text-white'}`}>
                 Assets
               </h2>
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => navigate('/dashboard/assets')}
-                className={`text-xs font-mono h-7 px-2 ${isLight ? 'text-slate-500 hover:text-slate-900' : 'text-slate-400 hover:text-white'}`}
+                className={`text-xs font-mono h-6 px-2 ${isLight ? 'text-slate-500 hover:text-slate-900' : 'text-slate-400 hover:text-white'}`}
                 data-testid="view-all-assets"
               >
                 Alle
               </Button>
             </div>
-            <div className="space-y-2">
-              {allAssets.slice(0, 7).map((asset) => (
+            <div className="space-y-1.5 max-h-[400px] xl:max-h-none overflow-y-auto">
+              {allAssets.slice(0, 8).map((asset) => (
                 <div 
                   key={asset.asset_id} 
                   className={`flex items-center justify-between p-2 rounded-lg cursor-pointer transition-all ${isLight ? 'bg-slate-50 hover:bg-slate-100' : 'bg-slate-800/50 hover:bg-slate-800'}`}
@@ -461,13 +453,13 @@ export default function DashboardOverview() {
                   data-testid={`asset-${asset.asset_id}`}
                 >
                   <div className="flex items-center gap-2">
-                    <div className={`w-2 h-2 rounded-full ${statusColors[asset.status]}`} />
-                    <div>
-                      <p className={`text-xs font-medium truncate max-w-[140px] ${isLight ? 'text-slate-900' : 'text-white'}`}>{asset.name}</p>
-                      <p className={`text-[10px] font-mono ${isLight ? 'text-slate-500' : 'text-slate-500'}`}>{asset.type}</p>
+                    <div className={`w-2 h-2 rounded-full flex-shrink-0 ${statusColors[asset.status]}`} />
+                    <div className="min-w-0">
+                      <p className={`text-xs font-medium truncate ${isLight ? 'text-slate-900' : 'text-white'}`}>{asset.name}</p>
+                      <p className={`text-[9px] font-mono ${isLight ? 'text-slate-500' : 'text-slate-500'}`}>{asset.type}</p>
                     </div>
                   </div>
-                  <div className="text-right">
+                  <div className="text-right flex-shrink-0 ml-1">
                     <p className="text-xs font-mono text-cyan-400">{asset.health_score}%</p>
                   </div>
                 </div>
