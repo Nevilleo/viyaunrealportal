@@ -326,32 +326,32 @@ export default function DashboardOverview() {
         <StatCard icon={Waves} label="Uptime" value={`${analytics?.uptime_percentage || 99.7}%`} color="primary" isLight={isLight} />
       </div>
 
-      {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
-        {/* Left - Alerts */}
-        <div className="lg:col-span-4">
-          <div className={`border rounded-lg p-4 h-full ${isLight ? 'bg-white border-slate-200' : 'bg-slate-900 border-slate-800'}`}>
-            <div className="flex items-center justify-between mb-4">
-              <h2 className={`font-heading font-bold text-sm uppercase tracking-tight ${isLight ? 'text-slate-900' : 'text-white'}`}>
+      {/* Main Content Grid - Responsive */}
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4">
+        {/* Left - Alerts (smaller on desktop) */}
+        <div className="md:col-span-1 xl:col-span-3 order-2 xl:order-1">
+          <div className={`border rounded-lg p-3 lg:p-4 h-full ${isLight ? 'bg-white border-slate-200' : 'bg-slate-900 border-slate-800'}`}>
+            <div className="flex items-center justify-between mb-3">
+              <h2 className={`font-heading font-bold text-xs lg:text-sm uppercase tracking-tight ${isLight ? 'text-slate-900' : 'text-white'}`}>
                 Recente Alerts
               </h2>
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => navigate('/dashboard/alerts')}
-                className={`text-xs font-mono h-7 px-2 ${isLight ? 'text-slate-500 hover:text-slate-900' : 'text-slate-400 hover:text-white'}`}
+                className={`text-xs font-mono h-6 px-2 ${isLight ? 'text-slate-500 hover:text-slate-900' : 'text-slate-400 hover:text-white'}`}
                 data-testid="view-all-alerts"
               >
                 Alle
               </Button>
             </div>
-            <div className="space-y-2">
+            <div className="space-y-2 max-h-[400px] xl:max-h-none overflow-y-auto">
               {alerts.length > 0 ? (
                 alerts.map((alert) => (
                   <AlertItem key={alert.alert_id} alert={alert} onAcknowledge={handleAcknowledge} isLight={isLight} />
                 ))
               ) : (
-                <p className={`text-sm text-center py-8 ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>
+                <p className={`text-sm text-center py-6 ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>
                   Geen actieve alerts
                 </p>
               )}
@@ -359,8 +359,8 @@ export default function DashboardOverview() {
           </div>
         </div>
 
-        {/* Center - Cesium Map */}
-        <div className="lg:col-span-4">
+        {/* Center - Cesium Map (larger) */}
+        <div className="md:col-span-2 xl:col-span-6 order-1 xl:order-2">
           <div 
             className={`border rounded-lg overflow-hidden h-full transition-all ${isLight ? 'bg-white border-slate-200' : 'bg-slate-900 border-slate-800'}`}
             data-testid="map-preview-card"
@@ -369,7 +369,7 @@ export default function DashboardOverview() {
             <div className={`p-3 border-b flex items-center justify-between ${isLight ? 'border-slate-200' : 'border-slate-800'}`}>
               <div className="flex items-center gap-2">
                 <Map className="w-4 h-4 text-cyan-500" />
-                <h2 className={`font-heading font-bold text-sm uppercase tracking-tight ${isLight ? 'text-slate-900' : 'text-white'}`}>
+                <h2 className={`font-heading font-bold text-xs lg:text-sm uppercase tracking-tight ${isLight ? 'text-slate-900' : 'text-white'}`}>
                   Infrastructuur Kaart
                 </h2>
               </div>
@@ -380,28 +380,28 @@ export default function DashboardOverview() {
                 className={`text-xs h-7 px-2 ${isLight ? 'text-slate-500 hover:text-cyan-600' : 'text-slate-400 hover:text-cyan-400'}`}
               >
                 <Maximize2 className="w-3 h-3 mr-1" />
-                Volledig
+                <span className="hidden sm:inline">Volledig</span>
               </Button>
             </div>
             
-            {/* Live Cesium Map */}
-            <div className="relative" style={{ height: '280px' }}>
+            {/* Live Cesium Map - Taller */}
+            <div className="relative h-[300px] sm:h-[350px] lg:h-[400px]">
               <MiniCesiumMap assets={allAssets} isLight={isLight} />
               
               {/* Legend Overlay */}
-              <div className={`absolute bottom-2 left-2 backdrop-blur-sm rounded-lg px-3 py-2 z-20 ${isLight ? 'bg-white/90 shadow-md' : 'bg-slate-900/90 border border-slate-700'}`}>
-                <div className="flex gap-3">
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
-                    <span className={`text-[10px] ${isLight ? 'text-slate-600' : 'text-slate-300'}`}>OK</span>
+              <div className={`absolute bottom-2 left-2 backdrop-blur-sm rounded-lg px-2 sm:px-3 py-1.5 sm:py-2 z-20 ${isLight ? 'bg-white/90 shadow-md' : 'bg-slate-900/90 border border-slate-700'}`}>
+                <div className="flex gap-2 sm:gap-3">
+                  <div className="flex items-center gap-1">
+                    <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-emerald-500" />
+                    <span className={`text-[9px] sm:text-[10px] ${isLight ? 'text-slate-600' : 'text-slate-300'}`}>OK</span>
                   </div>
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-2.5 h-2.5 rounded-full bg-amber-500" />
-                    <span className={`text-[10px] ${isLight ? 'text-slate-600' : 'text-slate-300'}`}>Let op</span>
+                  <div className="flex items-center gap-1">
+                    <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-amber-500" />
+                    <span className={`text-[9px] sm:text-[10px] ${isLight ? 'text-slate-600' : 'text-slate-300'}`}>Let op</span>
                   </div>
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-2.5 h-2.5 rounded-full bg-purple-500" />
-                    <span className={`text-[10px] ${isLight ? 'text-slate-600' : 'text-slate-300'}`}>Onderhoud</span>
+                  <div className="flex items-center gap-1">
+                    <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-purple-500" />
+                    <span className={`text-[9px] sm:text-[10px] ${isLight ? 'text-slate-600' : 'text-slate-300'}`}>Onderhoud</span>
                   </div>
                 </div>
               </div>
@@ -411,13 +411,21 @@ export default function DashboardOverview() {
             <div className={`p-3 border-t ${isLight ? 'border-slate-200' : 'border-slate-800'}`}>
               <div className="grid grid-cols-3 gap-2 text-center">
                 <div>
-                  <p className="text-lg font-bold text-emerald-500">{analytics?.status_distribution?.operational || 0}</p>
-                  <p className={`text-[10px] uppercase ${isLight ? 'text-slate-500' : 'text-slate-500'}`}>Normaal</p>
+                  <p className="text-base lg:text-lg font-bold text-emerald-500">{analytics?.status_distribution?.operational || 0}</p>
+                  <p className={`text-[9px] lg:text-[10px] uppercase ${isLight ? 'text-slate-500' : 'text-slate-500'}`}>Normaal</p>
                 </div>
                 <div>
-                  <p className="text-lg font-bold text-amber-500">{analytics?.status_distribution?.warning || 0}</p>
-                  <p className={`text-[10px] uppercase ${isLight ? 'text-slate-500' : 'text-slate-500'}`}>Warning</p>
+                  <p className="text-base lg:text-lg font-bold text-amber-500">{analytics?.status_distribution?.warning || 0}</p>
+                  <p className={`text-[9px] lg:text-[10px] uppercase ${isLight ? 'text-slate-500' : 'text-slate-500'}`}>Warning</p>
                 </div>
+                <div>
+                  <p className="text-base lg:text-lg font-bold text-purple-500">{analytics?.status_distribution?.maintenance || 0}</p>
+                  <p className={`text-[9px] lg:text-[10px] uppercase ${isLight ? 'text-slate-500' : 'text-slate-500'}`}>Onderhoud</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
                 <div>
                   <p className="text-lg font-bold text-purple-500">{analytics?.status_distribution?.maintenance || 0}</p>
                   <p className={`text-[10px] uppercase ${isLight ? 'text-slate-500' : 'text-slate-500'}`}>Onderhoud</p>
