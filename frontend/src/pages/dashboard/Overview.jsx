@@ -359,57 +359,56 @@ export default function DashboardOverview() {
           </div>
         </div>
 
-        {/* Center - Map Preview Card */}
+        {/* Center - Cesium Map */}
         <div className="lg:col-span-4">
           <div 
-            className={`border rounded-lg overflow-hidden h-full cursor-pointer group transition-all ${isLight ? 'bg-white border-slate-200 hover:border-cyan-400' : 'bg-slate-900 border-slate-800 hover:border-cyan-500/50'}`}
-            onClick={() => navigate('/dashboard/monitoring')}
+            className={`border rounded-lg overflow-hidden h-full transition-all ${isLight ? 'bg-white border-slate-200' : 'bg-slate-900 border-slate-800'}`}
             data-testid="map-preview-card"
           >
-            {/* Map Preview Header */}
-            <div className={`p-4 border-b ${isLight ? 'border-slate-200' : 'border-slate-800'}`}>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Map className="w-5 h-5 text-cyan-500" />
-                  <h2 className={`font-heading font-bold text-sm uppercase tracking-tight ${isLight ? 'text-slate-900' : 'text-white'}`}>
-                    Infrastructuur Kaart
-                  </h2>
-                </div>
-                <ArrowRight className={`w-4 h-4 group-hover:text-cyan-500 group-hover:translate-x-1 transition-all ${isLight ? 'text-slate-400' : 'text-slate-400'}`} />
+            {/* Map Header */}
+            <div className={`p-3 border-b flex items-center justify-between ${isLight ? 'border-slate-200' : 'border-slate-800'}`}>
+              <div className="flex items-center gap-2">
+                <Map className="w-4 h-4 text-cyan-500" />
+                <h2 className={`font-heading font-bold text-sm uppercase tracking-tight ${isLight ? 'text-slate-900' : 'text-white'}`}>
+                  Infrastructuur Kaart
+                </h2>
               </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => navigate('/dashboard/monitoring')}
+                className={`text-xs h-7 px-2 ${isLight ? 'text-slate-500 hover:text-cyan-600' : 'text-slate-400 hover:text-cyan-400'}`}
+              >
+                <Maximize2 className="w-3 h-3 mr-1" />
+                Volledig
+              </Button>
             </div>
             
-            {/* Map Preview Image */}
-            <div className={`relative h-64 flex items-center justify-center ${isLight ? 'bg-gradient-to-br from-slate-100 to-slate-200' : 'bg-gradient-to-br from-slate-800 to-slate-900'}`}>
-              <div className="absolute inset-0 opacity-30">
-                <svg viewBox="0 0 200 150" className="w-full h-full">
-                  {/* Simplified Netherlands outline */}
-                  <path 
-                    d="M100,20 L130,30 L140,60 L150,80 L140,100 L130,120 L110,130 L80,125 L60,110 L50,80 L60,50 L80,30 Z" 
-                    fill="none" 
-                    stroke="#0ea5e9" 
-                    strokeWidth="1"
-                    opacity="0.5"
-                  />
-                  {/* Asset markers */}
-                  <circle cx="100" cy="60" r="4" fill="#22c55e" />
-                  <circle cx="85" cy="75" r="4" fill="#22c55e" />
-                  <circle cx="110" cy="80" r="4" fill="#f59e0b" />
-                  <circle cx="95" cy="95" r="4" fill="#a855f7" />
-                  <circle cx="120" cy="70" r="4" fill="#22c55e" />
-                </svg>
-              </div>
-              <div className="text-center z-10">
-                <div className="w-16 h-16 rounded-full bg-cyan-500/20 flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
-                  <MapPin className="w-8 h-8 text-cyan-500" />
+            {/* Live Cesium Map */}
+            <div className="relative" style={{ height: '280px' }}>
+              <MiniCesiumMap assets={allAssets} isLight={isLight} />
+              
+              {/* Legend Overlay */}
+              <div className={`absolute bottom-2 left-2 backdrop-blur-sm rounded-lg px-3 py-2 z-20 ${isLight ? 'bg-white/90 shadow-md' : 'bg-slate-900/90 border border-slate-700'}`}>
+                <div className="flex gap-3">
+                  <div className="flex items-center gap-1.5">
+                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+                    <span className={`text-[10px] ${isLight ? 'text-slate-600' : 'text-slate-300'}`}>OK</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <div className="w-2.5 h-2.5 rounded-full bg-amber-500" />
+                    <span className={`text-[10px] ${isLight ? 'text-slate-600' : 'text-slate-300'}`}>Let op</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <div className="w-2.5 h-2.5 rounded-full bg-purple-500" />
+                    <span className={`text-[10px] ${isLight ? 'text-slate-600' : 'text-slate-300'}`}>Onderhoud</span>
+                  </div>
                 </div>
-                <p className={`font-medium ${isLight ? 'text-slate-700' : 'text-slate-300'}`}>Bekijk Kaart</p>
-                <p className={`text-xs mt-1 ${isLight ? 'text-slate-500' : 'text-slate-500'}`}>3D Cesium Visualisatie</p>
               </div>
             </div>
 
             {/* Quick Stats */}
-            <div className={`p-4 border-t ${isLight ? 'border-slate-200' : 'border-slate-800'}`}>
+            <div className={`p-3 border-t ${isLight ? 'border-slate-200' : 'border-slate-800'}`}>
               <div className="grid grid-cols-3 gap-2 text-center">
                 <div>
                   <p className="text-lg font-bold text-emerald-500">{analytics?.status_distribution?.operational || 0}</p>
