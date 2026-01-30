@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { API, useTheme } from '../../App';
 import { 
@@ -15,10 +15,161 @@ import {
   Map,
   MapPin,
   ArrowRight,
-  Car
+  Car,
+  Maximize2
 } from 'lucide-react';
 import { Button } from '../../components/ui/button';
 import { useNavigate } from 'react-router-dom';
+
+// Mini Cesium Map Component for Dashboard
+const MiniCesiumMap = ({ assets, isLight }) => {
+  const containerRef = useRef(null);
+  const viewerRef = useRef(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const initCesium = async () => {
+      try {
+        const Cesium = await import('cesium');
+        
+        const token = process.env.REACT_APP_CESIUM_ION_TOKEN;
+        if (token) {
+          Cesium.Ion.defaultAccessToken = token;
+        }
+
+        window.CESIUM_BASE_URL = '/cesium/';
+
+        if (!isMounted || !containerRef.current) return;
+
+        // Destroy existing viewer if any
+        if (viewerRef.current) {
+          viewerRef.current.destroy();
+        }
+
+        const viewer = new Cesium.Viewer(containerRef.current, {
+          animation: false,
+          baseLayerPicker: false,
+          fullscreenButton: false,
+          vrButton: false,
+          geocoder: false,
+          homeButton: false,
+          infoBox: false,
+          sceneModePicker: false,
+          selectionIndicator: false,
+          timeline: false,
+          navigationHelpButton: false,
+          navigationInstructionsInitiallyVisible: false,
+          scene3DOnly: true,
+          skyBox: false,
+          skyAtmosphere: new Cesium.SkyAtmosphere(),
+          contextOptions: {
+            webgl: { alpha: true },
+          },
+        });
+
+        viewerRef.current = viewer;
+
+        // Style the canvas
+        viewer.scene.backgroundColor = Cesium.Color.fromCssColorString(isLight ? '#f1f5f9' : '#0f172a');
+        viewer.scene.globe.baseColor = Cesium.Color.fromCssColorString(isLight ? '#e2e8f0' : '#1e293b');
+
+        // Hide credits
+        viewer.cesiumWidget.creditContainer.style.display = 'none';
+
+        // Set camera to Afsluitdijk
+        viewer.camera.setView({
+          destination: Cesium.Cartesian3.fromDegrees(5.25, 52.93, 80000),
+          orientation: {
+            heading: Cesium.Math.toRadians(0),
+            pitch: Cesium.Math.toRadians(-50),
+            roll: 0
+          }
+        });
+
+        // Status colors
+        const statusColors = {
+          operational: Cesium.Color.fromCssColorString('#22c55e'),
+          warning: Cesium.Color.fromCssColorString('#f59e0b'),
+          critical: Cesium.Color.fromCssColorString('#ef4444'),
+          maintenance: Cesium.Color.fromCssColorString('#a855f7')
+        };
+
+        // Add markers for assets
+        if (assets && assets.length > 0) {
+          assets.forEach(asset => {
+            viewer.entities.add({
+              position: Cesium.Cartesian3.fromDegrees(asset.longitude, asset.latitude, 50),
+              point: {
+                pixelSize: 12,
+                color: statusColors[asset.status] || statusColors.operational,
+                outlineColor: Cesium.Color.WHITE,
+                outlineWidth: 2,
+                heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND
+              }
+            });
+          });
+        }
+
+        // Disable interactions for mini view
+        viewer.scene.screenSpaceCameraController.enableRotate = false;
+        viewer.scene.screenSpaceCameraController.enableTranslate = false;
+        viewer.scene.screenSpaceCameraController.enableZoom = false;
+        viewer.scene.screenSpaceCameraController.enableTilt = false;
+        viewer.scene.screenSpaceCameraController.enableLook = false;
+
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      } catch (err) {
+        console.error('Cesium init error:', err);
+        if (isMounted) {
+          setHasError(true);
+          setIsLoading(false);
+        }
+      }
+    };
+
+    initCesium();
+
+    return () => {
+      isMounted = false;
+      if (viewerRef.current) {
+        try {
+          viewerRef.current.destroy();
+        } catch (e) {}
+        viewerRef.current = null;
+      }
+    };
+  }, [assets, isLight]);
+
+  if (hasError) {
+    return (
+      <div className={`h-full flex items-center justify-center ${isLight ? 'bg-slate-100' : 'bg-slate-800'}`}>
+        <div className="text-center">
+          <MapPin className="w-8 h-8 text-cyan-500 mx-auto mb-2" />
+          <p className={`text-sm ${isLight ? 'text-slate-600' : 'text-slate-400'}`}>Kaart laden...</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative h-full w-full">
+      {isLoading && (
+        <div className={`absolute inset-0 flex items-center justify-center z-10 ${isLight ? 'bg-slate-100' : 'bg-slate-800'}`}>
+          <div className="text-center">
+            <Activity className="w-8 h-8 text-cyan-500 animate-pulse mx-auto mb-2" />
+            <p className={`text-xs ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>Kaart laden...</p>
+          </div>
+        </div>
+      )}
+      <div ref={containerRef} className="h-full w-full" style={{ minHeight: '280px' }} />
+    </div>
+  );
+};
 
 const StatCard = ({ icon: Icon, label, value, trend, color = 'primary', isLight }) => {
   const colorClasses = {
