@@ -120,12 +120,12 @@ export default function MonitoringPage() {
         viewer.scene.globe.baseColor = Cesium.Color.fromCssColorString('#1e293b');
         viewer.scene.globe.enableLighting = false;
         
-        // Set initial view to Netherlands
+        // Set initial view to show full Netherlands with coastline
         viewer.camera.setView({
-          destination: Cesium.Cartesian3.fromDegrees(5.5, 52.2, 500000),
+          destination: Cesium.Cartesian3.fromDegrees(5.2, 52.2, 650000),
           orientation: {
             heading: Cesium.Math.toRadians(0),
-            pitch: Cesium.Math.toRadians(-60),
+            pitch: Cesium.Math.toRadians(-90),
             roll: 0,
           },
         });
