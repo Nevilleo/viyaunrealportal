@@ -79,12 +79,12 @@ const MiniCesiumMap = ({ assets, isLight }) => {
         // Hide credits
         viewer.cesiumWidget.creditContainer.style.display = 'none';
 
-        // Set camera to show full Netherlands view with Afsluitdijk visible
+        // Set camera to show full Netherlands with coastline - centered and with padding
         viewer.camera.setView({
-          destination: Cesium.Cartesian3.fromDegrees(5.5, 52.3, 450000),
+          destination: Cesium.Cartesian3.fromDegrees(5.2, 52.2, 650000),
           orientation: {
             heading: Cesium.Math.toRadians(0),
-            pitch: Cesium.Math.toRadians(-40),
+            pitch: Cesium.Math.toRadians(-90),
             roll: 0
           }
         });
