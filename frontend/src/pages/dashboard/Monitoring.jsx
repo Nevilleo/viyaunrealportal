@@ -255,10 +255,10 @@ export default function MonitoringPage() {
     if (viewerRef.current) {
       const Cesium = window.Cesium || require('cesium');
       viewerRef.current.camera.flyTo({
-        destination: Cesium.Cartesian3.fromDegrees(5.5, 52.2, 500000),
+        destination: Cesium.Cartesian3.fromDegrees(5.2, 52.2, 650000),
         orientation: {
           heading: Cesium.Math.toRadians(0),
-          pitch: Cesium.Math.toRadians(-60),
+          pitch: Cesium.Math.toRadians(-90),
           roll: 0,
         },
         duration: 1.5,
