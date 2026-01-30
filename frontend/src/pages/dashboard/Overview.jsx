@@ -79,12 +79,12 @@ const MiniCesiumMap = ({ assets, isLight }) => {
         // Hide credits
         viewer.cesiumWidget.creditContainer.style.display = 'none';
 
-        // Set camera to Afsluitdijk
+        // Set camera to show full Netherlands view with Afsluitdijk visible
         viewer.camera.setView({
-          destination: Cesium.Cartesian3.fromDegrees(5.25, 52.93, 80000),
+          destination: Cesium.Cartesian3.fromDegrees(5.5, 52.3, 450000),
           orientation: {
             heading: Cesium.Math.toRadians(0),
-            pitch: Cesium.Math.toRadians(-50),
+            pitch: Cesium.Math.toRadians(-40),
             roll: 0
           }
         });
