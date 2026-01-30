@@ -469,17 +469,17 @@ export default function DashboardOverview() {
         </div>
       </div>
 
-      {/* Bottom - Status Distribution */}
-      <div className={`border rounded-lg p-4 mt-4 ${isLight ? 'bg-white border-slate-200' : 'bg-slate-900 border-slate-800'}`}>
-        <h2 className={`font-heading font-bold text-sm uppercase tracking-tight mb-4 ${isLight ? 'text-slate-900' : 'text-white'}`}>
+      {/* Bottom - Status Distribution - Responsive */}
+      <div className={`border rounded-lg p-3 lg:p-4 mt-4 ${isLight ? 'bg-white border-slate-200' : 'bg-slate-900 border-slate-800'}`}>
+        <h2 className={`font-heading font-bold text-xs lg:text-sm uppercase tracking-tight mb-3 lg:mb-4 ${isLight ? 'text-slate-900' : 'text-white'}`}>
           Status Verdeling
         </h2>
-        <div className="grid grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 lg:gap-3">
           {analytics?.status_distribution && Object.entries(analytics.status_distribution).map(([status, count]) => (
-            <div key={status} className={`text-center p-3 rounded-lg ${isLight ? 'bg-slate-50' : 'bg-slate-800/50'}`}>
+            <div key={status} className={`text-center p-2 lg:p-3 rounded-lg ${isLight ? 'bg-slate-50' : 'bg-slate-800/50'}`}>
               {statusIcons[status]}
-              <p className={`text-xl font-heading font-bold mt-1 ${isLight ? 'text-slate-900' : 'text-white'}`}>{count}</p>
-              <p className={`text-[10px] font-mono uppercase ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>{status}</p>
+              <p className={`text-lg lg:text-xl font-heading font-bold mt-1 ${isLight ? 'text-slate-900' : 'text-white'}`}>{count}</p>
+              <p className={`text-[9px] lg:text-[10px] font-mono uppercase ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>{status}</p>
             </div>
           ))}
         </div>
